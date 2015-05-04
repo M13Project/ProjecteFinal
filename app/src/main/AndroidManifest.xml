@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.aleix.projectefinal" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Main_View"
+            android:label="@string/title_activity_main__view" >
+        </activity>
+        <activity
+            android:name=".View_ClientSearch"
+            android:label="@string/title_activity_view__client_search" >
+        </activity>
+        <activity
+            android:name=".View_ClientGeoloc"
+            android:label="@string/title_activity_view__client_geoloc" >
+        </activity>
+        <activity
+            android:name=".View_Clients"
+            android:label="@string/title_activity_view__clients" >
+        </activity>
+        <activity
+            android:name=".View_Comanda"
+            android:label="@string/title_activity_view__comanda" >
+        </activity>
+    </application>
+
+</manifest>

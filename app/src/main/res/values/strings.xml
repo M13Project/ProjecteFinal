@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ProjecteFinal</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main__view">Main_View</string>
+    <string name="title_activity_view__client_search">View_ClientSearch</string>
+    <string name="title_activity_view__client_geoloc">View_ClientGeoloc</string>
+    <string name="title_activity_view__clients">View_Clients</string>
+    <string name="title_activity_view__comanda">View_Comanda</string>
+</resources>
