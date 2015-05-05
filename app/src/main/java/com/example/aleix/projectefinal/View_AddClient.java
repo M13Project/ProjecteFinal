@@ -56,7 +56,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-            if (nom.getText().toString()!=null && cognom.getText().toString()!=null && tel.getText().toString()!=null && mobil.getText().toString()!=null && email.getText().toString()!=null && carrer.getText().toString()!=null && Poblacio.getText().toString()!=null && cp.getText().toString()!=null && altres.getText().toString()!=null){
+            if (!nom.getText().toString().equalsIgnoreCase("") && !cognom.getText().toString().equalsIgnoreCase("") && !tel.getText().toString().equalsIgnoreCase("") && !mobil.getText().toString().equalsIgnoreCase("") && !email.getText().toString().equalsIgnoreCase("") && !carrer.getText().toString().equalsIgnoreCase("") && !Poblacio.getText().toString().equalsIgnoreCase("") && !cp.getText().toString().equalsIgnoreCase("") && !altres.getText().toString().equalsIgnoreCase("")){
                 Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();
                 Intent a = new Intent(this, Main_View.class);
                 startActivity(a);

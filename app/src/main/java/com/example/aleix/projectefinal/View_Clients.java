@@ -2,6 +2,7 @@ package com.example.aleix.projectefinal;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +51,10 @@ public class View_Clients extends Activity implements View.OnClickListener {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.novaComanda){
+            Intent a = new Intent(this, View_Comanda.class);
+            startActivity(a);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -59,10 +64,13 @@ public class View_Clients extends Activity implements View.OnClickListener {
         Intent a = null;
         switch (v.getId()){
             case R.id.imgbtnTrucarMobil:
+                a =  new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + txtMobil.getText().toString()));
                 break;
             case R.id.imgbtntrucarTel:
+                a = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + txtTel.getText().toString()));
                 break;
             case R.id.imgbtnUltimaCompra:
+                a = new Intent(this, View_Comanda.class);
                 break;
         }
         if (a != null){
