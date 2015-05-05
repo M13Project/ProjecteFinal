@@ -8,4 +8,5 @@
     <string name="title_activity_view__client_geoloc">View_ClientGeoloc</string>
     <string name="title_activity_view__clients">View_Clients</string>
     <string name="title_activity_view__comanda">View_Comanda</string>
+    <string name="title_activity_view__add_client">View_AddClient</string>
 </resources>

@@ -36,6 +36,10 @@
             android:name=".View_Comanda"
             android:label="@string/title_activity_view__comanda" >
         </activity>
+        <activity
+            android:name=".View_AddClient"
+            android:label="@string/title_activity_view__add_client" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             User = txtuser.getText().toString();
             Password = txtpassword.getText().toString();
             Toast.makeText(this, "Usuari: " + User + " Pass: " + Password, Toast.LENGTH_LONG).show();
+            Intent main = new Intent(this, Main_View.class);
+
+            startActivity(main);
+
 
         }
     }

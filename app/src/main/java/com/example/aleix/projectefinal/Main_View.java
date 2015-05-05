@@ -1,6 +1,7 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,13 +52,20 @@ public class Main_View extends Activity implements View.OnClickListener{
     }
     @Override
     public void onClick(View v) {
+        Intent opcio = null;
         switch (v.getId()){
             case R.id.btnimg1:
+                opcio = new Intent(this, View_AddClient.class );
                 break;
             case R.id.btnimg2:
+                opcio = new Intent(this,View_ClientSearch.class );
                 break;
             case R.id.btnimg3:
+                opcio = new Intent(this, View_ClientGeoloc.class);
                 break;
+        }
+        if (opcio!= null){
+            startActivity(opcio);
         }
     }
 
