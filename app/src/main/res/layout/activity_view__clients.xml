@@ -79,18 +79,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/imgbtntrucarTel"
         android:src="@android:drawable/sym_action_call"
+        android:layout_marginTop="71dp"
         android:layout_below="@+id/imgbtnUltimaCompra"
-        android:layout_toLeftOf="@+id/imgbtnUltimaCompra"
-        android:layout_toStartOf="@+id/imgbtnUltimaCompra"
-        android:layout_marginRight="63dp"
-        android:layout_marginEnd="63dp"
-        android:layout_marginTop="69dp" />
+        android:layout_toRightOf="@+id/imgbtnTrucarMobil"
+        android:layout_toEndOf="@+id/imgbtnTrucarMobil"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgbtnUltimaCompra"
-        android:layout_alignTop="@+id/textView21"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@+id/txtMobilClient"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -144,8 +145,8 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/txtUltimaComandaClient"
-        android:layout_alignTop="@+id/imgbtnUltimaCompra"
-        android:layout_alignRight="@+id/txtMobilClient"
-        android:layout_alignEnd="@+id/txtMobilClient" />
+        android:layout_alignTop="@+id/textView21"
+        android:layout_alignRight="@+id/imgbtntrucarTel"
+        android:layout_alignEnd="@+id/imgbtntrucarTel" />
 
 </RelativeLayout>

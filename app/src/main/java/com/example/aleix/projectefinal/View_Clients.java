@@ -54,6 +54,7 @@ public class View_Clients extends Activity implements View.OnClickListener {
         if (id == R.id.novaComanda){
             Intent a = new Intent(this, View_Comanda.class);
             startActivity(a);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
