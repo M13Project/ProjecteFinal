@@ -6,4 +6,146 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.aleix.projectefinal.View_Clients">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom"
+        android:id="@+id/textView16"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cognom"
+        android:id="@+id/textView17"
+        android:layout_below="@+id/textView16"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carrer"
+        android:id="@+id/textView18"
+        android:layout_below="@+id/textView17"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="44dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Telefon"
+        android:id="@+id/textView19"
+        android:layout_below="@+id/textView18"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="45dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mòbil"
+        android:id="@+id/textView20"
+        android:layout_below="@+id/textView19"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ultima Comanda"
+        android:id="@+id/textView21"
+        android:layout_below="@+id/textView20"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgbtnTrucarMobil"
+        android:src="@android:drawable/stat_sys_phone_call"
+        android:layout_alignTop="@+id/imgbtntrucarTel"
+        android:layout_toRightOf="@+id/textView21"
+        android:layout_toEndOf="@+id/textView21" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgbtntrucarTel"
+        android:src="@android:drawable/sym_action_call"
+        android:layout_below="@+id/imgbtnUltimaCompra"
+        android:layout_toLeftOf="@+id/imgbtnUltimaCompra"
+        android:layout_toStartOf="@+id/imgbtnUltimaCompra"
+        android:layout_marginRight="63dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginTop="69dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgbtnUltimaCompra"
+        android:layout_alignTop="@+id/textView21"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtNomClient"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imgbtntrucarTel"
+        android:layout_alignEnd="@+id/imgbtntrucarTel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtCognomClient"
+        android:layout_alignTop="@+id/textView17"
+        android:layout_alignRight="@+id/txtNomClient"
+        android:layout_alignEnd="@+id/txtNomClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtCarrerClient"
+        android:layout_alignTop="@+id/textView18"
+        android:layout_alignRight="@+id/txtCognomClient"
+        android:layout_alignEnd="@+id/txtCognomClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtTelClient"
+        android:layout_above="@+id/textView20"
+        android:layout_alignRight="@+id/txtCarrerClient"
+        android:layout_alignEnd="@+id/txtCarrerClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtMobilClient"
+        android:layout_alignTop="@+id/textView20"
+        android:layout_alignLeft="@+id/txtTelClient"
+        android:layout_alignStart="@+id/txtTelClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtUltimaComandaClient"
+        android:layout_alignTop="@+id/imgbtnUltimaCompra"
+        android:layout_alignRight="@+id/txtMobilClient"
+        android:layout_alignEnd="@+id/txtMobilClient" />
+
 </RelativeLayout>

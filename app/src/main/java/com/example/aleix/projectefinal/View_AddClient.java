@@ -60,7 +60,6 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();
                 Intent a = new Intent(this, Main_View.class);
                 startActivity(a);
-                startActivity(a);
             }
         else{
                 Toast.makeText(this, "Hi han camps buits!", Toast.LENGTH_SHORT).show();

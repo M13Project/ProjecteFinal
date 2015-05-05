@@ -40,6 +40,10 @@
             android:name=".View_AddClient"
             android:label="@string/title_activity_view__add_client" >
         </activity>
+        <activity
+            android:name=".View_AddProducte"
+            android:label="@string/title_activity_view__add_producte" >
+        </activity>
     </application>
 
 </manifest>

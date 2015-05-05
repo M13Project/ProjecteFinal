@@ -1,31 +1,34 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Spinner;
 
 
-public class View_ClientSearch extends Activity implements View.OnClickListener {
-    EditText txtSearchClient;
-    ListView listView;
-
+public class View_AddProducte extends Activity implements View.OnClickListener {
+    Spinner llistaProductes;
+    EditText num;
+    Button affegirproductealacomanda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view__client_search);
-        txtSearchClient = (EditText) findViewById(R.id.txtSearchClient);
-        listView = (ListView) findViewById(R.id.listViewResultClients);
-        listView.setOnClickListener(this);
+        setContentView(R.layout.activity_view__add_producte);
+        llistaProductes = (Spinner) findViewById(R.id.spinnerElegirProducte);
+        num = (EditText) findViewById(R.id.txtQuantitatProducte);
+        affegirproductealacomanda = (Button) findViewById(R.id.btnAfegirComandaAddProducte);
+        affegirproductealacomanda.setOnClickListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view__client_search, menu);
+        getMenuInflater().inflate(R.menu.menu_view__add_producte, menu);
         return true;
     }
 
@@ -46,6 +49,12 @@ public class View_ClientSearch extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.btnAfegirComandaAddProducte){
+            Intent a = new Intent(this, View_Comanda.class);
+            a.putExtra("Quantitat", num.getText().toString());
+            a.putExtra("Producte", num.getText().toString());
+            startActivity(a);
+        }
 
     }
 }

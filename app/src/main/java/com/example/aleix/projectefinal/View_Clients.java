@@ -1,17 +1,35 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 
-public class View_Clients extends Activity {
-
+public class View_Clients extends Activity implements View.OnClickListener {
+    ImageButton imgbtnTrucarTel, imgbtnTrucalMobil, imgbtnUltimaComanda;
+    TextView txtNom, txtCognom, txtCarrer, txtTel, txtMobil, txtUltimaComanda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view__clients);
+        imgbtnTrucalMobil = (ImageButton) findViewById(R.id.imgbtnTrucarMobil);
+        imgbtnTrucarTel = (ImageButton) findViewById(R.id.imgbtntrucarTel);
+        imgbtnUltimaComanda = (ImageButton) findViewById(R.id.imgbtnUltimaCompra);
+        imgbtnTrucalMobil.setOnClickListener(this);
+        imgbtnTrucarTel.setOnClickListener(this);
+        imgbtnUltimaComanda.setOnClickListener(this);
+        txtNom = (TextView) findViewById(R.id.txtNomClient);
+        txtCognom = (TextView) findViewById(R.id.txtCognomClient);
+        txtCarrer = (TextView) findViewById(R.id.txtCarrerClient);
+        txtTel = (TextView) findViewById(R.id.txtTelClient);
+        txtMobil = (TextView) findViewById(R.id.txtMobilClient);
+        txtUltimaComanda = (TextView) findViewById(R.id.txtUltimaComandaClient);
+
     }
 
     @Override
@@ -34,5 +52,22 @@ public class View_Clients extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent a = null;
+        switch (v.getId()){
+            case R.id.imgbtnTrucarMobil:
+                break;
+            case R.id.imgbtntrucarTel:
+                break;
+            case R.id.imgbtnUltimaCompra:
+                break;
+        }
+        if (a != null){
+            startActivity(a);
+
+        }
     }
 }
