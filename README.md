@@ -1,6 +1,7 @@
 # README #
 
 https://jorgepedraza.wordpress.com/2012/07/26/wcf-data-service-con-android/
+http://www.codeproject.com/Articles/361107/WCF-and-Android-Part-II
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
