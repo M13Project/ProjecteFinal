@@ -1,5 +1,7 @@
 # README #
 
+https://jorgepedraza.wordpress.com/2012/07/26/wcf-data-service-con-android/
+
 This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
