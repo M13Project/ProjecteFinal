@@ -10,9 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Proves.ProvaActivity;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
     Button btn;
+    /*Prova*/
+    Button buttonProva;
+    /**/
     EditText txtuser;
     EditText txtpassword;
     String User, Password;
@@ -24,6 +29,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtuser = (EditText) findViewById(R.id.txtUser);
         txtpassword = (EditText) findViewById(R.id.txtPassword);
         btn.setOnClickListener(this);
+        /*Prova*/
+        buttonProva = (Button) findViewById(R.id.buttonProva);
+        buttonProva.setOnClickListener(this);
+        /**/
 
     }
 
@@ -57,8 +66,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Intent main = new Intent(this, Main_View.class);
 
             startActivity(main);
-
-
         }
+        /*Prova*/
+        else {
+            Intent intent = new Intent(this, ProvaActivity.class);
+            this.startActivity(intent);
+        }
+        /**/
     }
 }

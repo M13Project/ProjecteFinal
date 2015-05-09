@@ -52,4 +52,14 @@
         android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/txtPassword"
         android:layout_alignStart="@+id/txtPassword" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/buttonProva"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/txtPassword"
+        android:layout_alignEnd="@+id/txtPassword"
+        android:layout_marginBottom="86dp" />
 </RelativeLayout>

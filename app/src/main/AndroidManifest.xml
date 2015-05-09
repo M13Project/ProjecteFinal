@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aleix.projectefinal" >
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.CALL_PHONE"
-        />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -47,6 +47,10 @@
         <activity
             android:name=".View_AddProducte"
             android:label="@string/title_activity_view__add_producte" >
+        </activity>
+        <activity
+            android:name=".Proves.ProvaActivity"
+            android:label="@string/title_activity_prova" >
         </activity>
     </application>
 
