@@ -5,9 +5,12 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
+
 import com.example.aleix.projectefinal.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -35,7 +38,7 @@ public class PersistenceManager extends AsyncTask {
         this.error = null;
         this.dialog = new ProgressDialog(activity);
         this.uiUpdate = (TextView) activity.findViewById(R.id.textView);
-        this.jsonParsed = (TextView) activity.findViewById(R.id.textView2);
+        this.jsonParsed = (TextView) activity.findViewById(R.id.textViewJsonFormatted);
     }
 
     @Override
@@ -47,27 +50,35 @@ public class PersistenceManager extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         this.dialog.dismiss();
-        if(this.error != null) {
+        if (this.error != null) {
             uiUpdate.setText("Output : " + this.error);
         } else {
             this.uiUpdate.setText(this.content);
             StringBuilder outputData = new StringBuilder();
             JSONObject jsonResponse;
             try {
+//                jsonResponse = new JSONObject(this.content);
+//                JSONArray jsonMainNode = jsonResponse.optJSONArray("d");
+                /*Prova*/
                 jsonResponse = new JSONObject(this.content);
-                JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
-
-                int lengthJsonArr = jsonMainNode.length();
-
-                for(int i = 0; i <lengthJsonArr; i++) {
-                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-                    for(int j = 0; j < jsonChildNode.names().length(); j++) {
-                        outputData.append("Nom atribut: " + jsonChildNode.names().getString(j) + ", valor: " + jsonChildNode.optString(jsonChildNode.names().getString(j)) + "\n");
-                    }
-                    outputData.append("-----------------------------\n");
+                JSONObject prova = jsonResponse.getJSONObject("d");
+                JSONArray jsonMainNode = prova.optJSONArray("EntitySets");
+                for (int i = 0; i < jsonMainNode.length(); i++) {
+                    outputData.append(jsonMainNode.getString(i) + " ");
                 }
-                this.jsonParsed.setText(outputData);
-            } catch(Exception e) {
+                this.jsonParsed.setText(outputData.toString());
+                /**/
+//                int lengthJsonArr = jsonMainNode.length();
+//
+//                for (int i = 0; i < lengthJsonArr; i++) {
+//                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+//                    for (int j = 0; j < jsonChildNode.names().length(); j++) {
+//                        outputData.append("Nom atribut: " + jsonChildNode.names().getString(j) + ", valor: " + jsonChildNode.optString(jsonChildNode.names().getString(j)) + "\n");
+//                    }
+//                    outputData.append("-----------------------------\n");
+//                }
+//                this.jsonParsed.setText(outputData);
+            } catch (Exception e) {
                 Log.e("Error", "Error in onPostExecte: " + e.getMessage());
             }
         }
@@ -84,7 +95,7 @@ public class PersistenceManager extends AsyncTask {
         HttpURLConnection conn = null;
 
         try {
-            URL url = new URL((String)params[0]);
+            URL url = new URL((String) params[0]);
             conn = (HttpURLConnection) url.openConnection();
             //conn.setDoOutput(true);
             conn.setRequestProperty("Accept", "application/json;odata=verbose");
@@ -93,19 +104,19 @@ public class PersistenceManager extends AsyncTask {
             StringBuilder sb = new StringBuilder();
             String line = null;
 
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 sb.append(line + "");
             }
             this.content = sb.toString();
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.error = e.getMessage();
             Log.e("Error", "Error in doInBackground: " + e.getMessage());
             Log.e("INPUT_ERROR_STREAM", captureInputErrorStream(conn.getErrorStream()));
-        } finally{
+        } finally {
             try {
                 reader.close();
                 conn.disconnect();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 Log.e("Error", "Error while closing buffer: " + ex.getMessage());
             }
         }
@@ -119,10 +130,10 @@ public class PersistenceManager extends AsyncTask {
         String line = "";
         StringBuilder sb = new StringBuilder();
         try {
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e("ERROR!", e.getMessage());
         }
         return sb.toString();
@@ -142,5 +153,33 @@ public class PersistenceManager extends AsyncTask {
             }
         }
         return parametersAsQueryString.toString();
+    }
+
+    public Map<String, String> formatJsonInput(String rawJsonInput) {
+        Map<String, String> mappedAttributes = null;
+
+
+        StringBuilder outputData = new StringBuilder();
+        JSONObject jsonResponse;
+        try {
+            jsonResponse = new JSONObject(rawJsonInput);
+            JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+
+            int lengthJsonArr = jsonMainNode.length();
+
+            for (int i = 0; i < lengthJsonArr; i++) {
+                JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+                for (int j = 0; j < jsonChildNode.names().length(); j++) {
+                    outputData.append("Nom atribut: " + jsonChildNode.names().getString(j) + ", valor: " + jsonChildNode.optString(jsonChildNode.names().getString(j)) + "\n");
+                }
+                outputData.append("-----------------------------\n");
+            }
+            this.jsonParsed.setText(outputData);
+        } catch (Exception e) {
+            Log.e("Error", "Error in onPostExecte: " + e.getMessage());
+        }
+
+
+        return mappedAttributes;
     }
 }
