@@ -8,6 +8,14 @@ import android.widget.TextView;
 
 import com.example.aleix.projectefinal.R;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +23,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -93,9 +103,10 @@ public class PersistenceManager extends AsyncTask {
     protected Object doInBackground(Object[] params) {
         BufferedReader reader = null;
         HttpURLConnection conn = null;
+        URL url = null;
 
         try {
-            URL url = new URL((String) params[0]);
+            url = new URL((String) params[0]);
             conn = (HttpURLConnection) url.openConnection();
             //conn.setDoOutput(true);
             conn.setRequestProperty("Accept", "application/json;odata=verbose");
@@ -120,7 +131,42 @@ public class PersistenceManager extends AsyncTask {
                 Log.e("Error", "Error while closing buffer: " + ex.getMessage());
             }
         }
+
+        /*Prova POST*/
+        provaPost2(params);
+        /**/
+
         return null;
+    }
+
+    private void provaPost2(Object[] params) {
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
+        HttpResponse response;
+        JSONObject json = new JSONObject();
+
+        try {
+            HttpPost post = new HttpPost(new URI((String) params[0]));
+            json.put("Dni", "lololol");
+            json.put("Nom", "lololol");
+            json.put("Cognom", "lololol");
+            json.put("Usuari1", "lololol");
+            json.put("Contrasenya", "lololol");
+            json.put("Imatge", "lololol");
+            StringEntity se = new StringEntity( json.toString());
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            post.setEntity(se);
+            response = client.execute(post);
+
+                    /*Checking response */
+            if(response!=null){
+                InputStream in = response.getEntity().getContent(); //Get the data in the entity
+                Log.e("SERVER_RESPONSE", captureInputErrorStream(in));
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String captureInputErrorStream(InputStream is) {
