@@ -12,7 +12,7 @@ public class BD extends SQLiteOpenHelper {
     public static String DB_NAME = "DB_Local";
     //private final Context myContext;
     public static int v_db = 0;
-    String sqlCreate ="CREATE TABLE Clients (Id INTEGER PRIMARY KEY, Nom TEXT, Cognom TEXT, Edat INTEGER, DataProperaVisita Datetime, ComercialId INTEGER); " +
+    String sqlCreate ="CREATE TABLE Clients (Id INTEGER PRIMARY KEY, Nom TEXT, Cognom TEXT, Edat INTEGER, DataProperaVisita Datetime); " +
             "CREATE TABLE Comanda (ID INTEGER PRIMARY KEY, LLiurada boolean, Data DateTime, ClientId INTEGER, FOREIGN KEY(ClientId) REFERENCES Clients(Id)); " +
             "CREATE TABLE Localitzacio (Id INTEGER PRIMARY KEY, CodiPostal TEXT, Direccio TEXT, Latitud DOUBLE, Longitud DOUBLE, ClientId INTEGER, FOREIGN KEY(ClientId) REFERENCES Clients(Id)); " +
             "CREATE TABLE Categoria (Id INTEGER PRIMARY KEY, Nom TEXT, Descompte DOUBLE); " +
