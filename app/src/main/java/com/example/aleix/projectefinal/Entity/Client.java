@@ -44,6 +44,7 @@ public class Client {
 
     @DatabaseField(columnName = DATA_PROPERA_VISITA)
     private DateTimeType DataProperaVisita;
+
 /*
     @DatabaseField(foreign = true, columnName = COMERCIALID)
     private int ComercialId;
