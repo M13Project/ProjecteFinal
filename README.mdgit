@@ -1,0 +1,1 @@
+# M13ProjectMobileApp  initgit add README.mdgit commit -m "first commit"git remote add origin https://github.com/M13Project/M13ProjectMobileApp.gitgit push -u origin master
