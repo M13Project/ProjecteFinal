@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ProjecteFinal</string>
 
+    <string name="app_name">ProjecteFinal</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_main__view">Main_View</string>
@@ -10,4 +11,6 @@
     <string name="title_activity_view__comanda">View_Comanda</string>
     <string name="title_activity_view__add_client">View_AddClient</string>
     <string name="title_activity_view__add_producte">View_AddProducte</string>
+    <string name="title_activity_view__clients_map">View_ClientsMap</string>
+
 </resources>
