@@ -105,4 +105,16 @@ public class Client {
     public void setDataProperaVisita(DateTimeType dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;
     }
+
+    public Client() {
+    }
+
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, DateTimeType dataProperaVisita) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        this.imageClient = imageClient;
+        DataProperaVisita = dataProperaVisita;
+    }
 }

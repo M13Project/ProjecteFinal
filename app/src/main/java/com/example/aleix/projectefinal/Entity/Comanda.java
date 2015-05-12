@@ -7,35 +7,24 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by Aleix on 05/05/2015.
  */
-@DatabaseTable
+@DatabaseTable(tableName = "Comanda")
 public class Comanda {
     public static final String ID = "_id";
-    public static final String LLIURADA = "LLiurada";
+    public static final String LLIURADA = "Lliurada";
     public static final String DATA = "Data";
-    public static final String CLIENT = "ClientId";
+    public static final String CLIENTID = "ClientId";
+
     @DatabaseField(generatedId = true, columnName = ID)
     private int Id;
+
     @DatabaseField(columnName = LLIURADA)
-    private String Lliurada;
+    private Boolean Lliurada;
+
     @DatabaseField(columnName = DATA)
     private DateTimeType Data;
-    @DatabaseField(columnName = CLIENT)
-    private String ClientId;
 
-    public Comanda(String lliurada, DateTimeType data, String clientId) {
-        Lliurada = lliurada;
-        Data = data;
-        ClientId = clientId;
-    }
-
-    public Comanda(int id) {
-
-        Id = id;
-    }
-    public Comanda() {
-
-
-    }
+    @DatabaseField(foreign = true, columnName = CLIENTID)
+    private int ClientId;
 
     public int getId() {
         return Id;
@@ -45,12 +34,12 @@ public class Comanda {
         Id = id;
     }
 
-    public String getLliurada() {
+    public Boolean getLliurada() {
         return Lliurada;
     }
 
-    public void setLliurada(String lliurada) {
-        Lliurada = lliurada;
+    public void setLliurada(Boolean lliurada) {
+        this.Lliurada = lliurada;
     }
 
     public DateTimeType getData() {
@@ -61,11 +50,20 @@ public class Comanda {
         Data = data;
     }
 
-    public String getClientId() {
+    public int getClientId() {
         return ClientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(int clientId) {
+        this.ClientId = clientId;
+    }
+
+    public Comanda(Boolean lliurada, DateTimeType data, int clientId) {
+        Lliurada = lliurada;
+        Data = data;
         ClientId = clientId;
+    }
+
+    public Comanda() {
     }
 }
