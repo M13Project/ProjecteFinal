@@ -46,5 +46,5 @@ public class Categoria {
     public void setDescompte(float descompte) {
         Descompte = descompte;
     }
-    
+
 }
