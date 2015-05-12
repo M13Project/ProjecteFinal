@@ -43,5 +43,6 @@ public class BD extends SQLiteOpenHelper {
             db.execSQL(sqlUpdate);
         }
     }
-  //  BD bd = new
+
+
 }
