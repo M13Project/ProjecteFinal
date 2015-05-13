@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     Button btn;
     EditText txtuser;
     EditText txtpassword;
-    String User, Password;
+    String User, Password, encPass;
+    Boolean samepassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +64,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "Usuari: " + User + " Pass: " + Password, Toast.LENGTH_LONG).show();
             Intent main = new Intent(this, Main_View.class);
             //comprovació del login
-            if (false){
+            try{
+                encPass = passwordKeyGeneration(Password, 256);
+                samepassword = encPass.equalsIgnoreCase(encPass);
+
+            }
+            catch (Exception e){
+                Log.e("Error en el login", "Error en el login");
+            }
+            if (samepassword){
+                main.putExtra("User", User);
                 startActivity(main);
             }
             else{
