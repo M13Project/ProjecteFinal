@@ -1,7 +1,9 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -59,8 +61,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Password = txtpassword.getText().toString();
             Toast.makeText(this, "Usuari: " + User + " Pass: " + Password, Toast.LENGTH_LONG).show();
             Intent main = new Intent(this, Main_View.class);
+            //comprovació del login
+            if (false){
+                startActivity(main);
+            }
+            else{
+                //Mostra un dialeg amb un error. Substitueix la clase Error del package Dialog
+                //DialogFragment dialog = new Error();
+               // dialog.show(getSupportFragmentManager(), "dialog");
+                //dialog.show(dialog., "dialog");
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Error");
+                dialog.setMessage("Error en el login");
+                dialog.setCancelable(false);
 
-            startActivity(main);
+                dialog.setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.show();
+            }
+
 
 
         }
