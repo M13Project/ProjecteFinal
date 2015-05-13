@@ -1,6 +1,10 @@
 package com.example.aleix.projectefinal.Controller;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -11,8 +15,15 @@ import java.util.List;
  */
 public class LoginController {
 
-    public LoginController() {
+    SharedPreferences sharedPreferences;
+    PersistenceManager persistanceManager;
+    private static final String SHARED_PREFERENCES_FILE_NAME = "user_authentication";
+    private static final int SHARED_PREFERENCES_FILE_MODE = Context.MODE_PRIVATE;
+    private static final String SHARED_PREFERENCES_KEY = "password";
 
+    public LoginController(Activity activity) {
+        this.sharedPreferences = activity.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, SHARED_PREFERENCES_FILE_MODE);
+        this.persistanceManager = new PersistenceManager(activity);
     }
 
     //De shared preferences sabrem si l'usuari s'ha loguejat anteriorment o no.
@@ -25,7 +36,7 @@ public class LoginController {
         boolean userValidatedCorrectly = false;
 
         if (firstTimeLogging) {
-            //Aquí les contrasenyes venen de la base de dades remota. La classe PersistanceManager s'ocupa de recuperar aquesta info. En comptes de new ArrayList s'ha de posar un mètode de PersistanceManager.
+            //Aqui les contrasenyes venen de la base de dades remota. La classe PersistanceManager s'ocupa de recuperar aquesta info. En comptes de new ArrayList s'ha de posar un metode de PersistanceManager.
             List<String> listOfHashedPasswordsFromRemoteDatabase = new ArrayList();
             while (keepRunningWhile && i < listOfHashedPasswordsFromRemoteDatabase.size()) {
                 if (listOfHashedPasswordsFromRemoteDatabase.get(i).equalsIgnoreCase(hashRepresentationOfTypedPassword)) {
@@ -34,7 +45,9 @@ public class LoginController {
                 }
                 i++;
             }
+            if(userValidatedCorrectly) {
 
+            }
         } else {
 
         }
@@ -62,5 +75,15 @@ public class LoginController {
             Log.e("ERROR!", ex.getMessage());
         }
         return result.toUpperCase();
+    }
+
+    private void savePasswordLocally(String passwordToSave) {
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        editor.putString(SHARED_PREFERENCES_KEY, passwordToSave);
+        editor.apply();
+    }
+
+    private String retrievePasswordSavedLocally() {
+        return sharedPreferences.getString(SHARED_PREFERENCES_KEY, null);
     }
 }

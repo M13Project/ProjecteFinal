@@ -1,7 +1,9 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         /*Prova*/
         buttonProva = (Button) findViewById(R.id.buttonProva);
         buttonProva.setOnClickListener(this);
+        sharedPreferencesManager();
         /**/
 
     }
@@ -73,5 +76,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             this.startActivity(intent);
         }
         /**/
+    }
+
+    public void sharedPreferencesManager() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("user_authentication", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("key", "value");
+        editor.apply();
+
+        String sharedPrefValue = sharedPreferences.getString("key", null);
+        Toast.makeText(this, sharedPrefValue, Toast.LENGTH_LONG).show();
+
     }
 }

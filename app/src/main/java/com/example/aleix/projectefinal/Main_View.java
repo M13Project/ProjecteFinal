@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class Main_View extends Activity implements View.OnClickListener{
@@ -28,7 +29,6 @@ public class Main_View extends Activity implements View.OnClickListener{
         btnimg1.setOnClickListener(this);
         btnimg2.setOnClickListener(this);
         btnimg3.setOnClickListener(this);
-
     }
 
     @Override
@@ -70,13 +70,4 @@ public class Main_View extends Activity implements View.OnClickListener{
             startActivity(opcio);
         }
     }
-
-    public void sharedPreferencesManager() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("user_authentication", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("key", "value");
-        editor.commit();
-    }
-
-
 }
