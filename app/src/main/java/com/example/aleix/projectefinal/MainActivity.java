@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+
 
 public class MainActivity extends Activity implements View.OnClickListener {
     Button btn;
@@ -68,5 +70,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("key", "value");
         editor.commit();
+    }
+    public static String passwordKeyGeneration(String text, int keySize) {
+        String result = "";
+        if ((keySize == 128) || (keySize == 192) || (keySize == 256)) {
+            try {
+                byte[] data = text.getBytes("UTF-8");
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                byte[] hash = md.digest(data);
+                for (int i = 0; i < hash.length; i++) {
+                    String hex = Integer.toHexString(hash[i]);
+                    if (hex.length() == 1) {
+                        hex = "0" + hex;
+                    }
+                    hex = hex.substring(hex.length() - 2);
+                    result += hex;
+                    if (i != hash.length - 1) {
+                        result += "-";
+                    }
+                }
+            } catch (Exception ex) {
+                System.err.println("Error generant la clau:" + ex);
+            }
+        }
+        return result.toUpperCase();
     }
 }
