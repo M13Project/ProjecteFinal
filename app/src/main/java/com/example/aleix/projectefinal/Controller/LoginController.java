@@ -16,14 +16,14 @@ import java.util.List;
 public class LoginController {
 
     SharedPreferences sharedPreferences;
-    PersistenceManager persistanceManager;
+    PersistanceManager persistanceManager;
     private static final String SHARED_PREFERENCES_FILE_NAME = "user_authentication";
     private static final int SHARED_PREFERENCES_FILE_MODE = Context.MODE_PRIVATE;
     private static final String SHARED_PREFERENCES_KEY = "password";
 
     public LoginController(Activity activity) {
         this.sharedPreferences = activity.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, SHARED_PREFERENCES_FILE_MODE);
-        this.persistanceManager = new PersistenceManager(activity);
+        this.persistanceManager = new PersistanceManager(activity);
     }
 
     //De shared preferences sabrem si l'usuari s'ha loguejat anteriorment o no.

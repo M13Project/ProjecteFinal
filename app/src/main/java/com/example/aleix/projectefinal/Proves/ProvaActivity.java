@@ -7,8 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.aleix.projectefinal.Controller.PersistenceManager;
+import com.example.aleix.projectefinal.Controller.PersistanceManager;
 import com.example.aleix.projectefinal.R;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
@@ -51,7 +50,7 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
             String serverURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + etQuery.getText().toString();
-            PersistenceManager async = new PersistenceManager(this);
-            async.execute(serverURL);
+            PersistanceManager async = new PersistanceManager(this);
+            async.execute(serverURL, "GET");
     }
 }
