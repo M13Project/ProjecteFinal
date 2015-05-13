@@ -28,11 +28,12 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Aleix on 05/05/2015.
  */
-public class PersistenceManager  extends AsyncTask {
+public class PersistenceManager extends AsyncTask {
 
     private static final char PARAMETER_DELIMITER = '&';
     private static final char PARAMETER_EQUALS_CHAR = '=';
@@ -41,8 +42,10 @@ public class PersistenceManager  extends AsyncTask {
     private ProgressDialog dialog;
     private TextView uiUpdate;
     private TextView jsonParsed;
+    private Activity activity;
 
     public PersistenceManager(Activity activity) {
+        this.activity = activity;
         this.content = null;
         this.error = null;
         this.dialog = new ProgressDialog(activity);
@@ -63,8 +66,12 @@ public class PersistenceManager  extends AsyncTask {
             uiUpdate.setText("Output : " + this.error);
         } else {
             this.uiUpdate.setText(this.content);
+            /*Prova*/
+            formatJsonInput(this.content);
+            /**/
             StringBuilder outputData = new StringBuilder();
             JSONObject jsonResponse;
+
             try {
 //                jsonResponse = new JSONObject(this.content);
 //                JSONArray jsonMainNode = jsonResponse.optJSONArray("d");
@@ -107,8 +114,7 @@ public class PersistenceManager  extends AsyncTask {
         try {
             url = new URL((String) params[0]);
             conn = (HttpURLConnection) url.openConnection();
-            //conn.setDoOutput(true);
-            conn.setRequestProperty("Accept", "application/json;odata=verbose");
+            conn.setRequestProperty("Accept", "application/json");
 
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
@@ -132,7 +138,7 @@ public class PersistenceManager  extends AsyncTask {
         }
 
         /*Prova POST*/
-        provaPost2(params);
+        //provaPost2(params);
         /**/
 
         return null;
@@ -146,12 +152,12 @@ public class PersistenceManager  extends AsyncTask {
 
         try {
             HttpPost post = new HttpPost(new URI((String) params[0]));
-            json.put("Dni", "lololol");
-            json.put("Nom", "lololol");
-            json.put("Cognom", "lololol");
-            json.put("Usuari1", "lololol");
-            json.put("Contrasenya", "lololol");
-            json.put("Imatge", "lololol");
+            json.put("Dni", "kkkkk");
+            json.put("Nom", "kkkk");
+            json.put("Cognom", "kkkk");
+            json.put("Usuari1", "kkkkk");
+            json.put("Contrasenya", "kkkkk");
+            json.put("Imatge", "kkkk");
             StringEntity se = new StringEntity( json.toString());
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             post.setEntity(se);
@@ -201,30 +207,26 @@ public class PersistenceManager  extends AsyncTask {
     }
 
     public Map<String, String> formatJsonInput(String rawJsonInput) {
-        Map<String, String> mappedAttributes = null;
+        Map<String, String> mappedAttributes = new TreeMap<>();
 
-
-        StringBuilder outputData = new StringBuilder();
-        JSONObject jsonResponse;
         try {
-            jsonResponse = new JSONObject(rawJsonInput);
-            JSONArray jsonMainNode = jsonResponse.optJSONArray("Android");
+            JSONObject jsonResponse = new JSONObject(rawJsonInput);
 
-            int lengthJsonArr = jsonMainNode.length();
+            JSONArray array = jsonResponse.optJSONArray(jsonResponse.names().getString(0));
 
-            for (int i = 0; i < lengthJsonArr; i++) {
-                JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-                for (int j = 0; j < jsonChildNode.names().length(); j++) {
-                    outputData.append("Nom atribut: " + jsonChildNode.names().getString(j) + ", valor: " + jsonChildNode.optString(jsonChildNode.names().getString(j)) + "\n");
+            for (int j = 0; j < array.length(); j++) {
+                JSONObject jsonChildNode = array.getJSONObject(j);
+                for (int k = 0; k < jsonChildNode.names().length(); k++) {
+                    String key = jsonChildNode.names().getString(k);
+                    String value = jsonChildNode.getString(key);
+                    mappedAttributes.put(key, value);
                 }
-                outputData.append("-----------------------------\n");
             }
-            this.jsonParsed.setText(outputData);
-        } catch (Exception e) {
-            Log.e("Error", "Error in onPostExecte: " + e.getMessage());
+            //Ficar el Map dintre d'un ArrayList per extreure tots els registres!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            String asddas = "";
+        } catch(Exception e) {
+            Log.e("ERROR IN formatJson...", e.getMessage());
         }
-
-
         return mappedAttributes;
     }
 }
