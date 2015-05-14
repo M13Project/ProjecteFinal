@@ -1,38 +1,56 @@
 package com.example.aleix.projectefinal.Entity;
 
+import com.j256.ormlite.field.DatabaseField;
+
 /**
- * Created by Michal on 13/05/2015.
+ * Created by Michal.hostienda on 14/05/2015.
  */
 public class Producte {
 
-    private int Id;
+    @DatabaseField(id = true)
+    private int _id;
+    @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
+    @DatabaseField(columnName = "Preu")
     private double Preu;
+    @DatabaseField(columnName = "Descompte")
     private double Descompte;
+    @DatabaseField(columnName = "Imatge")
     private String Imatge;
+    @DatabaseField(columnName = "Habilitat", canBeNull = false)
     private boolean Habilitat;
-    private int CategoriaId;
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Categoria categoria;
 
     public Producte() {
 
     }
 
-    public Producte(int id, String nom, double preu, double descompte, String imatge, boolean habilitat, int categoriaId) {
-        Id = id;
+    public Producte(int _id, String nom, double preu, double descompte, String imatge, boolean habilitat) {
+        this._id = _id;
         Nom = nom;
         Preu = preu;
         Descompte = descompte;
         Imatge = imatge;
         Habilitat = habilitat;
-        CategoriaId = categoriaId;
     }
 
-    public int getId() {
-        return Id;
+    public Producte(int _id, String nom, double preu, double descompte, String imatge, boolean habilitat, Categoria categoria) {
+        this._id = _id;
+        Nom = nom;
+        Preu = preu;
+        Descompte = descompte;
+        Imatge = imatge;
+        Habilitat = habilitat;
+        this.categoria = categoria;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
     public String getNom() {
@@ -75,11 +93,11 @@ public class Producte {
         Habilitat = habilitat;
     }
 
-    public int getCategoriaId() {
-        return CategoriaId;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setCategoriaId(int categoriaId) {
-        CategoriaId = categoriaId;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
