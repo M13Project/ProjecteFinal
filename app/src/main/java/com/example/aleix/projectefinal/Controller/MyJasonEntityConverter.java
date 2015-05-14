@@ -65,7 +65,7 @@ public class MyJasonEntityConverter {
                     Object value = entityInMapFormat.get(key);
                     for (int j = 0; j < methodsOfEntity.length; j++) {
                         Method method = methodsOfEntity[j];
-                        if (method.getName().contains("set") && method.getName().toLowerCase().contains(key.toLowerCase())) {
+                        if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
                             method.invoke(entity, value);
                         }
                     }
@@ -88,7 +88,7 @@ public class MyJasonEntityConverter {
                 Field field = fieldsOfEntity[i];
                 for (int j = 0; j < methodsOfEntity.length; j++) {
                     Method method = methodsOfEntity[j];
-                    if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains(field.getName().toLowerCase())) {
+                    if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(field.getName().toLowerCase())) {
                         stringJson.put(field.getName(), method.invoke(objectToTransform, null));
                     }
                 }

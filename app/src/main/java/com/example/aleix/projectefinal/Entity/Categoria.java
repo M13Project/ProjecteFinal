@@ -31,11 +31,11 @@ public class Categoria {
         Descompte = descompte;
     }
 
-    public int get_id() {
+    public int getId() {
         return _id;
     }
 
-    private void set_id(int _id) {
+    private void setId(int _id) {
         this._id = _id;
     }
 

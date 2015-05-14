@@ -1,42 +1,51 @@
 package com.example.aleix.projectefinal.Entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.Date;
 
 /**
  * Created by Aleix on 05/05/2015.
  */
+@DatabaseTable(tableName = "Client")
 public class Client {
 
-    private int Id;
+    @DatabaseField(generatedId = true)
+    private int _id;
+    @DatabaseField(columnName = "Dni", canBeNull = false)
     private String Dni;
+    @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
+    @DatabaseField(columnName = "Cognom", canBeNull = false)
     private String Cognom;
+    @DatabaseField(columnName = "Edat")
     private int Edat;
+    @DatabaseField(columnName = "ImageClient")
     private String ImageClient;
-    private Date DataProperaVisita;
-    private int ComercialId;
+    @DatabaseField(columnName = "DataProperaVisita")
+    private String DataProperaVisita;
 
     public Client() {
 
     }
 
-    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, Date dataProperaVisita, int comercialId) {
-        Id = id;
+    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId) {
+        _id = id;
         Dni = dni;
         Nom = nom;
         Cognom = cognom;
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
-        ComercialId = comercialId;
     }
 
     public int getId() {
-        return Id;
+        return _id;
     }
 
     public void setId(int id) {
-        Id = id;
+        _id = id;
     }
 
     public String getDni() {
@@ -79,19 +88,11 @@ public class Client {
         ImageClient = imageClient;
     }
 
-    public Date getDataProperaVisita() {
+    public String getDataProperaVisita() {
         return DataProperaVisita;
     }
 
-    public void setDataProperaVisita(Date dataProperaVisita) {
+    public void setDataProperaVisita(String dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;
-    }
-
-    public int getComercialId() {
-        return ComercialId;
-    }
-
-    public void setComercialId(int comercialId) {
-        ComercialId = comercialId;
     }
 }
