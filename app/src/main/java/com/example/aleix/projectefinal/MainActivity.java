@@ -15,10 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Controller.LoginController;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
-import java.security.MessageDigest;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -27,7 +30,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     EditText txtpassword;
     String User, Password, encPass;
     Boolean samepassword;
-    ArrayList<Usuari> usuarisList;
+    LoginController loginController;
+    List<Usuari> usuarisList = new ArrayList<Usuari>() {{ add(new Usuari("p", "p")); add(new Usuari("a", "a")); }};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +66,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
+        Usuari ulog = new Usuari();
         if (v.getId() == R.id.btnLogin){
             User = txtuser.getText().toString();
             Password = txtpassword.getText().toString();
+            //
+            Iterator<Usuari> iu= usuarisList.iterator();
+            while(iu.hasNext()){
+
+                Usuari u =iu.next();
+                if (u.getUsuari1().equals(User)){
+                    ulog = u;
+                }
+            }
 
             Intent main = new Intent(this, Main_View.class);
             //comprovació del login
             try{
-                encPass = passwordKeyGeneration(Password, 256);
-                samepassword = encPass.equalsIgnoreCase(encPass);
+                encPass = loginController.makeHashVersionOfPassword(Password);
+
+                samepassword = encPass.equalsIgnoreCase(loginController.makeHashVersionOfPassword(ulog.getContrasenya()));
                 Toast.makeText(this, "Usuari: " + User + " Pass: " + encPass, Toast.LENGTH_LONG).show();
 
             }
@@ -78,7 +93,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.e("Error en el login", "Error en el login");
             }
             if (samepassword){
-                main.putExtra("User", User);
+                main.putExtra("User", (Serializable) ulog);
                 startActivity(main);
             }
             else{
@@ -111,28 +126,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
         editor.putString("key", "value");
         editor.commit();
     }
-    public static String passwordKeyGeneration(String text, int keySize) {
-        String result = "";
-        if ((keySize == 128) || (keySize == 192) || (keySize == 256)) {
-            try {
-                byte[] data = text.getBytes("UTF-8");
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] hash = md.digest(data);
-                for (int i = 0; i < hash.length; i++) {
-                    String hex = Integer.toHexString(hash[i]);
-                    if (hex.length() == 1) {
-                        hex = "0" + hex;
-                    }
-                    hex = hex.substring(hex.length() - 2);
-                    result += hex;
-                    if (i != hash.length - 1) {
-                        result += "-";
-                    }
-                }
-            } catch (Exception ex) {
-                System.err.println("Error generant la clau:" + ex);
-            }
-        }
-        return result.toUpperCase();
-    }
+
 }

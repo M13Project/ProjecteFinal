@@ -36,6 +36,10 @@ public class Usuari {
         Contrasenya = contrasenya;
         Imatge = imatge;
     }
+    public Usuari(String usuari1, String contrasenya){
+        Usuari1 = usuari1;
+        Contrasenya = contrasenya;
+    }
 
     public int getId() {
         return Id;
