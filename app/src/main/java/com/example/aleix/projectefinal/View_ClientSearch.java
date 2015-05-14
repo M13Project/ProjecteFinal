@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 
-public class View_ClientSearch extends Activity implements View.OnClickListener {
+public class View_ClientSearch extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     EditText txtSearchClient;
     ListView listView;
 
@@ -19,7 +20,7 @@ public class View_ClientSearch extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_view__client_search);
         txtSearchClient = (EditText) findViewById(R.id.txtSearchClient);
         listView = (ListView) findViewById(R.id.listViewResultClients);
-        listView.setOnClickListener(this);
+       listView.setOnItemClickListener( this);
     }
 
     @Override
@@ -46,6 +47,11 @@ public class View_ClientSearch extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
 }
