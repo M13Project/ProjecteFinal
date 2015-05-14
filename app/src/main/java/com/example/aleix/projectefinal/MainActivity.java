@@ -61,12 +61,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (v.getId() == R.id.btnLogin){
             User = txtuser.getText().toString();
             Password = txtpassword.getText().toString();
-            Toast.makeText(this, "Usuari: " + User + " Pass: " + Password, Toast.LENGTH_LONG).show();
+
             Intent main = new Intent(this, Main_View.class);
             //comprovació del login
             try{
                 encPass = passwordKeyGeneration(Password, 256);
                 samepassword = encPass.equalsIgnoreCase(encPass);
+                Toast.makeText(this, "Usuari: " + User + " Pass: " + encPass, Toast.LENGTH_LONG).show();
 
             }
             catch (Exception e){
