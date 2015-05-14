@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Entity.Usuari;
+
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -24,6 +27,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     EditText txtpassword;
     String User, Password, encPass;
     Boolean samepassword;
+    ArrayList<Usuari> usuarisList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

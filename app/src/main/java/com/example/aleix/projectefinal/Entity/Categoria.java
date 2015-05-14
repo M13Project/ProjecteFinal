@@ -6,27 +6,37 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by Aleix on 12/05/2015. ProjecteFinal
  */
-@DatabaseTable
+@DatabaseTable(tableName = "Categoria")
 public class Categoria {
-    public static final String ID = "_id";
-    public static final String NOM = "Nom";
-    public static final String DESCOMPTE = "Descompte";
 
-    @DatabaseField(generatedId = true, columnName = ID)
-    private int Id;
-
-    @DatabaseField(columnName = NOM)
+    @DatabaseField(id = true)
+    private int _id;
+    @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
+    @DatabaseField(columnName = "Descompte")
+    private double Descompte;
 
-    @DatabaseField(columnName = DESCOMPTE)
-    private float Descompte;
+    public Categoria() {
 
-    public int getId() {
-        return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public Categoria(String nom, double descompte) {
+        Nom = nom;
+        Descompte = descompte;
+    }
+
+    public Categoria(int _id, String nom, double descompte) {
+        this._id = _id;
+        Nom = nom;
+        Descompte = descompte;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    private void set_id(int _id) {
+        this._id = _id;
     }
 
     public String getNom() {
@@ -37,11 +47,11 @@ public class Categoria {
         Nom = nom;
     }
 
-    public float getDescompte() {
+    public double getDescompte() {
         return Descompte;
     }
 
-    public void setDescompte(float descompte) {
+    public void setDescompte(double descompte) {
         Descompte = descompte;
     }
 }
