@@ -13,28 +13,28 @@ public class Comanda_Producte {
     public static final String PRODUCTEID = "ProducteId";
     public static final String QUANTITAT = "Quantitat";
 
-    public Comanda_Producte() {
-
-    }
-
-    public Comanda_Producte(int _id, int comandaId, int producteId, int quantitat) {
-        this._id = _id;
-        ComandaId = comandaId;
-        this.producteId = producteId;
-        Quantitat = quantitat;
-    }
-
     @DatabaseField(generatedId = true)
     private int _id;
 
     @DatabaseField(foreign = true, columnName = COMANDAID)
-    private int ComandaId;
+    private Comanda Comanda;
 
     @DatabaseField(foreign = true, columnName = PRODUCTEID)
-    private int producteId;
+    private Producte Producte;
 
     @DatabaseField(columnName = QUANTITAT)
     private int Quantitat;
+
+    public Comanda_Producte() {
+
+    }
+
+    public Comanda_Producte(int _id, Comanda comanda, Producte producte, int quantitat) {
+        this._id = _id;
+        Comanda = comanda;
+        this.Producte = producte;
+        Quantitat = quantitat;
+    }
 
     public int getId() {
         return _id;
@@ -44,20 +44,20 @@ public class Comanda_Producte {
         this._id = _id;
     }
 
-    public int getComandaId() {
-        return ComandaId;
+    public Comanda getComandaId() {
+        return Comanda;
     }
 
-    public void setComandaId(int comandaId) {
-        ComandaId = comandaId;
+    public void setComandaId(Comanda comanda) {
+        Comanda = comanda;
     }
 
-    public int getProducteId() {
-        return producteId;
+    public Producte getProducteId() {
+        return Producte;
     }
 
-    public void setProducteId(int producteId) {
-        this.producteId = producteId;
+    public void setProducteId(Producte producte) {
+        this.Producte = producte;
     }
 
     public int getQuantitat() {
