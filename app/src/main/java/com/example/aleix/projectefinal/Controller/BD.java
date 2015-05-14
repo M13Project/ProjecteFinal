@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Aleix on 11/05/2015. ProjecteFinal
  */
 public class BD extends SQLiteOpenHelper {
-    public static String DB_PATH = "/data/data/com.example.aleix/databases/";
+    public static String DB_PATH = "/data/data/com.example.aleix.ProjecteFinal/databases/";
     public static String DB_NAME = "DB_Local";
     //private final Context myContext;
     public static int v_db = 0;
