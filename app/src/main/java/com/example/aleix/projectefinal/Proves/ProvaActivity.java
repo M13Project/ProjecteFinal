@@ -7,8 +7,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.aleix.projectefinal.Controller.MyJasonEntityConverter;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
 import com.example.aleix.projectefinal.R;
+
+import java.util.List;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -49,8 +56,21 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-            String serverURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + etQuery.getText().toString();
-            PersistanceManager async = new PersistanceManager(this);
-            async.execute(serverURL, "GET");
+        String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + etQuery.getText().toString();
+        String requestMethod = "GET";
+        PersistanceManager async = new PersistanceManager(this);
+        String serverResponse = async.getServerResponse(resourceURL, requestMethod);
+
+        //async.execute(serverURL, "GET");
+//        List<Client> client = MyJasonEntityConverter.getObjectsFromFormattedJson(Client.class, MyJasonEntityConverter.formatJsonInput(serverResponse));
+//        LogAndToastMaker.makeInfoLog(client.get(0).toString());
+
+//        List<Categoria> categoria = MyJasonEntityConverter.getObjectsFromFormattedJson(Categoria.class, MyJasonEntityConverter.formatJsonInput(serverResponseString));
+//        LogAndToastMaker.makeInfoLog(categoria.get(0).toString());
+
+        List<Comanda> comanda = MyJasonEntityConverter.getObjectsFromFormattedJson(Comanda.class, MyJasonEntityConverter.formatJsonInput(serverResponse), this);
+        LogAndToastMaker.makeInfoLog(comanda.get(0).toString());
+
+//        LogAndToastMaker.makeInfoLog(async.example(serverURL, "GET"));
     }
 }

@@ -14,7 +14,7 @@ public class LogAndToastMaker {
     }
 
     public static void makeInfoLog(String infoMessage) {
-        Log.e("INFO!", infoMessage);
+        Log.i("INFO!", infoMessage);
     }
 
     public static void makeToast(Context context, String message) {

@@ -67,4 +67,9 @@ public class Comanda_Producte {
     public void setQuantitat(int quantitat) {
         Quantitat = quantitat;
     }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", ComandaId: " + this.Comanda.getId() + ", ProducteId: " + this.Producte.getId() + ", Quantitat: " + this.Quantitat;
+    }
 }

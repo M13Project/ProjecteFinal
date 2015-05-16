@@ -1,8 +1,10 @@
 package com.example.aleix.projectefinal.Entity;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.dao.LazyForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-
 import java.util.Date;
 
 /**
@@ -25,6 +27,11 @@ public class Client {
     private String ImageClient;
     @DatabaseField(columnName = "DataProperaVisita")
     private String DataProperaVisita;
+    @DatabaseField(columnName = "ComercialId")
+    private int ComercialId;
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<Comanda> llistaDeComandes;
+
 
     public Client() {
 
@@ -38,6 +45,11 @@ public class Client {
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
+        ComercialId = comercialId;
+    }
+
+    public void addComanda(Comanda comanda) {
+        this.llistaDeComandes.add(comanda);
     }
 
     public int getId() {
@@ -94,5 +106,26 @@ public class Client {
 
     public void setDataProperaVisita(String dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;
+    }
+
+    public int getComercialId() {
+        return ComercialId;
+    }
+
+    public void setComercialId(int comercialId) {
+        ComercialId = comercialId;
+    }
+
+    public ForeignCollection<Comanda> getLlistaDeComandes() {
+        return llistaDeComandes;
+    }
+
+    public void setLlistaDeComandes(ForeignCollection<Comanda> llistaDeComandes) {
+        this.llistaDeComandes = llistaDeComandes;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita + ", ComercialId: " + this.ComercialId;
     }
 }

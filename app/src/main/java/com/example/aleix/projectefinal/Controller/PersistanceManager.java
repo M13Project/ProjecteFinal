@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
 import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
@@ -28,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Michal.hostienda on 13/05/2015.
@@ -71,10 +74,8 @@ public class PersistanceManager extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         this.dialog.dismiss();
-        String serverResponseString = (String) o;
-        List<Client> asd = MyJasonEntityConverter.getObjectsFromFormattedJson(Client.class, MyJasonEntityConverter.formatJsonInput(serverResponseString));
-        Log.i("sdfs", asd.get(0).getNom());
     }
+
 
     private Object doGetRequest(String stringUrl) {
         BufferedReader reader = null;
@@ -140,5 +141,18 @@ public class PersistanceManager extends AsyncTask {
 
     private Object doDeleteRequest(String stringUrl) {
         return null;
+    }
+
+    public String getServerResponse(String resourceUrl, String requestMethod) {
+        AsyncTask at = this.execute(resourceUrl, requestMethod);
+        String serverResponse = null;
+        try {
+            serverResponse = (String) at.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return serverResponse;
     }
 }

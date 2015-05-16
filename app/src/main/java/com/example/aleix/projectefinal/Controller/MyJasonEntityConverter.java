@@ -1,5 +1,10 @@
 package com.example.aleix.projectefinal.Controller;
 
+import android.app.Activity;
+
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,8 +51,34 @@ public class MyJasonEntityConverter {
         return listOfEntities;
     }
 
+    public static List<Map<String, Object>> formatJsonInputWithOneEntry(String rawJsonInput) {
+        List<Map<String, Object>> listOfEntities = new ArrayList();
+        Map<String, Object> mappedAttributes = new TreeMap<>();
+        try {
+            JSONObject jsonResponse = new JSONObject(rawJsonInput);
+
+
+
+                for (int k = 0; k < jsonResponse.names().length(); k++) {
+                    String key = jsonResponse.names().getString(k);
+                    Object value = jsonResponse.get(key);
+                    /*Aquest if no se si fara falta. El contingut del if, sí*/
+                    if (!key.contains("odata")) {
+                        mappedAttributes.put(key, value);
+                    }
+                    /**/
+
+
+            }
+            listOfEntities.add(mappedAttributes);
+        } catch (Exception e) {
+            System.out.println("ERROR IN formatJson... " + e.getMessage());
+        }
+        return listOfEntities;
+    }
+
     //Converteix una llista d'objectes en forma d'un map en una llista d'objectes d'una classe determinada
-    public static <T> List<T> getObjectsFromFormattedJson(Class<T> objectClass, List<Map<String, Object>> listOfFormattedObjects) {
+    public static <T> List<T> getObjectsFromFormattedJson(Class<T> objectClass, List<Map<String, Object>> listOfFormattedObjects, Activity activity) {
         List<T> listOfEntities = new ArrayList();
         Field[] fieldsOfEntity = objectClass.getDeclaredFields();
         Method[] methodsOfEntity = objectClass.getDeclaredMethods();
@@ -66,6 +97,19 @@ public class MyJasonEntityConverter {
                     for (int j = 0; j < methodsOfEntity.length; j++) {
                         Method method = methodsOfEntity[j];
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
+                            /*Prova*/
+                            if(method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
+                                PersistanceManager requestToTheServer = new PersistanceManager(activity);
+                                String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + key.substring(0, key.length() - 2) + "(" + value + ")";
+                                String requestMethod = "GET";
+                                String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod);
+
+                                Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
+                                List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
+                                List foreignObjectInListFormat = MyJasonEntityConverter.getObjectsFromFormattedJson(classOfForeignObject, foreignObjectInMapFormat, activity);
+                                value = foreignObjectInListFormat.get(0);
+                            }
+                            /**/
                             method.invoke(entity, value);
                         }
                     }
@@ -123,4 +167,14 @@ public class MyJasonEntityConverter {
         }
         return stringJsonArray.toString();
     }
+
+//    private static <T> String foreignKeyResolver(Class<T> objectClass) {
+//        String
+//        switch(objectClass.getSimpleName()) {
+//            case "Comanda":
+//
+//                break;
+//        }
+//
+//    }
 }

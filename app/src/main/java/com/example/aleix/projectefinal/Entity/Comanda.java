@@ -23,7 +23,16 @@ public class Comanda {
     private String Data;
 
     @DatabaseField(foreign = true, columnName = CLIENTID)
-    private Client client;
+    private Client ClientId;
+
+    public Comanda(Boolean lliurada, String data, Client client) {
+        Lliurada = lliurada;
+        Data = data;
+        this.ClientId = client;
+    }
+
+    public Comanda() {
+    }
 
     public int getId() {
         return _id;
@@ -49,20 +58,16 @@ public class Comanda {
         Data = data;
     }
 
-    public Client getClient() {
-        return client;
+    public Client getClientId() {
+        return ClientId;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientId(Client client) {
+        this.ClientId = client;
     }
 
-    public Comanda(Boolean lliurada, String data, Client client) {
-        Lliurada = lliurada;
-        Data = data;
-        this.client = client;
-    }
-
-    public Comanda() {
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", Lliurada: " + this.Lliurada + ", Data: " + this.Data + ", ClientId: " + this.ClientId.getId();
     }
 }

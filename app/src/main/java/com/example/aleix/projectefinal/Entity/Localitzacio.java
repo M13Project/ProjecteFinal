@@ -17,20 +17,20 @@ public class Localitzacio {
     @DatabaseField(generatedId = true, columnName = ID)
     private int _id;
     @DatabaseField(columnName = CODIPOSTAL)
-    private String CodiPostal;
+    private int CodiPostal;
     @DatabaseField(columnName = DIRECCIO)
     private String Direccio;
     @DatabaseField(columnName = LATITUD)
-    private String Latitud;
+    private double Latitud;
     @DatabaseField(columnName = LONGITUD)
-    private String Longitud;
-    @DatabaseField(columnName = CLIENT)
+    private double Longitud;
+    @DatabaseField(foreign = true, columnName = CLIENT)
     private Client Client;
 
     public Localitzacio() {
     }
 
-    public Localitzacio(String codiPostal, String direccio, String latitud, String longitud, Client client) {
+    public Localitzacio(int codiPostal, String direccio, double latitud, double longitud, Client client) {
         CodiPostal = codiPostal;
         Direccio = direccio;
         Latitud = latitud;
@@ -46,11 +46,11 @@ public class Localitzacio {
         _id = id;
     }
 
-    public String getCodiPostal() {
+    public int getCodiPostal() {
         return CodiPostal;
     }
 
-    public void setCodiPostal(String codiPostal) {
+    public void setCodiPostal(int codiPostal) {
         CodiPostal = codiPostal;
     }
 
@@ -62,19 +62,19 @@ public class Localitzacio {
         Direccio = direccio;
     }
 
-    public String getLatitud() {
+    public double getLatitud() {
         return Latitud;
     }
 
-    public void setLatitud(String latitud) {
+    public void setLatitud(double latitud) {
         Latitud = latitud;
     }
 
-    public String getLongitud() {
+    public double getLongitud() {
         return Longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(double longitud) {
         Longitud = longitud;
     }
 
@@ -84,5 +84,10 @@ public class Localitzacio {
 
     public void setClient(com.example.aleix.projectefinal.Entity.Client client) {
         Client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", CodiPostal: " + this.CodiPostal + ", Direccio: " + this.Direccio + ", Latitud:" + this.Latitud + ", Longitud: " + this.Longitud + ", ClientId: " + this.Client.getId();
     }
 }

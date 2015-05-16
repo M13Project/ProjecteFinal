@@ -1,16 +1,26 @@
 package com.example.aleix.projectefinal.Entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by Michal on 13/05/2015.
  */
+@DatabaseTable(tableName = "Usuari")
 public class Usuari {
-
-    private int Id;
+    @DatabaseField(id = true, columnName = "Id")
+    private int _id;
+    @DatabaseField(columnName = "Dni", canBeNull = false)
     private String Dni;
+    @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
+    @DatabaseField(columnName = "Cognom", canBeNull = false)
     private String Cognom;
+    @DatabaseField(columnName = "Usuari1")
     private String Usuari1;
+    @DatabaseField(columnName = "Contrasenya")
     private String Contrasenya;
+    @DatabaseField(columnName = "Imatge")
     private String Imatge;
 
     public Usuari() {
@@ -18,7 +28,7 @@ public class Usuari {
     }
 
     public Usuari(int id, String dni, String nom, String cognom, String usuari1, String contrasenya, String imatge) {
-        Id = id;
+        _id = id;
         Dni = dni;
         Nom = nom;
         Cognom = cognom;
@@ -28,11 +38,11 @@ public class Usuari {
     }
 
     public int getId() {
-        return Id;
+        return _id;
     }
 
     public void setId(int id) {
-        Id = id;
+        _id = id;
     }
 
     public String getDni() {
@@ -81,5 +91,10 @@ public class Usuari {
 
     public void setImatge(String imatge) {
         Imatge = imatge;
+    }
+
+    @Override
+    public String toString() {
+       return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Dni + ", Cognom: " + this.Cognom + ", Usuari1: " + this.Usuari1 + ", Contrasenya: " + this.Contrasenya + ", Imatge: " + this.Imatge;
     }
 }
