@@ -95,6 +95,6 @@ public class Usuari {
 
     @Override
     public String toString() {
-       return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Dni + ", Cognom: " + this.Cognom + ", Usuari1: " + this.Usuari1 + ", Contrasenya: " + this.Contrasenya + ", Imatge: " + this.Imatge;
+       return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Usuari1: " + this.Usuari1 + ", Contrasenya: " + this.Contrasenya + ", Imatge: " + this.Imatge;
     }
 }

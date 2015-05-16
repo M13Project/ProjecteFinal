@@ -60,17 +60,12 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         String requestMethod = "GET";
         PersistanceManager async = new PersistanceManager(this);
         String serverResponse = async.getServerResponse(resourceURL, requestMethod);
-
-        //async.execute(serverURL, "GET");
-//        List<Client> client = MyJasonEntityConverter.getObjectsFromFormattedJson(Client.class, MyJasonEntityConverter.formatJsonInput(serverResponse));
-//        LogAndToastMaker.makeInfoLog(client.get(0).toString());
-
-//        List<Categoria> categoria = MyJasonEntityConverter.getObjectsFromFormattedJson(Categoria.class, MyJasonEntityConverter.formatJsonInput(serverResponseString));
-//        LogAndToastMaker.makeInfoLog(categoria.get(0).toString());
-
-        List<Comanda> comanda = MyJasonEntityConverter.getObjectsFromFormattedJson(Comanda.class, MyJasonEntityConverter.formatJsonInput(serverResponse), this);
-        LogAndToastMaker.makeInfoLog(comanda.get(0).toString());
-
-//        LogAndToastMaker.makeInfoLog(async.example(serverURL, "GET"));
+        try {
+            Class classRetrieved = Class.forName("com.example.aleix.projectefinal.Entity." + etQuery.getText().toString());
+            List objectRetrieved = MyJasonEntityConverter.getObjectsFromFormattedJson(classRetrieved, MyJasonEntityConverter.formatJsonInput(serverResponse), this);
+            LogAndToastMaker.makeInfoLog(objectRetrieved.get(0).toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

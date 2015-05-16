@@ -94,11 +94,11 @@ public class Producte {
         Habilitat = habilitat;
     }
 
-    public Categoria getCategoria() {
+    public Categoria getCategoriaId() {
         return CategoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoriaId(Categoria categoria) {
         this.CategoriaId = categoria;
     }
 
