@@ -8,21 +8,17 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Comanda")
 public class Comanda {
-    public static final String ID = "_id";
-    public static final String LLIURADA = "Lliurada";
-    public static final String DATA = "Data";
-    public static final String CLIENTID = "ClientId";
 
-    @DatabaseField(generatedId = true, columnName = ID)
+    @DatabaseField(generatedId = true)
     private int _id;
 
-    @DatabaseField(columnName = LLIURADA)
+    @DatabaseField(columnName = "Lliurada")
     private Boolean Lliurada;
 
-    @DatabaseField(columnName = DATA)
+    @DatabaseField(columnName = "Data")
     private String Data;
 
-    @DatabaseField(foreign = true, columnName = CLIENTID)
+    @DatabaseField(foreign = true, columnName = "ClientId")
     private Client ClientId;
 
     public Comanda(Boolean lliurada, String data, Client client) {

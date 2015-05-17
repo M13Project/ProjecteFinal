@@ -2,6 +2,7 @@ package com.example.aleix.projectefinal.Proves;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,9 +11,13 @@ import android.widget.EditText;
 
 import com.example.aleix.projectefinal.Controller.MyJasonEntityConverter;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
+import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.Comanda_Producte;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
+import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.R;
 
 import java.util.List;
@@ -56,16 +61,33 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + etQuery.getText().toString();
-        String requestMethod = "GET";
         PersistanceManager async = new PersistanceManager(this);
-        String serverResponse = async.getServerResponse(resourceURL, requestMethod);
-        try {
-            Class classRetrieved = Class.forName("com.example.aleix.projectefinal.Entity." + etQuery.getText().toString());
-            List objectRetrieved = MyJasonEntityConverter.getObjectsFromFormattedJson(classRetrieved, MyJasonEntityConverter.formatJsonInput(serverResponse), this);
-            LogAndToastMaker.makeInfoLog(objectRetrieved.get(0).toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        /*Prova GET*/
+//        try {
+//            Class classRetrieved = Class.forName("com.example.aleix.projectefinal.Entity." + etQuery.getText().toString());
+//            List objectsRetrieved = async.getListOfObjectsFromServer(classRetrieved);
+//            LogAndToastMaker.makeInfoLog(objectsRetrieved.get(0).toString());
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        /**/
+        /*Prova POST*/
+//        Categoria categoria = new Categoria(1, "ExampleCategoryLalalalalal", 12);
+//        Producte producte = new Producte(20, "poipoipipooip", 40, 4, "image.png", true);
+//        producte.setCategoriaId(categoria);
+//        String response = async.sendAnObjectToServer(Producte.class, producte);
+//        LogAndToastMaker.makeInfoLog(response);
+        /**/
+
+        /**/
+//        Categoria categoria = new Categoria(1, "categoriaExemple", 10);
+//        Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1);
+//        Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
+//        Localitzacio localitzacio = new Localitzacio(45657, "exempleDireccio", 423.23, 2343.23, client);
+//        Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);
+//        Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
+//        String asd = MyJasonEntityConverter.getJsonObjectFromEntity(Comanda_Producte.class, cp);
+//        LogAndToastMaker.makeInfoLog(asd);
+        /**/
     }
 }

@@ -8,24 +8,19 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Localitzacio")
 public class Localitzacio {
-    public static final String ID = "_id";
-    public static final String CODIPOSTAL = "CodiPostal";
-    public static final String DIRECCIO = "Direccio";
-    public static final String LATITUD = "Latitud";
-    public static final String LONGITUD = "Longitud";
-    public static final String CLIENT = "ClientId";
-    @DatabaseField(generatedId = true, columnName = ID)
+
+    @DatabaseField(generatedId = true)
     private int _id;
-    @DatabaseField(columnName = CODIPOSTAL)
+    @DatabaseField(columnName = "CodiPostal")
     private int CodiPostal;
-    @DatabaseField(columnName = DIRECCIO)
+    @DatabaseField(columnName = "Direccio")
     private String Direccio;
-    @DatabaseField(columnName = LATITUD)
+    @DatabaseField(columnName = "Latitud")
     private double Latitud;
-    @DatabaseField(columnName = LONGITUD)
+    @DatabaseField(columnName = "Longitud")
     private double Longitud;
-    @DatabaseField(foreign = true, columnName = CLIENT)
-    private Client Client;
+    @DatabaseField(foreign = true, columnName = "ClientId")
+    private Client ClientId;
 
     public Localitzacio() {
     }
@@ -35,7 +30,7 @@ public class Localitzacio {
         Direccio = direccio;
         Latitud = latitud;
         Longitud = longitud;
-        Client = client;
+        ClientId = client;
     }
 
     public int getId() {
@@ -78,16 +73,16 @@ public class Localitzacio {
         Longitud = longitud;
     }
 
-    public com.example.aleix.projectefinal.Entity.Client getClient() {
-        return Client;
+    public com.example.aleix.projectefinal.Entity.Client getClientId() {
+        return ClientId;
     }
 
-    public void setClient(com.example.aleix.projectefinal.Entity.Client client) {
-        Client = client;
+    public void setClientId(com.example.aleix.projectefinal.Entity.Client client) {
+        ClientId = client;
     }
 
     @Override
     public String toString() {
-        return "Id: " + this._id + ", CodiPostal: " + this.CodiPostal + ", Direccio: " + this.Direccio + ", Latitud:" + this.Latitud + ", Longitud: " + this.Longitud + ", ClientId: " + this.Client.getId();
+        return "Id: " + this._id + ", CodiPostal: " + this.CodiPostal + ", Direccio: " + this.Direccio + ", Latitud:" + this.Latitud + ", Longitud: " + this.Longitud + ", ClientId: " + this.ClientId.getId();
     }
 }

@@ -97,19 +97,16 @@ public class MyJasonEntityConverter {
                     for (int j = 0; j < methodsOfEntity.length; j++) {
                         Method method = methodsOfEntity[j];
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
-                            /*Prova*/
                             if(method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
                                 PersistanceManager requestToTheServer = new PersistanceManager(activity);
                                 String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + key.substring(0, key.length() - 2) + "(" + value + ")";
                                 String requestMethod = "GET";
-                                String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod);
-
+                                String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod, null);
                                 Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
                                 List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
                                 List foreignObjectInListFormat = MyJasonEntityConverter.getObjectsFromFormattedJson(classOfForeignObject, foreignObjectInMapFormat, activity);
                                 value = foreignObjectInListFormat.get(0);
                             }
-                            /**/
                             method.invoke(entity, value);
                         }
                     }
@@ -130,10 +127,18 @@ public class MyJasonEntityConverter {
         try {
             for (int i = 0; i < fieldsOfEntity.length; i++) {
                 Field field = fieldsOfEntity[i];
+                String fieldName = field.getName().replace("_id", "Id");
                 for (int j = 0; j < methodsOfEntity.length; j++) {
                     Method method = methodsOfEntity[j];
-                    if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(field.getName().toLowerCase())) {
-                        stringJson.put(field.getName(), method.invoke(objectToTransform, null));
+                    if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(fieldName.toLowerCase())) {
+                        Object valueObtainedFromMethod = method.invoke(objectToTransform, null);
+                        /**/
+                        if(method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
+                            Method m = valueObtainedFromMethod.getClass().getDeclaredMethod("getId");
+                            valueObtainedFromMethod = m.invoke(valueObtainedFromMethod, null);
+                        }
+                        /**/
+                        stringJson.put(fieldName, valueObtainedFromMethod);
                     }
                 }
             }

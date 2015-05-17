@@ -23,6 +23,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,9 +39,11 @@ import java.util.concurrent.ExecutionException;
 public class PersistanceManager extends AsyncTask {
 
     private ProgressDialog dialog;
+    private Activity activity;
 
     public PersistanceManager(Activity activity) {
         this.dialog = new ProgressDialog(activity);
+        this.activity = activity;
     }
 
     @Override
@@ -52,12 +55,12 @@ public class PersistanceManager extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         Object objectToReturn = null;
-        switch((String) params[1]) {
+        switch ((String) params[1]) {
             case "GET":
                 objectToReturn = doGetRequest((String) params[0]);
                 break;
             case "POST":
-                objectToReturn = doPostRequest((String) params[0]);
+                objectToReturn = doPostRequest((String) params[0], (String) params[2]);
                 break;
             case "PUT":
                 objectToReturn = doPutRequest((String) params[0]);
@@ -66,7 +69,7 @@ public class PersistanceManager extends AsyncTask {
                 objectToReturn = doDeleteRequest((String) params[0]);
                 break;
             default:
-                Log.e("ERROR in doInBackground","ERROR!");
+                Log.e("ERROR in doInBackground", "ERROR!");
         }
         return objectToReturn;
     }
@@ -108,31 +111,25 @@ public class PersistanceManager extends AsyncTask {
         return serverResponseString;
     }
 
-    private Object doPostRequest(String stringUrl) {
-        //PENSAR COM PASSAR EL COS!!!!!!!!!!!!!!!!!!!!!!!!!
+    private Object doPostRequest(String stringUrl, String postMessage) {
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
         HttpResponse response;
-        JSONObject json = new JSONObject();
+        String stringResponse = null;
         try {
             HttpPost post = new HttpPost(new URI(stringUrl));
-            json.put("Dni", "kkkkk");
-            json.put("Nom", "kkkk");
-            json.put("Cognom", "kkkk");
-            json.put("Usuari1", "kkkkk");
-            json.put("Contrasenya", "kkkkk");
-            json.put("Imatge", "kkkk");
-            StringEntity se = new StringEntity( json.toString());
+            StringEntity se = new StringEntity(postMessage);
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             post.setEntity(se);
             response = client.execute(post);
-            if(response!=null){
+            if (response != null) {
                 InputStream in = response.getEntity().getContent();
+                stringResponse = getStringFromInputStream(in);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return stringResponse;
     }
 
     private Object doPutRequest(String stringUrl) {
@@ -143,8 +140,25 @@ public class PersistanceManager extends AsyncTask {
         return null;
     }
 
-    public String getServerResponse(String resourceUrl, String requestMethod) {
-        AsyncTask at = this.execute(resourceUrl, requestMethod);
+    private String getStringFromInputStream(InputStream is) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            BufferedInputStream bis = new BufferedInputStream(is);
+            InputStreamReader isr = new InputStreamReader(bis);
+            BufferedReader br = new BufferedReader(isr);
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+        }
+        return sb.toString();
+    }
+
+    public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
+        String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
+        AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
         try {
             serverResponse = (String) at.get();
@@ -153,6 +167,19 @@ public class PersistanceManager extends AsyncTask {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        return serverResponse;
+    }
+
+    public <T> List<T> getListOfObjectsFromServer(Class<T> objectClass) {
+        String serverResponse = getServerResponse(objectClass.getSimpleName(), "GET", null);
+        List<T> listOfObjects = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, MyJasonEntityConverter.formatJsonInput(serverResponse), this.activity);
+        return listOfObjects;
+    }
+
+    public <T> String sendAnObjectToServer(Class<T> objectClass, T objectToTransform) {
+        String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
+        String serverResponse = getServerResponse(objectClass.getSimpleName(), "POST", transformedObject);
+        LogAndToastMaker.makeToast(this.activity, "The entry added correctly!");
         return serverResponse;
     }
 }
