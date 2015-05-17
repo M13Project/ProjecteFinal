@@ -120,21 +120,21 @@ public class LocalPersistanceManager {
         String afterInsertTrigger = "CREATE TRIGGER tr_ai_" + triggerName + " \n" +
                 "AFTER INSERT ON " + nameTableOnWhichApplyTrigger + " \n" +
                 "BEGIN\n" +
-                "INSERT INTO " + nameOfLogTable + " VALUES(NEW._id, 'I', DateTime('now')); \n" +
+                "INSERT INTO " + nameOfLogTable + " (_id, Op, OperationDate) VALUES(NEW._id, 'I', DateTime('now')); \n" +
                 "END;";
 
         String afterUpdateTrigger = "CREATE TRIGGER tr_au_" + triggerName + " \n" +
                 "AFTER UPDATE ON " + nameTableOnWhichApplyTrigger + "  \n" +
                 "BEGIN\n" +
                 "DELETE FROM " + nameOfLogTable + " WHERE Op='U' AND " + nameOfLogTable + "._id = NEW._id;  \n" +
-                "INSERT INTO " + nameOfLogTable + " VALUES(NEW._id, 'U', DateTime('now'));\n" +
+                "INSERT INTO " + nameOfLogTable + " (_id, Op, OperationDate) VALUES(NEW._id, 'U', DateTime('now'));\n" +
                 "END;";
 
         String afterDeleteTrigger = "CREATE TRIGGER tr_ad_" + triggerName + " \n" +
                 "AFTER DELETE ON " + nameTableOnWhichApplyTrigger + " \n" +
                 "BEGIN \n" +
                 "DELETE FROM " + nameOfLogTable + " WHERE " + nameOfLogTable + "._id=OLD._id;  \n" +
-                "INSERT INTO " + nameOfLogTable + " VALUES(OLD._id, 'D', DateTime('now'));  \n" +
+                "INSERT INTO " + nameOfLogTable + " (_id, Op, OperationDate) VALUES(OLD._id, 'D', DateTime('now'));  \n" +
                 "END;";
         if(this.databaseManualAccess != null) {
             this.databaseManualAccess.execSQL(afterInsertTrigger);
