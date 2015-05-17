@@ -79,6 +79,15 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        LogAndToastMaker.makeInfoLog(response);
         /**/
 
+        /*Prova PUT*/
+//        Categoria categoria = new Categoria(19, "UpdateRealitzatCorrectament2", 111);
+//        async.updateAnObjectFromServer(Categoria.class, categoria);
+        /**/
+
+        /*Prova DELETE*/
+        async.deleteAnObjectFromServer(Categoria.class, 19);
+        /**/
+
         /**/
 //        Categoria categoria = new Categoria(1, "categoriaExemple", 10);
 //        Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1);

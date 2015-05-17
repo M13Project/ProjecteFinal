@@ -15,7 +15,9 @@ import com.example.aleix.projectefinal.Entity.Usuari;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -27,6 +29,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -63,7 +66,7 @@ public class PersistanceManager extends AsyncTask {
                 objectToReturn = doPostRequest((String) params[0], (String) params[2]);
                 break;
             case "PUT":
-                objectToReturn = doPutRequest((String) params[0]);
+                objectToReturn = doPutRequest((String) params[0], (String) params[2]);
                 break;
             case "DELETE":
                 objectToReturn = doDeleteRequest((String) params[0]);
@@ -132,12 +135,46 @@ public class PersistanceManager extends AsyncTask {
         return stringResponse;
     }
 
-    private Object doPutRequest(String stringUrl) {
-        return null;
+    private Object doPutRequest(String stringUrl, String postMessage) {
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+        HttpResponse response;
+        String stringResponse = null;
+        try {
+            HttpPut put = new HttpPut(new URI(stringUrl));
+            StringEntity se = new StringEntity(postMessage);
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            put.setEntity(se);
+            response = client.execute(put);
+            if (response != null) {
+                InputStream in = response.getEntity().getContent();
+                stringResponse = getStringFromInputStream(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringResponse;
     }
 
     private Object doDeleteRequest(String stringUrl) {
-        return null;
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+        HttpResponse response;
+        String stringResponse = null;
+        try {
+            HttpDelete delete = new HttpDelete(new URI(stringUrl));
+            //StringEntity se = new StringEntity(postMessage);
+            //se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            //put.setEntity(se);
+            response = client.execute(delete);
+            if (response != null) {
+                InputStream in = response.getEntity().getContent();
+                stringResponse = getStringFromInputStream(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringResponse;
     }
 
     private String getStringFromInputStream(InputStream is) {
@@ -156,7 +193,7 @@ public class PersistanceManager extends AsyncTask {
         return sb.toString();
     }
 
-    public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
+    private String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
         String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
@@ -181,5 +218,29 @@ public class PersistanceManager extends AsyncTask {
         String serverResponse = getServerResponse(objectClass.getSimpleName(), "POST", transformedObject);
         LogAndToastMaker.makeToast(this.activity, "The entry added correctly!");
         return serverResponse;
+    }
+
+    public <T> void updateAnObjectFromServer(Class<T> objectClass, T objectToTransform) {
+        String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
+        String resourceToUpdate = objectClass.getSimpleName() + "(" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ")";
+        getServerResponse(resourceToUpdate, "PUT", transformedObject);
+        LogAndToastMaker.makeToast(this.activity, "The entry updated correctly!");
+    }
+
+    public <T> void deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
+        String resourceToUpdate = objectClass.getSimpleName() + "(" + idOfObjectToDelete + ")";
+        getServerResponse(resourceToUpdate, "DELETE", null);
+        LogAndToastMaker.makeToast(this.activity, "The entry deleted correctly!");
+    }
+
+    private  <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {
+        int objectId = 0;
+        try {
+            Method method = objectClass.getMethod("getId");
+            objectId = (int) method.invoke(objectToTransform, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objectId;
     }
 }
