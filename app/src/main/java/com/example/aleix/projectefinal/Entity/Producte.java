@@ -20,7 +20,7 @@ public class Producte {
     private String Imatge;
     @DatabaseField(columnName = "Habilitat", canBeNull = false)
     private boolean Habilitat;
-    @DatabaseField(canBeNull = false, foreign = true)
+    @DatabaseField(foreign = true, columnName = "CategoriaId")
     private Categoria CategoriaId;
 
     public Producte() {

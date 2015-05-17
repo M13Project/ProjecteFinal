@@ -1,4 +1,4 @@
-package com.example.aleix.projectefinal.Entity;
+package com.example.aleix.projectefinal.Controller;
 
 import android.content.Context;
 import android.util.Log;

@@ -2,25 +2,15 @@ package com.example.aleix.projectefinal.Proves;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.aleix.projectefinal.Controller.MyJasonEntityConverter;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
 import com.example.aleix.projectefinal.Entity.Categoria;
-import com.example.aleix.projectefinal.Entity.Client;
-import com.example.aleix.projectefinal.Entity.Comanda;
-import com.example.aleix.projectefinal.Entity.Comanda_Producte;
-import com.example.aleix.projectefinal.Entity.Localitzacio;
-import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
-import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.R;
-
-import java.util.List;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
 

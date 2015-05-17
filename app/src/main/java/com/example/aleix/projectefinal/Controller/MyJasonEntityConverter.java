@@ -2,9 +2,6 @@ package com.example.aleix.projectefinal.Controller;
 
 import android.app.Activity;
 
-import com.example.aleix.projectefinal.Entity.Client;
-import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 

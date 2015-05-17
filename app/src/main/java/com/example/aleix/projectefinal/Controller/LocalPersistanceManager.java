@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -52,6 +50,7 @@ public class LocalPersistanceManager {
         String resultString = null;
         if (!checkIfTableExists(classRepresentingObjectToInsert)) {
             createTable(classRepresentingObjectToInsert);
+            addLogTable(classRepresentingObjectToInsert);
         }
         Dao<T, Integer> dao = tableManager(classRepresentingObjectToInsert);
         try {
@@ -100,6 +99,51 @@ public class LocalPersistanceManager {
             }
         }
         return tableExists;
+    }
+
+    private void addLogTable(Class classRepresentingTable) {
+        try {
+            Class classOfLogTable = Class.forName("com.example.aleix.projectefinal.Entity." + classRepresentingTable.getSimpleName() + "Log");
+            createTable(classOfLogTable);
+            addTriggers(classRepresentingTable, classOfLogTable);
+            LogAndToastMaker.makeInfoLog("Table " + classOfLogTable.getSimpleName() + " was created!");
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog("The table you're currently creating has no log table");
+        }
+    }
+
+    private void addTriggers(Class classRepresentingTable, Class classRepresentingLogTable) {
+        String triggerName = classRepresentingTable.getSimpleName().toLowerCase();
+        String nameTableOnWhichApplyTrigger = classRepresentingTable.getSimpleName();
+        String nameOfLogTable = classRepresentingLogTable.getSimpleName();
+
+        String afterInsertTrigger = "CREATE TRIGGER tr_ai_" + triggerName + " \n" +
+                "AFTER INSERT ON " + nameTableOnWhichApplyTrigger + " \n" +
+                "BEGIN\n" +
+                "INSERT INTO " + nameOfLogTable + " VALUES(NEW._id, 'I', DateTime('now')); \n" +
+                "END;";
+
+        String afterUpdateTrigger = "CREATE TRIGGER tr_au_" + triggerName + " \n" +
+                "AFTER UPDATE ON " + nameTableOnWhichApplyTrigger + "  \n" +
+                "BEGIN\n" +
+                "DELETE FROM " + nameOfLogTable + " WHERE Op='U' AND " + nameOfLogTable + "._id = NEW._id;  \n" +
+                "INSERT INTO " + nameOfLogTable + " VALUES(NEW._id, 'U', DateTime('now'));\n" +
+                "END;";
+
+        String afterDeleteTrigger = "CREATE TRIGGER tr_ad_" + triggerName + " \n" +
+                "AFTER DELETE ON " + nameTableOnWhichApplyTrigger + " \n" +
+                "BEGIN \n" +
+                "DELETE FROM " + nameOfLogTable + " WHERE " + nameOfLogTable + "._id=OLD._id;  \n" +
+                "INSERT INTO " + nameOfLogTable + " VALUES(OLD._id, 'D', DateTime('now'));  \n" +
+                "END;";
+        if(this.databaseManualAccess != null) {
+            this.databaseManualAccess.execSQL(afterInsertTrigger);
+            this.databaseManualAccess.execSQL(afterUpdateTrigger);
+            this.databaseManualAccess.execSQL(afterDeleteTrigger);
+//            this.databaseManualAccess.rawQuery(afterInsertTrigger, null);
+//            this.databaseManualAccess.rawQuery(afterUpdateTrigger, null);
+//            this.databaseManualAccess.rawQuery(afterDeleteTrigger, null);
+        }
     }
 
     public void closeConnection() {

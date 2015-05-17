@@ -6,13 +6,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.aleix.projectefinal.Entity.Categoria;
-import com.example.aleix.projectefinal.Entity.Client;
-import com.example.aleix.projectefinal.Entity.Comanda;
-import com.example.aleix.projectefinal.Entity.LogAndToastMaker;
-import com.example.aleix.projectefinal.Entity.Producte;
-import com.example.aleix.projectefinal.Entity.Usuari;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -23,7 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -193,7 +185,7 @@ public class PersistanceManager extends AsyncTask {
         return sb.toString();
     }
 
-    private String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
+    public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
         String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
