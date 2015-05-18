@@ -2,6 +2,8 @@ package com.example.aleix.projectefinal.Controller;
 
 import android.util.Log;
 
+import com.example.aleix.projectefinal.Entity.Usuari;
+
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ public class LoginController {
     }
 
     //De shared preferences sabrem si l'usuari s'ha loguejat anteriorment o no.
-    public boolean validateUser(String userTypedPassword, boolean firstTimeLogging) {
+    public boolean validateUser(String userTypedPassword, boolean firstTimeLogging, List<Usuari> u) {
         String hashRepresentationOfTypedPassword = makeHashVersionOfPassword(userTypedPassword);
 
         boolean keepRunningWhile = true;
@@ -25,7 +27,7 @@ public class LoginController {
         boolean userValidatedCorrectly = false;
 
         if (firstTimeLogging) {
-            //Aquí les contrasenyes venen de la base de dades remota. La classe PersistanceManager s'ocupa de recuperar aquesta info. En comptes de new ArrayList s'ha de posar un mètode de PersistanceManager.
+            //Aquï¿½ les contrasenyes venen de la base de dades remota. La classe PersistanceManager s'ocupa de recuperar aquesta info. En comptes de new ArrayList s'ha de posar un mï¿½tode de PersistanceManager.
             List<String> listOfHashedPasswordsFromRemoteDatabase = new ArrayList();
             while (keepRunningWhile && i < listOfHashedPasswordsFromRemoteDatabase.size()) {
                 if (listOfHashedPasswordsFromRemoteDatabase.get(i).equalsIgnoreCase(hashRepresentationOfTypedPassword)) {
