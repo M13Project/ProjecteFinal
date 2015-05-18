@@ -59,12 +59,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // client.addComanda(comanda);
         //categoria.addProducte(producte);
         Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
-        lpm.insert(Client.class, client);
-        lpm.insert(Comanda.class, comanda);
-        lpm.insert(Localitzacio.class, localitzacio);
+        //lpm.insert(Client.class, client);
+       // lpm.insert(Comanda.class, comanda);
+       // lpm.insert(Localitzacio.class, localitzacio);
 //        lpm.insert(Categoria.class, categoria);
 //        lpm.insert(Producte.class, producte);
-        lpm.insert(Comanda_Producte.class, cp);
+      //  lpm.insert(Comanda_Producte.class, cp);
         Client cl = lpm.getEntity(Client.class, 1);
         LogAndToastMaker.makeInfoLog(cl.toString());
         /**/
