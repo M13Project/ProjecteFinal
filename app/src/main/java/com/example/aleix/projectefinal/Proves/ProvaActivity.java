@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
+import com.example.aleix.projectefinal.Controller.SynchronizeController;
 import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.R;
 
@@ -51,7 +52,7 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        PersistanceManager async = new PersistanceManager(this);
+//        PersistanceManager async = new PersistanceManager(this);
         /*Prova GET*/
 //        try {
 //            Class classRetrieved = Class.forName("com.example.aleix.projectefinal.Entity." + etQuery.getText().toString());
@@ -75,7 +76,7 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         /**/
 
         /*Prova DELETE*/
-        async.deleteAnObjectFromServer(Categoria.class, 19);
+//        async.deleteAnObjectFromServer(Categoria.class, 19);
         /**/
 
         /**/
@@ -88,5 +89,9 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        String asd = MyJasonEntityConverter.getJsonObjectFromEntity(Comanda_Producte.class, cp);
 //        LogAndToastMaker.makeInfoLog(asd);
         /**/
+
+        SynchronizeController sc = new SynchronizeController(this);
+        sc.uploadEntities();
+
     }
 }
