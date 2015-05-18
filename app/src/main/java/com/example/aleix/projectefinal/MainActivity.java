@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         /*Base de dades*/
         LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
         Categoria categoria = new Categoria(1, "categoriaExemple", 10);
-        Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1);
+        Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 2);
         Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
         Localitzacio localitzacio = new Localitzacio(45657, "exempleDireccio", 423.23, 2343.23, client);
         Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);

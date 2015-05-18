@@ -34,16 +34,32 @@ public class SynchronizeController {
     }
 
     private <T> void uploadEntity(Class<T> classToUpload) {
-        List logEntries = lpm.getAllEntities(classToUpload);
+        Class logTableClass = null;
         String operationType = null;
         int objectId = 0;
-        Class logTableClass = null;
+        Method method = null;
+        Method method2 = null;
+
+        try {
+            logTableClass = Class.forName(classToUpload.getName() + "Log");
+            method = logTableClass.getMethod("getOp");
+            method2 = logTableClass.getMethod("getId");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List logEntries = lpm.getAllEntities(logTableClass);
 
         for(Object oneLogEntry : logEntries) {
+            /*He acabat aqui!!!!!*/
             try {
-                logTableClass = Class.forName(classToUpload.getSimpleName() + "Log");
-                Method method = classToUpload.getMethod("getOp");
-                Method method2 = classToUpload.getMethod("getId");
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //pm = new PersistanceManager(activity);
+            /**/
+            try {
                 operationType = (String) method.invoke(oneLogEntry);
                 objectId = (int) method2.invoke(oneLogEntry);
             } catch (Exception e) {

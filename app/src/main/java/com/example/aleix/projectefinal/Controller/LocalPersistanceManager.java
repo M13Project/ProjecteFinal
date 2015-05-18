@@ -135,7 +135,7 @@ public class LocalPersistanceManager {
             Method method = classRepresentingObjectToDelete.getMethod("getId");
             Method method2 = classRepresentingObjectToDelete.getMethod("getOp");
             idOfObjectToDelete = (int) method.invoke(objectToDelete);
-            operationType = (String) method.invoke(objectToDelete);
+            operationType = (String) method2.invoke(objectToDelete);
         } catch (Exception e) {
             e.printStackTrace();
         }

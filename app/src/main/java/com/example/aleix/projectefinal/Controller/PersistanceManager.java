@@ -187,6 +187,22 @@ public class PersistanceManager extends AsyncTask {
 
     public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
         String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
+        /**/
+//        AsyncTask at = null;
+//        synchronized (this) {
+//            while (this.getStatus() != Status.FINISHED) {
+//                try {
+//                    this.wait();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            at = this.execute(fullResourceURL, requestMethod, postMessage);
+//
+//            this.notify();
+//
+//        }
+        /**/
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
         try {
@@ -225,7 +241,7 @@ public class PersistanceManager extends AsyncTask {
         LogAndToastMaker.makeToast(this.activity, "The entry deleted correctly!");
     }
 
-    private  <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {
+    private <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {
         int objectId = 0;
         try {
             Method method = objectClass.getMethod("getId");

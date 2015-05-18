@@ -53,19 +53,14 @@ public class MyJasonEntityConverter {
         Map<String, Object> mappedAttributes = new TreeMap<>();
         try {
             JSONObject jsonResponse = new JSONObject(rawJsonInput);
-
-
-
-                for (int k = 0; k < jsonResponse.names().length(); k++) {
-                    String key = jsonResponse.names().getString(k);
-                    Object value = jsonResponse.get(key);
+            for (int k = 0; k < jsonResponse.names().length(); k++) {
+                String key = jsonResponse.names().getString(k);
+                Object value = jsonResponse.get(key);
                     /*Aquest if no se si fara falta. El contingut del if, sí*/
-                    if (!key.contains("odata")) {
-                        mappedAttributes.put(key, value);
-                    }
+                if (!key.contains("odata")) {
+                    mappedAttributes.put(key, value);
+                }
                     /**/
-
-
             }
             listOfEntities.add(mappedAttributes);
         } catch (Exception e) {
@@ -94,7 +89,7 @@ public class MyJasonEntityConverter {
                     for (int j = 0; j < methodsOfEntity.length; j++) {
                         Method method = methodsOfEntity[j];
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
-                            if(method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
+                            if (method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
                                 PersistanceManager requestToTheServer = new PersistanceManager(activity);
                                 String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + key.substring(0, key.length() - 2) + "(" + value + ")";
                                 String requestMethod = "GET";
@@ -130,7 +125,7 @@ public class MyJasonEntityConverter {
                     if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(fieldName.toLowerCase())) {
                         Object valueObtainedFromMethod = method.invoke(objectToTransform, null);
                         /**/
-                        if(method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
+                        if (method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
                             Method m = valueObtainedFromMethod.getClass().getDeclaredMethod("getId");
                             valueObtainedFromMethod = m.invoke(valueObtainedFromMethod, null);
                         }

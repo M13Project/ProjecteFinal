@@ -116,11 +116,11 @@ public class Client {
         ComercialId = comercialId;
     }
 
-    public ForeignCollection<Comanda> getLlistaDeComandes() {
+    public ForeignCollection<Comanda> getLlistaDeComandesx() {
         return llistaDeComandes;
     }
 
-    public void setLlistaDeComandes(ForeignCollection<Comanda> llistaDeComandes) {
+    public void setLlistaDeComandesx(ForeignCollection<Comanda> llistaDeComandes) {
         this.llistaDeComandes = llistaDeComandes;
     }
 
