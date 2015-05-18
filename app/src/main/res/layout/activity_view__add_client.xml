@@ -187,4 +187,43 @@
         android:layout_below="@+id/txtAltresAddClient"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DNI"
+        android:id="@+id/textView22"
+        android:layout_alignTop="@+id/txtDNIAddClient"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtDNIAddClient"
+        android:layout_above="@+id/textView3"
+        android:layout_toRightOf="@+id/textView11"
+        android:layout_alignRight="@+id/btnAddClient"
+        android:layout_alignEnd="@+id/btnAddClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edat"
+        android:id="@+id/textView23"
+        android:layout_below="@+id/txtAltresAddClient"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_alignStart="@+id/textView10" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/txtEdatAddClient"
+        android:layout_alignTop="@+id/textView23"
+        android:layout_toRightOf="@+id/textView11"
+        android:layout_toLeftOf="@+id/btnAddClient"
+        android:layout_toStartOf="@+id/btnAddClient" />
+
 </RelativeLayout>

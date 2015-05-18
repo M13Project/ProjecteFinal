@@ -3,11 +3,13 @@ package com.example.aleix.projectefinal.Entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by Aleix on 14/05/2015. ProjecteFinal
  */
 @DatabaseTable(tableName = "Usuari")
-public class Usuari {
+public class Usuari implements Serializable {
     @DatabaseField(id = true)
     private int Id;
     @DatabaseField(columnName = "Dni", canBeNull = false)

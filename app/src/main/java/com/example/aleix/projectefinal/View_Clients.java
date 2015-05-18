@@ -10,10 +10,17 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
+
 
 public class View_Clients extends Activity implements View.OnClickListener {
     ImageButton imgbtnTrucarTel, imgbtnTrucalMobil, imgbtnUltimaComanda;
-    TextView txtNom, txtCognom, txtCarrer, txtTel, txtMobil, txtUltimaComanda;
+    TextView txtNom, txtCognom, txtCarrer, txtTel, txtMobil, txtUltimaComanda, txtEdat;
+    Client client;
+    Localitzacio loc;
+    LocalPersistanceManager lpm ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,16 @@ public class View_Clients extends Activity implements View.OnClickListener {
         txtTel = (TextView) findViewById(R.id.txtTelClient);
         txtMobil = (TextView) findViewById(R.id.txtMobilClient);
         txtUltimaComanda = (TextView) findViewById(R.id.txtUltimaComandaClient);
+        txtEdat = (TextView) findViewById(R.id.txtEdatClient);
+        Bundle bundle = getIntent().getExtras();
+        //***//
+        client = (Client) bundle.get("Client");
+        txtNom.setText(client.getNom());
+        txtCognom.setText(client.getCognom());
+        txtTel.setText("");
+        txtCarrer.setText("");
+
+
 
     }
 
