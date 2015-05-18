@@ -1,7 +1,6 @@
 package com.example.aleix.projectefinal.Entity;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.types.DateTimeType;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -9,29 +8,34 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Comanda")
 public class Comanda {
-    public static final String ID = "_id";
-    public static final String LLIURADA = "Lliurada";
-    public static final String DATA = "Data";
-    public static final String CLIENTID = "ClientId";
 
-    @DatabaseField(generatedId = true, columnName = ID)
-    private int Id;
+    @DatabaseField(generatedId = true)
+    private int _id;
 
-    @DatabaseField(columnName = LLIURADA)
+    @DatabaseField(columnName = "Lliurada")
     private Boolean Lliurada;
 
-    @DatabaseField(columnName = DATA)
-    private DateTimeType Data;
+    @DatabaseField(columnName = "Data")
+    private String Data;
 
-    @DatabaseField(foreign = true, columnName = CLIENTID)
-    private int ClientId;
+    @DatabaseField(foreign = true, columnName = "ClientId")
+    private Client ClientId;
+
+    public Comanda(Boolean lliurada, String data, Client client) {
+        Lliurada = lliurada;
+        Data = data;
+        this.ClientId = client;
+    }
+
+    public Comanda() {
+    }
 
     public int getId() {
-        return Id;
+        return _id;
     }
 
     public void setId(int id) {
-        Id = id;
+        _id = id;
     }
 
     public Boolean getLliurada() {
@@ -42,28 +46,24 @@ public class Comanda {
         this.Lliurada = lliurada;
     }
 
-    public DateTimeType getData() {
+    public String getData() {
         return Data;
     }
 
-    public void setData(DateTimeType data) {
+    public void setData(String data) {
         Data = data;
     }
 
-    public int getClientId() {
+    public Client getClientId() {
         return ClientId;
     }
 
-    public void setClientId(int clientId) {
-        this.ClientId = clientId;
+    public void setClientId(Client client) {
+        this.ClientId = client;
     }
 
-    public Comanda(Boolean lliurada, DateTimeType data, int clientId) {
-        Lliurada = lliurada;
-        Data = data;
-        ClientId = clientId;
-    }
-
-    public Comanda() {
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", Lliurada: " + this.Lliurada + ", Data: " + this.Data + ", ClientId: " + this.ClientId.getId();
     }
 }

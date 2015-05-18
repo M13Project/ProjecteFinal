@@ -8,7 +8,6 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "Producte")
 public class Producte {
-
     @DatabaseField(id = true)
     private int _id;
     @DatabaseField(columnName = "Nom", canBeNull = false)
@@ -21,8 +20,8 @@ public class Producte {
     private String Imatge;
     @DatabaseField(columnName = "Habilitat", canBeNull = false)
     private boolean Habilitat;
-    @DatabaseField(canBeNull = false, foreign = true)
-    private Categoria categoria;
+    @DatabaseField(foreign = true, columnName = "CategoriaId")
+    private Categoria CategoriaId;
 
     public Producte() {
 
@@ -44,14 +43,14 @@ public class Producte {
         Descompte = descompte;
         Imatge = imatge;
         Habilitat = habilitat;
-        this.categoria = categoria;
+        this.CategoriaId = categoria;
     }
 
-    public int get_id() {
+    public int getId() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void setId(int _id) {
         this._id = _id;
     }
 
@@ -87,7 +86,7 @@ public class Producte {
         Imatge = imatge;
     }
 
-    public boolean isHabilitat() {
+    public boolean getHabilitat() {
         return Habilitat;
     }
 
@@ -95,11 +94,16 @@ public class Producte {
         Habilitat = habilitat;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Categoria getCategoriaId() {
+        return CategoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(Categoria categoria) {
+        this.CategoriaId = categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", Nom: " + this.Nom + ", Preu: " + this.Preu + ", Descompte: " + this.Descompte + ", Imatge: " + this.Imatge + ", Habilitat: " + this.Habilitat + ", CategoriaId: " + this.CategoriaId.getId();
     }
 }

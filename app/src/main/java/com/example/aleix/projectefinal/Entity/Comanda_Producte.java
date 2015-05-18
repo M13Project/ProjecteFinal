@@ -6,36 +6,58 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Created by Aleix on 06/05/2015.
  */
-@DatabaseTable
+@DatabaseTable(tableName = "Comanda_Producte")
 public class Comanda_Producte {
 
-    public static final String COMANDAID = "ComandaId";
-    public static final String PRODUCTEID = "ProducteId";
-    public static final String QUANTITAT = "Quantitat";
+//    public static final String COMANDAID = "ComandaId";
+//    public static final String PRODUCTEID = "ProducteId";
+//    public static final String QUANTITAT = "Quantitat";
 
-    @DatabaseField(generatedId = true, foreign = true, columnName = COMANDAID)
-    private int ComandaId;
+    @DatabaseField(generatedId = true)
+    private int _id;
 
-    @DatabaseField(generatedId = true, foreign = true, columnName = PRODUCTEID)
-    private int producteId;
+    @DatabaseField(foreign = true, columnName = "ComandaId")
+    private Comanda ComandaId;
 
-    @DatabaseField(columnName = QUANTITAT)
+    @DatabaseField(foreign = true, columnName = "ProducteId")
+    private Producte ProducteId;
+
+    @DatabaseField(columnName = "Quantitat")
     private int Quantitat;
 
-    public int getComandaId() {
+    public Comanda_Producte() {
+
+    }
+
+    public Comanda_Producte(int _id, Comanda comanda, Producte producte, int quantitat) {
+        this._id = _id;
+        ComandaId = comanda;
+        this.ProducteId = producte;
+        Quantitat = quantitat;
+    }
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int _id) {
+        this._id = _id;
+    }
+
+    public Comanda getComandaId() {
         return ComandaId;
     }
 
-    public void setComandaId(int comandaId) {
-        ComandaId = comandaId;
+    public void setComandaId(Comanda comanda) {
+        ComandaId = comanda;
     }
 
-    public int getProducteId() {
-        return producteId;
+    public Producte getProducteId() {
+        return ProducteId;
     }
 
-    public void setProducteId(int producteId) {
-        this.producteId = producteId;
+    public void setProducteId(Producte producte) {
+        this.ProducteId = producte;
     }
 
     public int getQuantitat() {
@@ -44,5 +66,10 @@ public class Comanda_Producte {
 
     public void setQuantitat(int quantitat) {
         Quantitat = quantitat;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", ComandaId: " + this.ComandaId.getId() + ", ProducteId: " + this.ProducteId.getId() + ", Quantitat: " + this.Quantitat;
     }
 }

@@ -1,61 +1,61 @@
 package com.example.aleix.projectefinal.Entity;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.types.DateTimeType;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Aleix on 05/05/2015.
  */
-@DatabaseTable
+@DatabaseTable(tableName = "Client")
 public class Client {
 
-    //Variables constants que contenen el nom de les columnes de la BD
-    public static final String ID = "_id";
-    public static final String DNI = "Dni";
-    public static final String NOM = "Nom";
-    public static final String COGNOM = "COGNOM";
-    public static final String EDAT = "Edat";
-    public static final String IMAGE_CLIENT = "imageClient";
-    public static final String DATA_PROPERA_VISITA = "DataProperaVisita";
-    //public static final String COMERCIALID = "ComercialId";
-
-    /*
-    generatedId indica que la id es genera automaticament
-    generateIdSequence para que se autogenere mediante secuencia de base de datos
-    id si volem indicar nosaltres la id
-     */
-    @DatabaseField(generatedId = true, columnName = ID)
-    private int Id;
-
-    @DatabaseField(columnName = DNI)
+    @DatabaseField(generatedId = true)
+    private int _id;
+    @DatabaseField(columnName = "Dni", canBeNull = false)
     private String Dni;
-
-    @DatabaseField(columnName = NOM)
+    @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
-
-    @DatabaseField(columnName = COGNOM)
+    @DatabaseField(columnName = "Cognom", canBeNull = false)
     private String Cognom;
-
-    @DatabaseField(columnName = EDAT)
+    @DatabaseField(columnName = "Edat")
     private int Edat;
-
-    @DatabaseField(columnName = IMAGE_CLIENT)
-    private String imageClient;
-
-    @DatabaseField(columnName = DATA_PROPERA_VISITA)
-    private DateTimeType DataProperaVisita;
-/*
-    @DatabaseField(foreign = true, columnName = COMERCIALID)
+    @DatabaseField(columnName = "ImageClient")
+    private String ImageClient;
+    @DatabaseField(columnName = "DataProperaVisita")
+    private String DataProperaVisita;
+    @DatabaseField(columnName = "ComercialId")
     private int ComercialId;
-*/
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<Comanda> llistaDeComandes;
+
+
+    public Client() {
+
+    }
+
+    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId) {
+        _id = id;
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        ImageClient = imageClient;
+        DataProperaVisita = dataProperaVisita;
+        ComercialId = comercialId;
+    }
+
+    public void addComanda(Comanda comanda) {
+        this.llistaDeComandes.add(comanda);
+    }
 
     public int getId() {
-        return Id;
+        return _id;
     }
 
     public void setId(int id) {
-        Id = id;
+        _id = id;
     }
 
     public String getDni() {
@@ -91,30 +91,39 @@ public class Client {
     }
 
     public String getImageClient() {
-        return imageClient;
+        return ImageClient;
     }
 
     public void setImageClient(String imageClient) {
-        this.imageClient = imageClient;
+        ImageClient = imageClient;
     }
 
-    public DateTimeType getDataProperaVisita() {
+    public String getDataProperaVisita() {
         return DataProperaVisita;
     }
 
-    public void setDataProperaVisita(DateTimeType dataProperaVisita) {
+    public void setDataProperaVisita(String dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;
     }
 
-    public Client() {
+    public int getComercialId() {
+        return ComercialId;
     }
 
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, DateTimeType dataProperaVisita) {
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Edat = edat;
-        this.imageClient = imageClient;
-        DataProperaVisita = dataProperaVisita;
+    public void setComercialId(int comercialId) {
+        ComercialId = comercialId;
+    }
+
+    public ForeignCollection<Comanda> getLlistaDeComandes() {
+        return llistaDeComandes;
+    }
+
+    public void setLlistaDeComandes(ForeignCollection<Comanda> llistaDeComandes) {
+        this.llistaDeComandes = llistaDeComandes;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita + ", ComercialId: " + this.ComercialId;
     }
 }

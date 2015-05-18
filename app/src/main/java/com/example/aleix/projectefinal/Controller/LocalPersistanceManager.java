@@ -10,6 +10,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -148,7 +149,7 @@ public class LocalPersistanceManager {
     public void closeConnection() {
         try {
             this.connectionSource.close();
-        } catch (SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
