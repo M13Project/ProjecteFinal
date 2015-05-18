@@ -46,7 +46,8 @@ public class View_AddClient extends Activity implements View.OnClickListener {
         Poblacio = (EditText) findViewById(R.id.txtPoblacioAddClient);
         cp = (EditText) findViewById(R.id.txtCPAddClient);
         altres = (EditText) findViewById(R.id.txtAltresAddClient);
-        lpm = new LocalPersistanceManager(this, "m13_project", 1);
+
+        lpm = new LocalPersistanceManager(this, "m13_project", 2);
         usuari = (Usuari) getIntent().getExtras().get("Usuari");
 
     }
@@ -88,13 +89,17 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString() , adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
-
+                if(adreça.size()>1) {
+                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
+                }
+                else{
+                    localitzacio = new Localitzacio( client, cp.getText().toString(), carrer.getText().toString());
+                }
                 lpm.insert(Client.class, client);
                 lpm.insert(Localitzacio.class, localitzacio);
                 Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();
                 Intent a = new Intent(this, Main_View.class);
+                a.putExtra("User", usuari);
                 startActivity(a);
             }
         else{

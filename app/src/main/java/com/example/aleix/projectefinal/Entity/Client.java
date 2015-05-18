@@ -5,11 +5,13 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by Aleix on 05/05/2015.
  */
 @DatabaseTable(tableName = "Client")
-public class Client {
+public class Client implements Serializable {
 
     @DatabaseField(generatedId = true)
     private int _id;

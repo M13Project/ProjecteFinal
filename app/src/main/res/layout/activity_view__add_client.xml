@@ -218,9 +218,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
         android:id="@+id/txtEdatAddClient"
         android:layout_alignTop="@+id/textView23"
         android:layout_toRightOf="@+id/textView11"
         android:layout_toLeftOf="@+id/btnAddClient"
         android:layout_toStartOf="@+id/btnAddClient" />
+
 </RelativeLayout>

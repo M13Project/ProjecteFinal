@@ -33,6 +33,12 @@ public class Localitzacio {
         ClientId = client;
     }
 
+    public Localitzacio(Client clientId, String direccio, String codiPostal) {
+        ClientId = clientId;
+        Direccio = direccio;
+        CodiPostal = codiPostal;
+    }
+
     public int getId() {
         return _id;
     }

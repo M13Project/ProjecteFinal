@@ -11,13 +11,14 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Aleix on 18/05/2015. ProjecteFinal
  */
-public class LocalPersistanceManager {
-    private Activity activity;
+public class LocalPersistanceManager {private Activity activity;
     private ConnectionSource connectionSource;
     private SQLiteDatabase databaseManualAccess;
 
@@ -85,6 +86,78 @@ public class LocalPersistanceManager {
         return objectRetrieved;
     }
 
+    public <T> List<T> getAllEntities(Class<T> classRepresentingObjectsTORetrieve) {
+        Dao<T, Integer> dao = null;
+        List<T> objectsRetrieved = null;
+        if(checkIfTableExists(classRepresentingObjectsTORetrieve)) {
+            dao = tableManager(classRepresentingObjectsTORetrieve);
+            try {
+                objectsRetrieved = dao.queryForAll();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LogAndToastMaker.makeInfoLog("No entries in the table!");
+            LogAndToastMaker.makeToast(this.activity, "No entries in the table!");
+        }
+        return objectsRetrieved;
+    }
+
+    public <T> String delete(Class<T> classRepresentingObjectToDelete, int idOfObjectToDelete) {
+        String resultString = null;
+        Dao<T, Integer> dao = null;
+        if(checkIfTableExists(classRepresentingObjectToDelete)) {
+            dao = tableManager(classRepresentingObjectToDelete);
+            try {
+                int resultOfDelete = dao.deleteById(idOfObjectToDelete);
+                if (resultOfDelete == 1) {
+                    resultString = "Resource deleted correctly!";
+                } else {
+                    resultString = "Failed to delete the resource!";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LogAndToastMaker.makeInfoLog("No such entry in the table!");
+            LogAndToastMaker.makeToast(this.activity, "No such entry in the table!");
+        }
+        return resultString;
+    }
+
+    public <T> String deleteLogEntry(Class<T> classRepresentingObjectToDelete, T objectToDelete) {
+        String resultString = null;
+        Dao<T, Integer> dao = null;
+        int idOfObjectToDelete = 0;
+        String operationType = null;
+        try {
+            Method method = classRepresentingObjectToDelete.getMethod("getId");
+            Method method2 = classRepresentingObjectToDelete.getMethod("getOp");
+            idOfObjectToDelete = (int) method.invoke(objectToDelete);
+            operationType = (String) method.invoke(objectToDelete);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String rawQuery = "DELETE FROM " + classRepresentingObjectToDelete.getSimpleName() + " WHERE " + "_id = " + idOfObjectToDelete + " AND Op = " + "'" + operationType + "'";
+        if(checkIfTableExists(classRepresentingObjectToDelete)) {
+            dao = tableManager(classRepresentingObjectToDelete);
+            try {
+                int resultOfDelete = dao.executeRawNoArgs(rawQuery);
+                if (resultOfDelete == 1) {
+                    resultString = "Resource deleted correctly!";
+                } else {
+                    resultString = "Failed to delete the resource!";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LogAndToastMaker.makeInfoLog("No such entry in the table!");
+            LogAndToastMaker.makeToast(this.activity, "No such entry in the table!");
+        }
+        return resultString;
+    }
+
     private boolean checkIfTableExists(Class classRepresentingTable) {
         boolean tableExists = false;
         if (this.databaseManualAccess != null) {
@@ -149,7 +222,9 @@ public class LocalPersistanceManager {
     public void closeConnection() {
         try {
             this.connectionSource.close();
-        } catch (IOException e) {
+        } /*catch (SQLException e) {
+            e.printStackTrace();
+        }*/ catch (IOException e) {
             e.printStackTrace();
         }
     }

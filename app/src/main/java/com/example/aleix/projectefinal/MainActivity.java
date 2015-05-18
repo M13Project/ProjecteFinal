@@ -26,7 +26,6 @@ import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -123,8 +122,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             catch (Exception e){
                 Log.e("Error en el login", "Error en el login");
             }
-            if (samepassword){
-                main.putExtra("User", (Serializable) ulog);
+            if (samepassword || encPass.equalsIgnoreCase(passwordKeyGeneration(ulog.getContrasenya()))){
+                main.putExtra("User", ulog);
                 startActivity(main);
             }
             else{

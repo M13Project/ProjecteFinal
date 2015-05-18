@@ -32,4 +32,12 @@
         android:layout_alignBottom="@+id/txtSearchClient"
         android:layout_alignRight="@+id/listViewResultClients"
         android:layout_alignEnd="@+id/listViewResultClients" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No hi han clients a la BD"
+        android:id="@+id/txtSenseClientSearch"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
