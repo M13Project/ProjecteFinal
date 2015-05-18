@@ -15,7 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
+import com.example.aleix.projectefinal.Controller.LogAndToastMaker;
 import com.example.aleix.projectefinal.Controller.LoginController;
+import com.example.aleix.projectefinal.Entity.Categoria;
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.Comanda_Producte;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
+import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
 import java.io.Serializable;
@@ -40,6 +48,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtuser = (EditText) findViewById(R.id.txtUser);
         txtpassword = (EditText) findViewById(R.id.txtPassword);
         btn.setOnClickListener(this);
+        /**/
+        /*Base de dades*/
+        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
+        Categoria categoria = new Categoria(1, "categoriaExemple", 10);
+        Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1);
+        Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
+        Localitzacio localitzacio = new Localitzacio(45657, "exempleDireccio", 423.23, 2343.23, client);
+        Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);
+        // client.addComanda(comanda);
+        //categoria.addProducte(producte);
+        Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
+        lpm.insert(Client.class, client);
+        lpm.insert(Comanda.class, comanda);
+        lpm.insert(Localitzacio.class, localitzacio);
+        lpm.insert(Categoria.class, categoria);
+        lpm.insert(Producte.class, producte);
+        lpm.insert(Comanda_Producte.class, cp);
+        Client cl = lpm.getEntity(Client.class, 1);
+        LogAndToastMaker.makeInfoLog(cl.toString());
+        /**/
 
     }
 
