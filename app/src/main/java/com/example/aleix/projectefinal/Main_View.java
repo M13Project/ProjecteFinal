@@ -8,10 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.aleix.projectefinal.Entity.Usuari;
+
+import java.io.Serializable;
+
 
 public class Main_View extends Activity implements View.OnClickListener{
 
     String User;
+    Usuari usuari;
     ImageButton btnimg1;
     ImageButton btnimg2;
     ImageButton btnimg3;
@@ -26,6 +31,9 @@ public class Main_View extends Activity implements View.OnClickListener{
         btnimg1.setOnClickListener(this);
         btnimg2.setOnClickListener(this);
         btnimg3.setOnClickListener(this);
+        Bundle bundle = getIntent().getExtras();
+
+        usuari = (Usuari) bundle.get("User");
 
     }
 
@@ -64,6 +72,7 @@ public class Main_View extends Activity implements View.OnClickListener{
                 opcio = new Intent(this, View_ClientGeoloc.class);
                 break;
         }
+        opcio.putExtra("Usuari", (Serializable) usuari);
         if (opcio!= null){
             startActivity(opcio);
         }

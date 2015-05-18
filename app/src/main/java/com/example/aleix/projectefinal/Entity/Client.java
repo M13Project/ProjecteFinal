@@ -46,6 +46,36 @@ public class Client {
         ComercialId = comercialId;
     }
 
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId, ForeignCollection<Comanda> llistaDeComandes) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        ImageClient = imageClient;
+        DataProperaVisita = dataProperaVisita;
+        ComercialId = comercialId;
+        this.llistaDeComandes = llistaDeComandes;
+    }
+
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        ImageClient = imageClient;
+        DataProperaVisita = dataProperaVisita;
+        ComercialId = comercialId;
+    }
+
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, int comercialId) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        ImageClient = imageClient;
+        ComercialId = comercialId;
+    }
+
     public void addComanda(Comanda comanda) {
         this.llistaDeComandes.add(comanda);
     }

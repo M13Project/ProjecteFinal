@@ -6,13 +6,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.example.aleix.projectefinal.Entity.Client;
+
+import java.util.ArrayList;
 
 
 public class View_ClientSearch extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     EditText txtSearchClient;
     ListView listView;
+    Button btnSearch;
+    //SimpleCursorAdapter mAdapter;
+    ArrayAdapter arrayAdapter;
+    ArrayList<Client> LlistaClient = new ArrayList<Client>(){{new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1); new Client(40, "Y435345", "Pepe", "AS", 26, "/image.png", "2015-05-13T00:00:00", 1);}};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +31,11 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
         txtSearchClient = (EditText) findViewById(R.id.txtSearchClient);
         listView = (ListView) findViewById(R.id.listViewResultClients);
        listView.setOnItemClickListener( this);
+       // mAdapter = new SimpleCursorAdapter(this, LlistaClient , android.R.layout.simple_list_item_1, 0);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LlistaClient);
+        listView.setAdapter(arrayAdapter);
+        btnSearch = (Button) findViewById(R.id.btnClientSearch);
+        btnSearch.setOnClickListener(this);
     }
 
     @Override
@@ -47,7 +62,11 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+    switch (v.getId()){
+        case R.id.btnClientSearch:
 
+            break;
+    }
     }
 
     @Override
