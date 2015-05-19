@@ -69,7 +69,6 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
             Iterator<Client> i = c.iterator();
             clients.clear();
             while (i.hasNext()){
-                Toast.makeText(this, "Entra while", Toast.LENGTH_SHORT).show();
                 Client client = i.next();
                 if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
                     clients.add(client);
@@ -80,12 +79,10 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
         listView.setAdapter(adapter);
 
         if(clients.size() == 0) {
-            Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
             txtSenseClients.setVisibility(txtSenseClients.VISIBLE);
             listView.setVisibility(listView.INVISIBLE);
         }
         else {
-            Toast.makeText(this, "si", Toast.LENGTH_SHORT).show();
             txtSenseClients.setVisibility(txtSenseClients.INVISIBLE);
             listView.setVisibility(listView.VISIBLE);
         }
@@ -166,12 +163,13 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
             case R.id.mnuEsborrar:
                 // esborrar l'element escollit
                 //titularsConv.remove(adapter.getItem(info.position));
-                 lpm.delete(Client.class, info.position);
+                 String a = lpm.delete(Client.class, info.position);
+
                  adapter.getItem(info.position);
                 // actualitzar la llista
                 refreshData(false);
                 // mostrar missatge
-                Toast.makeText(this, "S'ha esborrat client!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "S'ha esborrat client! " + a, Toast.LENGTH_LONG).show();
                 return true;
             default: break;
         }

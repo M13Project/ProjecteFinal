@@ -1,6 +1,8 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.aleix.projectefinal.Adapter.ClientAdapter;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
 import java.util.ArrayList;
@@ -25,9 +28,11 @@ import java.util.List;
 public class View_ClientGeoloc extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     ListView listView;
     List clients;
+    List loc;
     Usuari u;
     private ClientAdapter adapter;
     LocalPersistanceManager lpm ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,9 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         lpm = new LocalPersistanceManager(this, "m13_project", 2);
     }
     void refreshData(Boolean busqueda) {
+        loc = lpm.getAllEntities(Localitzacio.class);
+
+
         clients =  lpm.getAllEntities(Client.class);
 
         if (busqueda){
@@ -50,7 +58,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
             Iterator<Client> i = c.iterator();
             clients.clear();
             while (i.hasNext()){
-                Toast.makeText(this, "Entra while", Toast.LENGTH_SHORT).show();
+
                 Client client = i.next();
                /* if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
                     clients.add(client);
@@ -61,13 +69,22 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         listView.setAdapter(adapter);
 
         if(clients.size() == 0) {
-            Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
-           // txtSenseClients.setVisibility(txtSenseClients.VISIBLE);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Error");
+            dialog.setMessage("No hi han Clients");
+            dialog.setCancelable(false);
+
+            dialog.setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
             listView.setVisibility(listView.INVISIBLE);
         }
         else {
-            Toast.makeText(this, "si", Toast.LENGTH_SHORT).show();
-            //txtSenseClients.setVisibility(txtSenseClients.INVISIBLE);
             listView.setVisibility(listView.VISIBLE);
         }
     }

@@ -49,6 +49,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             Client c = (Client) bundle.get("Client");
+
             if (c !=null){
             nom.setText(c.getNom());
             cognom.setText(c.getCognom());
