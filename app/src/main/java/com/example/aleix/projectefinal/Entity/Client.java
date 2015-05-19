@@ -27,8 +27,6 @@ public class Client {
     private String ImageClient;
     @DatabaseField(columnName = "DataProperaVisita")
     private String DataProperaVisita;
-    @DatabaseField(columnName = "ComercialId")
-    private int ComercialId;
     @ForeignCollectionField(eager = false)
     private ForeignCollection<Comanda> llistaDeComandes;
 
@@ -45,7 +43,6 @@ public class Client {
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
-        ComercialId = comercialId;
     }
 
     public void addComanda(Comanda comanda) {
@@ -108,14 +105,6 @@ public class Client {
         DataProperaVisita = dataProperaVisita;
     }
 
-    public int getComercialId() {
-        return ComercialId;
-    }
-
-    public void setComercialId(int comercialId) {
-        ComercialId = comercialId;
-    }
-
     public ForeignCollection<Comanda> getLlistaDeComandesx() {
         return llistaDeComandes;
     }
@@ -126,6 +115,6 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita + ", ComercialId: " + this.ComercialId;
+        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita;
     }
 }

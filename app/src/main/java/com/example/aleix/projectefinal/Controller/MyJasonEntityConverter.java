@@ -124,16 +124,15 @@ public class MyJasonEntityConverter {
                     Method method = methodsOfEntity[j];
                     if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(fieldName.toLowerCase())) {
                         Object valueObtainedFromMethod = method.invoke(objectToTransform, null);
-                        /**/
                         if (method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
                             Method m = valueObtainedFromMethod.getClass().getDeclaredMethod("getId");
                             valueObtainedFromMethod = m.invoke(valueObtainedFromMethod, null);
                         }
-                        /**/
                         stringJson.put(fieldName, valueObtainedFromMethod);
                     }
                 }
             }
+            stringJson.put("ComercialId", GlobalParameterController.COMERCIAL_AGENT_ID);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -164,14 +163,4 @@ public class MyJasonEntityConverter {
         }
         return stringJsonArray.toString();
     }
-
-//    private static <T> String foreignKeyResolver(Class<T> objectClass) {
-//        String
-//        switch(objectClass.getSimpleName()) {
-//            case "Comanda":
-//
-//                break;
-//        }
-//
-//    }
 }

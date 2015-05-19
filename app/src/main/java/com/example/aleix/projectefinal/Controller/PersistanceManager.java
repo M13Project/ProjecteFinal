@@ -155,9 +155,6 @@ public class PersistanceManager extends AsyncTask {
         String stringResponse = null;
         try {
             HttpDelete delete = new HttpDelete(new URI(stringUrl));
-            //StringEntity se = new StringEntity(postMessage);
-            //se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            //put.setEntity(se);
             response = client.execute(delete);
             if (response != null) {
                 InputStream in = response.getEntity().getContent();
@@ -187,22 +184,6 @@ public class PersistanceManager extends AsyncTask {
 
     public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
         String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
-        /**/
-//        AsyncTask at = null;
-//        synchronized (this) {
-//            while (this.getStatus() != Status.FINISHED) {
-//                try {
-//                    this.wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            at = this.execute(fullResourceURL, requestMethod, postMessage);
-//
-//            this.notify();
-//
-//        }
-        /**/
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
         try {
@@ -230,13 +211,13 @@ public class PersistanceManager extends AsyncTask {
 
     public <T> void updateAnObjectFromServer(Class<T> objectClass, T objectToTransform) {
         String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
-        String resourceToUpdate = objectClass.getSimpleName() + "(" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ")";
+        String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
         getServerResponse(resourceToUpdate, "PUT", transformedObject);
         LogAndToastMaker.makeToast(this.activity, "The entry updated correctly!");
     }
 
     public <T> void deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
-        String resourceToUpdate = objectClass.getSimpleName() + "(" + idOfObjectToDelete + ")";
+        String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + idOfObjectToDelete + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
         getServerResponse(resourceToUpdate, "DELETE", null);
         LogAndToastMaker.makeToast(this.activity, "The entry deleted correctly!");
     }

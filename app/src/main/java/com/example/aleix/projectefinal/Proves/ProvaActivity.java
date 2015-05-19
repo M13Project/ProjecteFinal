@@ -8,9 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
 import com.example.aleix.projectefinal.Controller.SynchronizeController;
 import com.example.aleix.projectefinal.Entity.Categoria;
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.R;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
@@ -52,7 +56,7 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-//        PersistanceManager async = new PersistanceManager(this);
+        PersistanceManager async = new PersistanceManager(this);
         /*Prova GET*/
 //        try {
 //            Class classRetrieved = Class.forName("com.example.aleix.projectefinal.Entity." + etQuery.getText().toString());
@@ -73,6 +77,8 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         /*Prova PUT*/
 //        Categoria categoria = new Categoria(19, "UpdateRealitzatCorrectament2", 111);
 //        async.updateAnObjectFromServer(Categoria.class, categoria);
+//        Client client = new Client(1, "X435345", "Dawid", "drgdfgds", 26, "/image.png", "2015-05-13T00:00:00", 1);
+//        async.updateAnObjectFromServer(Client.class, client);
         /**/
 
         /*Prova DELETE*/
@@ -90,8 +96,12 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        LogAndToastMaker.makeInfoLog(asd);
         /**/
 
-        SynchronizeController sc = new SynchronizeController(this);
-        sc.uploadEntities();
+//        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
+//        lpm.delete(Localitzacio.class, 1);
+//        SynchronizeController sc = new SynchronizeController(this);
+//        sc.uploadEntities();
+
+        async.deleteAnObjectFromServer(Localitzacio.class, 1);
 
     }
 }
