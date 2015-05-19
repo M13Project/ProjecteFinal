@@ -20,8 +20,6 @@ import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -43,14 +41,15 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
         lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        refreshData();
     }
-    void refreshData(Boolean busqueda) {
+    void refreshData() {
         loc = lpm.getAllEntities(Localitzacio.class);
 
 
         clients =  lpm.getAllEntities(Client.class);
 
-        if (busqueda){
+        /*if (busqueda){
             List<Client> c =new ArrayList<Client>();
             c.addAll(clients);
 
@@ -60,11 +59,11 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
             while (i.hasNext()){
 
                 Client client = i.next();
-               /* if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
-                    clients.add(client);
-                }*/
+               // if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
+              //      clients.add(client);
+                }
             }
-        }
+        }*/
         adapter = new ClientAdapter(this, clients);
         listView.setAdapter(adapter);
 
@@ -162,10 +161,10 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
             case R.id.mnuEsborrarGeoLoc:
                 // esborrar l'element escollit
                 //titularsConv.remove(adapter.getItem(info.position));
-                lpm.delete(Client.class, info.position);
-                adapter.getItem(info.position);
+                lpm.delete(Client.class, adapter.getItem(info.position).getId());
+
                 // actualitzar la llista
-                refreshData(false);
+                refreshData();
                 // mostrar missatge
                 Toast.makeText(this, "S'ha esborrat client!", Toast.LENGTH_LONG).show();
                 return true;

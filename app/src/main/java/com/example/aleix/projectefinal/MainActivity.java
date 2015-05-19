@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
-import com.example.aleix.projectefinal.Controller.LogAndToastMaker;
 import com.example.aleix.projectefinal.Controller.LoginController;
 import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
@@ -57,8 +56,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
         Localitzacio localitzacio = new Localitzacio("45657", "exempleDireccio", 423.23, 2343.23, client);
         Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);
-        Usuari u = new Usuari("41626112-E", "Aleix", "Ventura", "AleixV", "E0-35-35-D4-E5-A7-1B-CE-82-48-12-3D-3B-74-53-5A-6D-14-48-28-8D-30-ED-BD-43-1B-43-EC-DF-AD-8D-3B");
-        //lpm.insert(Usuari.class, u);
+        Usuari u = new Usuari("41626113-T", "Aleix", "Ventura", "AVentura", "E0-35-35-D4-E5-A7-1B-CE-82-48-12-3D-3B-74-53-5A-6D-14-48-28-8D-30-ED-BD-43-1B-43-EC-DF-AD-8D-3B");
+      //  lpm.insert(Usuari.class, u);
         // client.addComanda(comanda);
         //categoria.addProducte(producte);
         Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
@@ -69,7 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        lpm.insert(Producte.class, producte);
       //  lpm.insert(Comanda_Producte.class, cp);
         Client cl = lpm.getEntity(Client.class, 1);
-        LogAndToastMaker.makeInfoLog(cl.toString());
+//        LogAndToastMaker.makeInfoLog(cl.toString());
         usuarisList = lpm.getAllEntities(Usuari.class);
         /**/
 

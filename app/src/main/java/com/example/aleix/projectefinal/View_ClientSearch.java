@@ -163,9 +163,9 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
             case R.id.mnuEsborrar:
                 // esborrar l'element escollit
                 //titularsConv.remove(adapter.getItem(info.position));
-                 String a = lpm.delete(Client.class, info.position);
+                 String a = lpm.delete(Client.class, adapter.getItem(info.position).getId());
 
-                 adapter.getItem(info.position);
+                 ;
                 // actualitzar la llista
                 refreshData(false);
                 // mostrar missatge
