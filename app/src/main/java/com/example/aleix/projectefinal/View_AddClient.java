@@ -18,6 +18,7 @@ import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +48,9 @@ public class View_AddClient extends Activity implements View.OnClickListener {
         cp = (EditText) findViewById(R.id.txtCPAddClient);
         altres = (EditText) findViewById(R.id.txtAltresAddClient);
         Bundle bundle = getIntent().getExtras();
+        lpm = new LocalPersistanceManager(this, "m13_project", 2);
+
+        usuari = (Usuari) getIntent().getExtras().get("Usuari");
         if (bundle != null){
             Client c = (Client) bundle.get("Client");
 
@@ -54,13 +58,30 @@ public class View_AddClient extends Activity implements View.OnClickListener {
             nom.setText(c.getNom());
             cognom.setText(c.getCognom());
             edat.setText(Integer.toString(c.getEdat()));
+                tel.setText("");
+                mobil.setText("");
+                email.setText("");
+                altres.setText("");
             DNI.setText(c.getDni());
+            List<Localitzacio> loc = lpm.getAllEntities(Localitzacio.class);
+                Iterator<Localitzacio> i = loc.iterator();
+                while (i.hasNext()){
+                    Localitzacio l1 = i.next();
+                    if (l1.getClientId().equals(c)){
+                        localitzacio = l1;
+                    }
+
+                }
+                carrer.setText(localitzacio.getDireccio());
+                Poblacio.setText("");
+                cp.setText(localitzacio.getCodiPostal());
+
+
 
             add.setText("Guardar Canvis");}
         }
 
-        lpm = new LocalPersistanceManager(this, "m13_project", 2);
-        usuari = (Usuari) getIntent().getExtras().get("Usuari");
+
 
     }
 
