@@ -18,7 +18,9 @@ import java.util.List;
 /**
  * Created by Aleix on 18/05/2015. ProjecteFinal
  */
-public class LocalPersistanceManager {private Activity activity;
+public class LocalPersistanceManager {
+
+    private Activity activity;
     private ConnectionSource connectionSource;
     private SQLiteDatabase databaseManualAccess;
 
@@ -134,7 +136,7 @@ public class LocalPersistanceManager {private Activity activity;
             Method method = classRepresentingObjectToDelete.getMethod("getId");
             Method method2 = classRepresentingObjectToDelete.getMethod("getOp");
             idOfObjectToDelete = (int) method.invoke(objectToDelete);
-            operationType = (String) method.invoke(objectToDelete);
+            operationType = (String) method2.invoke(objectToDelete);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,9 +224,9 @@ public class LocalPersistanceManager {private Activity activity;
     public void closeConnection() {
         try {
             this.connectionSource.close();
-        } /*catch (SQLException e) {
+        }/* catch (SQLException e) {
             e.printStackTrace();
-        }*/ catch (IOException e) {
+        } */catch (IOException e) {
             e.printStackTrace();
         }
     }
