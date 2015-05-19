@@ -2,8 +2,12 @@ package com.example.aleix.projectefinal;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -30,6 +34,11 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
     Usuari u;
     private ClientAdapter adapter;
     LocalPersistanceManager lpm ;
+    LocationManager handle;
+    private String provider;
+    double latitude;
+    double longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,27 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
         lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        loc();
         refreshData();
+    }
+    public void loc(){
+        handle = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria c = new Criteria();
+        c.setAccuracy(Criteria.ACCURACY_FINE);
+        //obtiene el mejor proveedor en función del criterio asignado
+        //(la mejor precisión posible)
+        provider = handle.getBestProvider(c, true);
+
+
+        //Se activan las notificaciones de localización con los parámetros: proveedor, tiempo mínimo de actualización, distancia mínima, Locationlistener
+        //handle.requestLocationUpdates(provider, 10000, 1, this);
+        //Obtenemos la última posición conocida dada por el proveedor
+        Location loc = handle.getLastKnownLocation(provider);
+        latitude = loc.getLatitude();
+         longitude = loc.getLongitude();
+
+
     }
     void refreshData() {
         loc = lpm.getAllEntities(Localitzacio.class);

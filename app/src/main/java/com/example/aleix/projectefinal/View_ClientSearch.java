@@ -169,7 +169,7 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
                 // actualitzar la llista
                 refreshData(false);
                 // mostrar missatge
-                Toast.makeText(this, "S'ha esborrat client! " + a, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "S'ha esborrat client! ", Toast.LENGTH_LONG).show();
                 return true;
             default: break;
         }

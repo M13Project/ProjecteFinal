@@ -119,7 +119,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 Geocoder geo = new Geocoder(this, Locale.getDefault());
                 List<Address> adreça = null;
                 try {
-                    adreça = geo.getFromLocationName(carrer.getText().toString()+", "+ cp.getText().toString()+", "+ Poblacio.getText().toString(),1);
+                    adreça = geo.getFromLocationName(carrer.getText().toString()+", "+ cp.getText().toString()+", "+ Poblacio.getText().toString(),2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -127,7 +127,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                     localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
                 }
                 else{
-                    localitzacio = new Localitzacio( client, cp.getText().toString(), carrer.getText().toString());
+                    localitzacio = new Localitzacio( client, cp.getText().toString(), carrer.getText().toString(), Poblacio.getText().toString());
                 }
                 if (add.getText().toString().equalsIgnoreCase("ADD")){
                 lpm.insert(Client.class, client);
