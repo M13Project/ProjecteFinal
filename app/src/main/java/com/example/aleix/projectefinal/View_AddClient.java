@@ -46,6 +46,17 @@ public class View_AddClient extends Activity implements View.OnClickListener {
         Poblacio = (EditText) findViewById(R.id.txtPoblacioAddClient);
         cp = (EditText) findViewById(R.id.txtCPAddClient);
         altres = (EditText) findViewById(R.id.txtAltresAddClient);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            Client c = (Client) bundle.get("Client");
+            if (c !=null){
+            nom.setText(c.getNom());
+            cognom.setText(c.getCognom());
+            edat.setText(Integer.toString(c.getEdat()));
+            DNI.setText(c.getDni());
+
+            add.setText("Guardar Canvis");}
+        }
 
         lpm = new LocalPersistanceManager(this, "m13_project", 2);
         usuari = (Usuari) getIntent().getExtras().get("Usuari");
@@ -76,6 +87,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (v.getId()==R.id.btnAddClient){
             if (!DNI.getText().toString().equalsIgnoreCase("") &&!nom.getText().toString().equalsIgnoreCase("") &&
                     !cognom.getText().toString().equalsIgnoreCase("") && !tel.getText().toString().equalsIgnoreCase("") &&
                     !mobil.getText().toString().equalsIgnoreCase("") && !email.getText().toString().equalsIgnoreCase("") &&
@@ -95,9 +107,15 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 else{
                     localitzacio = new Localitzacio( client, cp.getText().toString(), carrer.getText().toString());
                 }
+                if (add.getText().toString().equalsIgnoreCase("ADD")){
                 lpm.insert(Client.class, client);
                 lpm.insert(Localitzacio.class, localitzacio);
-                Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();}
+                if (add.getText().toString().equalsIgnoreCase("Guardar Canvis")){
+
+                    Toast.makeText(this, "Client Actualitzat", Toast.LENGTH_SHORT).show();
+
+                }
                 Intent a = new Intent(this, Main_View.class);
                 a.putExtra("User", usuari);
                 startActivity(a);
@@ -105,5 +123,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
         else{
                 Toast.makeText(this, "Hi han camps buits!", Toast.LENGTH_SHORT).show();
             }
+        }
+
     }
 }
