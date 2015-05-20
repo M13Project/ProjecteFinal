@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.aleix.projectefinal.Controller.GlobalParameterController;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
@@ -42,7 +43,7 @@ public class View_Clients extends Activity implements View.OnClickListener {
         txtUltimaComanda = (TextView) findViewById(R.id.txtUltimaComandaClient);
         txtEdat = (TextView) findViewById(R.id.txtEdatClient);
         txtDNI = (TextView) findViewById(R.id.txtDNIClient);
-
+        lpm = new LocalPersistanceManager(this, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
         Bundle bundle = getIntent().getExtras();
         //***//
         client = (Client) bundle.get("Client");

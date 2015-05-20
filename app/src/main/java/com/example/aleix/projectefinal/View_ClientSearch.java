@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aleix.projectefinal.Adapter.ClientAdapter;
+import com.example.aleix.projectefinal.Controller.GlobalParameterController;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Usuari;
@@ -49,7 +50,7 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
         Bundle bundle = getIntent().getExtras();
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
-        lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        lpm = new LocalPersistanceManager(this, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
        // mAdapter = new SimpleCursorAdapter(this, LlistaClient , android.R.layout.simple_list_item_1, 0);
        // arrayAdapter = new ArrayAdapter<Client>(this, android.R.layout.simple_list_item_multiple_choice, LlistaClient);
 

@@ -25,10 +25,10 @@ public class Client implements Serializable{
     private int Edat;
     @DatabaseField(columnName = "ImageClient")
     private String ImageClient;
-    @DatabaseField(columnName = "Telefon")
+    /*@DatabaseField(columnName = "Telefon")
     private int Telefon;
     @DatabaseField(columnName = "Mobil")
-    private int Mobil;
+    private int Mobil;*/
     @DatabaseField(columnName = "DataProperaVisita")
     private String DataProperaVisita;
     @ForeignCollectionField(eager = false)
@@ -39,18 +39,17 @@ public class Client implements Serializable{
 
     }
 
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita , int telefon, int mobil) {
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita ) {
         Dni = dni;
         Nom = nom;
         Cognom = cognom;
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
-        Telefon = telefon;
-        Mobil = mobil;
+
     }
 
-    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int telefon, int mobil) {
+    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita) {
         _id = id;
         Dni = dni;
         Nom = nom;
@@ -58,18 +57,17 @@ public class Client implements Serializable{
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
-        Telefon = telefon;
-        Mobil = mobil;
+
     }
 
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, int telefon, int mobil) {
+    public Client(String dni, String nom, String cognom, int edat, String imageClient) {
         Dni = dni;
         Nom = nom;
         Cognom = cognom;
         Edat = edat;
         ImageClient = imageClient;
-        Telefon = telefon;
-        Mobil = mobil;
+        //Telefon = telefon;
+        //Mobil = mobil;
     }
 
     public void addComanda(Comanda comanda) {
@@ -128,7 +126,7 @@ public class Client implements Serializable{
         return DataProperaVisita;
     }
 
-    public int getTelefon() {
+    /*public int getTelefon() {
         return Telefon;
     }
 
@@ -142,7 +140,7 @@ public class Client implements Serializable{
 
     public void setMobil(int mobil) {
         Mobil = mobil;
-    }
+    }*/
 
     public void setDataProperaVisita(String dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;

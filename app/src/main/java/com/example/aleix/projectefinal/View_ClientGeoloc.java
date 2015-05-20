@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.aleix.projectefinal.Adapter.ClientAdapter;
+import com.example.aleix.projectefinal.Controller.GlobalParameterController;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
@@ -52,7 +53,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         Bundle bundle = getIntent().getExtras();
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
-        lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        lpm = new LocalPersistanceManager(this, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
         loc();
         refreshData();
     }
