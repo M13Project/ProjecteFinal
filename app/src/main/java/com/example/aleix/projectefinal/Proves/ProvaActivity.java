@@ -15,6 +15,7 @@ import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
+import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.R;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
@@ -72,6 +73,9 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        producte.setCategoriaId(categoria);
 //        String response = async.sendAnObjectToServer(Producte.class, producte);
 //        LogAndToastMaker.makeInfoLog(response);
+        Client client = new Client(3, "1sdds2", "David", "Asdas", 34, "sdfddfs", "2015-05-13T00:00:00", 1);
+        async.sendAnObjectToServer(Client.class, client);
+
         /**/
 
         /*Prova PUT*/
@@ -98,8 +102,9 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-        SynchronizeController sc = new SynchronizeController(this);
-        sc.uploadEntities();
+//        SynchronizeController sc = new SynchronizeController(this);
+//        sc.uploadEntities();
+
 
 //        async.deleteAnObjectFromServer(Localitzacio.class, 1);
 
