@@ -6,21 +6,21 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 
 /**
- * Created by Aleix on 14/05/2015. ProjecteFinal
+ * Created by Michal on 13/05/2015.
  */
 @DatabaseTable(tableName = "Usuari")
 public class Usuari implements Serializable {
-    @DatabaseField(id = true)
-    private int Id;
+    @DatabaseField(id = true, columnName = "Id")
+    private int _id;
     @DatabaseField(columnName = "Dni", canBeNull = false)
     private String Dni;
     @DatabaseField(columnName = "Nom", canBeNull = false)
     private String Nom;
-    @DatabaseField(columnName = "Cognom")
+    @DatabaseField(columnName = "Cognom", canBeNull = false)
     private String Cognom;
-    @DatabaseField(columnName = "Usuari", canBeNull = false)
+    @DatabaseField(columnName = "Usuari1")
     private String Usuari1;
-    @DatabaseField(columnName = "Contrasenya", canBeNull = false)
+    @DatabaseField(columnName = "Contrasenya")
     private String Contrasenya;
     @DatabaseField(columnName = "Imatge")
     private String Imatge;
@@ -30,28 +30,7 @@ public class Usuari implements Serializable {
     }
 
     public Usuari(int id, String dni, String nom, String cognom, String usuari1, String contrasenya, String imatge) {
-        Id = id;
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Usuari1 = usuari1;
-        Contrasenya = contrasenya;
-        Imatge = imatge;
-    }
-    public Usuari(String usuari1, String contrasenya){
-        Usuari1 = usuari1;
-        Contrasenya = contrasenya;
-    }
-
-    public Usuari(String dni, String nom, String cognom, String usuari1, String contrasenya) {
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Usuari1 = usuari1;
-        Contrasenya = contrasenya;
-    }
-
-    public Usuari(String dni, String nom, String cognom, String usuari1, String contrasenya, String imatge) {
+        _id = id;
         Dni = dni;
         Nom = nom;
         Cognom = cognom;
@@ -61,11 +40,11 @@ public class Usuari implements Serializable {
     }
 
     public int getId() {
-        return Id;
+        return _id;
     }
 
     public void setId(int id) {
-        Id = id;
+        _id = id;
     }
 
     public String getDni() {
@@ -115,5 +94,9 @@ public class Usuari implements Serializable {
     public void setImatge(String imatge) {
         Imatge = imatge;
     }
-}
 
+    @Override
+    public String toString() {
+       return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Usuari1: " + this.Usuari1 + ", Contrasenya: " + this.Contrasenya + ", Imatge: " + this.Imatge;
+    }
+}

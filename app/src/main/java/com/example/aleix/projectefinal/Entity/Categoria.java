@@ -6,7 +6,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Created by Aleix on 12/05/2015. ProjecteFinal
+ * Created by Michal.hostienda on 14/05/2015.
  */
 @DatabaseTable(tableName = "Categoria")
 public class Categoria {

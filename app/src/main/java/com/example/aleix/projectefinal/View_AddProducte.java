@@ -6,15 +6,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
+import com.example.aleix.projectefinal.Entity.Producte;
+import com.example.aleix.projectefinal.Adapter.CustomSpinnerAdapter;
+
+import java.util.List;
 
 
-public class View_AddProducte extends Activity implements View.OnClickListener {
+public class View_AddProducte extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     Spinner llistaProductes;
     EditText num;
     Button affegirproductealacomanda;
+    List<Producte> productes = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +33,11 @@ public class View_AddProducte extends Activity implements View.OnClickListener {
         num = (EditText) findViewById(R.id.txtQuantitatProducte);
         affegirproductealacomanda = (Button) findViewById(R.id.btnAfegirComandaAddProducte);
         affegirproductealacomanda.setOnClickListener(this);
+
+        productes = selectProductes();
+        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, productes);
+        llistaProductes.setAdapter(adapter);
+        llistaProductes.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -55,6 +70,22 @@ public class View_AddProducte extends Activity implements View.OnClickListener {
             a.putExtra("Producte", num.getText().toString());
             startActivity(a);
         }
+
+    }
+
+    public List selectProductes() {
+        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
+        List productesList = lpm.getAllEntities(Producte.class);
+        return productesList;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "posicio: " + position, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

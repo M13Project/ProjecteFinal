@@ -23,6 +23,7 @@ import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Usuari;
+import com.google.android.gms.maps.GoogleMap;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
     private String provider;
     double latitude;
     double longitude;
+    private GoogleMap clientMap = null;
 
 
     @Override
@@ -46,6 +48,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         setContentView(R.layout.activity_view__client_geoloc);
         listView = (ListView) findViewById(R.id.listViewResultLocClients);
         listView.setOnItemClickListener( this);
+//        clientMap = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.fgmClientMap)).getMap();
         Bundle bundle = getIntent().getExtras();
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);

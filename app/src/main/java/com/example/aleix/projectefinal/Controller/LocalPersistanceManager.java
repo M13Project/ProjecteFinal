@@ -10,13 +10,12 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by Aleix on 18/05/2015. ProjecteFinal
+ * Created by Michal.hostienda on 14/05/2015.
  */
 public class LocalPersistanceManager {
 
@@ -215,18 +214,13 @@ public class LocalPersistanceManager {
             this.databaseManualAccess.execSQL(afterInsertTrigger);
             this.databaseManualAccess.execSQL(afterUpdateTrigger);
             this.databaseManualAccess.execSQL(afterDeleteTrigger);
-//            this.databaseManualAccess.rawQuery(afterInsertTrigger, null);
-//            this.databaseManualAccess.rawQuery(afterUpdateTrigger, null);
-//            this.databaseManualAccess.rawQuery(afterDeleteTrigger, null);
         }
     }
 
     public void closeConnection() {
         try {
             this.connectionSource.close();
-        }/* catch (SQLException e) {
-            e.printStackTrace();
-        } */catch (IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

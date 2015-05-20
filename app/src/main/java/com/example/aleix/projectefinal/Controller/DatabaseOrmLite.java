@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Aleix on 18/05/2015. ProjecteFinal
+ * Created by Michal.hostienda on 14/05/2015.
  */
-public class DatabaseOrmLite  extends SQLiteOpenHelper{
+public class DatabaseOrmLite extends SQLiteOpenHelper{
 
     public DatabaseOrmLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

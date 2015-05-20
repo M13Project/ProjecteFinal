@@ -53,9 +53,6 @@ public class MyJasonEntityConverter {
         Map<String, Object> mappedAttributes = new TreeMap<>();
         try {
             JSONObject jsonResponse = new JSONObject(rawJsonInput);
-
-
-
             for (int k = 0; k < jsonResponse.names().length(); k++) {
                 String key = jsonResponse.names().getString(k);
                 Object value = jsonResponse.get(key);
@@ -64,8 +61,6 @@ public class MyJasonEntityConverter {
                     mappedAttributes.put(key, value);
                 }
                     /**/
-
-
             }
             listOfEntities.add(mappedAttributes);
         } catch (Exception e) {
@@ -94,9 +89,9 @@ public class MyJasonEntityConverter {
                     for (int j = 0; j < methodsOfEntity.length; j++) {
                         Method method = methodsOfEntity[j];
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
-                            if(method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
+                            if (method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
                                 PersistanceManager requestToTheServer = new PersistanceManager(activity);
-                                String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + key.substring(0, key.length() - 2) + "(" + value + ")";
+                                String resourceURL = GlobalParameterController.SERVER_URL + key.substring(0, key.length() - 2) + "(" + value + ")";
                                 String requestMethod = "GET";
                                 String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod, null);
                                 Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
@@ -129,16 +124,15 @@ public class MyJasonEntityConverter {
                     Method method = methodsOfEntity[j];
                     if (method.getName().toLowerCase().contains("get") && method.getName().substring(3).toLowerCase().equalsIgnoreCase(fieldName.toLowerCase())) {
                         Object valueObtainedFromMethod = method.invoke(objectToTransform, null);
-                        /**/
-                        if(method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
+                        if (method.getName().contains("Id") && !method.getName().equals("getId") && !method.getName().equals("getComercialId")) {
                             Method m = valueObtainedFromMethod.getClass().getDeclaredMethod("getId");
                             valueObtainedFromMethod = m.invoke(valueObtainedFromMethod, null);
                         }
-                        /**/
                         stringJson.put(fieldName, valueObtainedFromMethod);
                     }
                 }
             }
+            stringJson.put("ComercialId", GlobalParameterController.COMERCIAL_AGENT_ID);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -169,14 +163,4 @@ public class MyJasonEntityConverter {
         }
         return stringJsonArray.toString();
     }
-
-//    private static <T> String foreignKeyResolver(Class<T> objectClass) {
-//        String
-//        switch(objectClass.getSimpleName()) {
-//            case "Comanda":
-//
-//                break;
-//        }
-//
-//    }
 }
