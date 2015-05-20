@@ -183,7 +183,7 @@ public class PersistanceManager extends AsyncTask {
     }
 
     public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
-        String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
+        String fullResourceURL = GlobalParameterController.SERVER_URL + resourceUrl;
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
         try {

@@ -214,9 +214,6 @@ public class LocalPersistanceManager {
             this.databaseManualAccess.execSQL(afterInsertTrigger);
             this.databaseManualAccess.execSQL(afterUpdateTrigger);
             this.databaseManualAccess.execSQL(afterDeleteTrigger);
-//            this.databaseManualAccess.rawQuery(afterInsertTrigger, null);
-//            this.databaseManualAccess.rawQuery(afterUpdateTrigger, null);
-//            this.databaseManualAccess.rawQuery(afterDeleteTrigger, null);
         }
     }
 

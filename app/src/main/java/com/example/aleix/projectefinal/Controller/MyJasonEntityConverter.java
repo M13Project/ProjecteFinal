@@ -91,7 +91,7 @@ public class MyJasonEntityConverter {
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
                             if (method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
                                 PersistanceManager requestToTheServer = new PersistanceManager(activity);
-                                String resourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + key.substring(0, key.length() - 2) + "(" + value + ")";
+                                String resourceURL = GlobalParameterController.SERVER_URL + key.substring(0, key.length() - 2) + "(" + value + ")";
                                 String requestMethod = "GET";
                                 String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod, null);
                                 Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));

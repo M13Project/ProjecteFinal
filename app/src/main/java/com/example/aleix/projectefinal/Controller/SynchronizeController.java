@@ -21,7 +21,7 @@ public class SynchronizeController {
 
     public SynchronizeController(Activity activity) {
         this.activity = activity;
-        lpm = new LocalPersistanceManager(activity, "m13_project", 1);
+        lpm = new LocalPersistanceManager(activity, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
     }
 
     public void uploadEntities() {
