@@ -124,7 +124,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 if(adreça.size()>1) {
-                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), "POBLACIO POSADA A MA", adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
+                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), Poblacio.getText().toString(), adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
                 }
                 else{
                     localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), Poblacio.getText().toString(), client);
@@ -134,7 +134,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 lpm.insert(Localitzacio.class, localitzacio);
                 Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();}
                 if (add.getText().toString().equalsIgnoreCase("Guardar Canvis")){
-
+                    
                     Toast.makeText(this, "Client Actualitzat", Toast.LENGTH_SHORT).show();
 
                 }
