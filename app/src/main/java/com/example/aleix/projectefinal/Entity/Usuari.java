@@ -43,6 +43,23 @@ public class Usuari implements Serializable {
         Contrasenya = contrasenya;
     }
 
+    public Usuari(String dni, String nom, String cognom, String usuari1, String contrasenya) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Usuari1 = usuari1;
+        Contrasenya = contrasenya;
+    }
+
+    public Usuari(String dni, String nom, String cognom, String usuari1, String contrasenya, String imatge) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Usuari1 = usuari1;
+        Contrasenya = contrasenya;
+        Imatge = imatge;
+    }
+
     public int getId() {
         return Id;
     }

@@ -1,19 +1,120 @@
 package com.example.aleix.projectefinal;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.aleix.projectefinal.Adapter.ClientAdapter;
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
+import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
+import com.example.aleix.projectefinal.Entity.Usuari;
+
+import java.util.List;
 
 
-public class View_ClientGeoloc extends Activity {
+public class View_ClientGeoloc extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     ListView listView;
+    List clients;
+    List loc;
+    Usuari u;
+    private ClientAdapter adapter;
+    LocalPersistanceManager lpm ;
+    LocationManager handle;
+    private String provider;
+    double latitude;
+    double longitude;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view__client_geoloc);
         listView = (ListView) findViewById(R.id.listViewResultLocClients);
+        listView.setOnItemClickListener( this);
+        Bundle bundle = getIntent().getExtras();
+        u = (Usuari) bundle.get("User");
+        registerForContextMenu(listView);
+        lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        loc();
+        refreshData();
+    }
+    public void loc(){
+        handle = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria c = new Criteria();
+        c.setAccuracy(Criteria.ACCURACY_FINE);
+        //obtiene el mejor proveedor en función del criterio asignado
+        //(la mejor precisión posible)
+        provider = handle.getBestProvider(c, true);
+
+
+        //Se activan las notificaciones de localización con los parámetros: proveedor, tiempo mínimo de actualización, distancia mínima, Locationlistener
+        //handle.requestLocationUpdates(provider, 10000, 1, this);
+        //Obtenemos la última posición conocida dada por el proveedor
+        Location loc = handle.getLastKnownLocation(provider);
+        latitude = loc.getLatitude();
+         longitude = loc.getLongitude();
+
+
+    }
+    void refreshData() {
+        loc = lpm.getAllEntities(Localitzacio.class);
+
+
+        clients =  lpm.getAllEntities(Client.class);
+
+        /*if (busqueda){
+            List<Client> c =new ArrayList<Client>();
+            c.addAll(clients);
+
+
+            Iterator<Client> i = c.iterator();
+            clients.clear();
+            while (i.hasNext()){
+
+                Client client = i.next();
+               // if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
+              //      clients.add(client);
+                }
+            }
+        }*/
+        adapter = new ClientAdapter(this, clients);
+        listView.setAdapter(adapter);
+
+        if(clients.size() == 0) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Error");
+            dialog.setMessage("No hi han Clients");
+            dialog.setCancelable(false);
+
+            dialog.setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+            listView.setVisibility(listView.INVISIBLE);
+        }
+        else {
+            listView.setVisibility(listView.VISIBLE);
+        }
     }
 
     @Override
@@ -36,5 +137,68 @@ public class View_ClientGeoloc extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //case R.id.btnClientSearch:
+              /*  if (txtSearchClient.getText().toString().equalsIgnoreCase("") || txtSearchClient.getText().toString().equalsIgnoreCase(" ")){
+                    refreshData(false);
+                }else{
+                    refreshData(true);
+                }*/
+
+               // break;
+        }
+    }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getApplicationContext(),
+                "Click a la posició " + position,
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, View_Clients.class);
+        i.putExtra("User", u);
+        i.putExtra("Client", (Client) clients.get(position));
+        startActivity(i);
+    }
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.contextual_client_geoloc, menu);
+    }
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.mnuVeureDadesGeoLoc:
+                // mostrar les dades de l'element escollit
+                Toast.makeText(this, adapter.getItem(info.position).getNom(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(this, View_Clients.class);
+                i.putExtra("User", u);
+                i.putExtra("Client", (Client) adapter.getItem(info.position));
+                startActivity(i);
+                return true;
+            case R.id.mnuModifDadesGeoLoc:
+                Intent in = new Intent(this, View_AddClient.class);
+                in.putExtra("Client", (Client) adapter.getItem(info.position));
+                in.putExtra("User", u);
+                startActivity(in);
+                // mostrar les dades de l'element escollit
+                //Toast.makeText(this, adapter.getItem(info.position).getNom(), Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.mnuEsborrarGeoLoc:
+                // esborrar l'element escollit
+                //titularsConv.remove(adapter.getItem(info.position));
+                lpm.delete(Client.class, adapter.getItem(info.position).getId());
+
+                // actualitzar la llista
+                refreshData();
+                // mostrar missatge
+                Toast.makeText(this, "S'ha esborrat client!", Toast.LENGTH_LONG).show();
+                return true;
+            default: break;
+        }
+        return false;
     }
 }

@@ -22,8 +22,7 @@
         android:id="@+id/textView17"
         android:layout_below="@+id/textView16"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="42dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -154,10 +153,9 @@
         android:layout_height="wrap_content"
         android:text="Edat"
         android:id="@+id/textView24"
-        android:layout_above="@+id/txtCognomClient"
+        android:layout_above="@+id/txtCarrerClient"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="11dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -167,5 +165,23 @@
         android:layout_alignTop="@+id/textView24"
         android:layout_alignLeft="@+id/txtCognomClient"
         android:layout_alignStart="@+id/txtCognomClient" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DNI"
+        android:id="@+id/textView25"
+        android:layout_above="@+id/textView24"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/txtDNIClient"
+        android:layout_above="@+id/txtEdatClient"
+        android:layout_alignLeft="@+id/txtEdatClient"
+        android:layout_alignStart="@+id/txtEdatClient" />
 
 </RelativeLayout>

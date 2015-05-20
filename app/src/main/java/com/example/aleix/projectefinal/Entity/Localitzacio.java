@@ -14,6 +14,8 @@ public class Localitzacio {
     @DatabaseField(columnName = "CodiPostal")
     private String CodiPostal;
     @DatabaseField(columnName = "Direccio")
+    private String Municipi;
+    @DatabaseField(columnName = "Municipi")
     private String Direccio;
     @DatabaseField(columnName = "Latitud")
     private double Latitud;
@@ -33,10 +35,11 @@ public class Localitzacio {
         ClientId = client;
     }
 
-    public Localitzacio(Client clientId, String direccio, String codiPostal) {
+    public Localitzacio(Client clientId, String direccio, String codiPostal, String municipi) {
         ClientId = clientId;
         Direccio = direccio;
         CodiPostal = codiPostal;
+        Municipi = municipi;
     }
 
     public int getId() {
@@ -77,6 +80,14 @@ public class Localitzacio {
 
     public void setLongitud(double longitud) {
         Longitud = longitud;
+    }
+
+    public String getMunicipi() {
+        return Municipi;
+    }
+
+    public void setMunicipi(String municipi) {
+        Municipi = municipi;
     }
 
     public com.example.aleix.projectefinal.Entity.Client getClientId() {

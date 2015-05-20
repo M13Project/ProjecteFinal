@@ -21,6 +21,7 @@ import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Usuari;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -36,7 +37,6 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
     LocalPersistanceManager lpm ;
     //SimpleCursorAdapter mAdapter;
     //ArrayAdapter<Client> arrayAdapter;
-    ArrayList<Client> LlistaClient = new ArrayList<Client>(){{new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1); new Client(40, "Y435345", "Pepe", "AS", 26, "/image.png", "2015-05-13T00:00:00", 1);}};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +54,35 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
        // arrayAdapter = new ArrayAdapter<Client>(this, android.R.layout.simple_list_item_multiple_choice, LlistaClient);
 
         //listView.setAdapter(arrayAdapter);
-        refreshData();
+        refreshData(false);
         btnSearch = (Button) findViewById(R.id.btnClientSearch);
         btnSearch.setOnClickListener(this);
 
     }
-    void refreshData() {
+    void refreshData(Boolean busqueda) {
        clients =  lpm.getAllEntities(Client.class);
+        if (busqueda){
+            List<Client> c =new ArrayList<Client>();
+            c.addAll(clients);
+
+
+            Iterator<Client> i = c.iterator();
+            clients.clear();
+            while (i.hasNext()){
+                Client client = i.next();
+                if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
+                    clients.add(client);
+                }
+            }
+        }
         adapter = new ClientAdapter(this, clients);
         listView.setAdapter(adapter);
 
         if(clients.size() == 0) {
-            Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
             txtSenseClients.setVisibility(txtSenseClients.VISIBLE);
             listView.setVisibility(listView.INVISIBLE);
         }
         else {
-            Toast.makeText(this, "si", Toast.LENGTH_SHORT).show();
             txtSenseClients.setVisibility(txtSenseClients.INVISIBLE);
             listView.setVisibility(listView.VISIBLE);
         }
@@ -102,7 +114,12 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
     public void onClick(View v) {
     switch (v.getId()){
         case R.id.btnClientSearch:
-            refreshData();
+            if (txtSearchClient.getText().toString().equalsIgnoreCase("") || txtSearchClient.getText().toString().equalsIgnoreCase(" ")){
+                refreshData(false);
+            }else{
+                refreshData(true);
+            }
+
             break;
     }
     }
@@ -146,11 +163,13 @@ public class View_ClientSearch extends Activity implements View.OnClickListener,
             case R.id.mnuEsborrar:
                 // esborrar l'element escollit
                 //titularsConv.remove(adapter.getItem(info.position));
+                 String a = lpm.delete(Client.class, adapter.getItem(info.position).getId());
 
+                 ;
                 // actualitzar la llista
-                refreshData();
+                refreshData(false);
                 // mostrar missatge
-               // Toast.makeText(this, "S'ha esborrat el titular!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "S'ha esborrat client! ", Toast.LENGTH_LONG).show();
                 return true;
             default: break;
         }

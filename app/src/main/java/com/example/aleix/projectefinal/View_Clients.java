@@ -14,12 +14,15 @@ import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
 
+import java.util.Iterator;
+import java.util.List;
+
 
 public class View_Clients extends Activity implements View.OnClickListener {
     ImageButton imgbtnTrucarTel, imgbtnTrucalMobil, imgbtnUltimaComanda;
-    TextView txtNom, txtCognom, txtCarrer, txtTel, txtMobil, txtUltimaComanda, txtEdat;
+    TextView txtNom, txtCognom, txtCarrer, txtTel, txtMobil, txtUltimaComanda, txtEdat, txtDNI;
     Client client;
-    Localitzacio loc;
+    Localitzacio localitzacio;
     LocalPersistanceManager lpm ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +41,32 @@ public class View_Clients extends Activity implements View.OnClickListener {
         txtMobil = (TextView) findViewById(R.id.txtMobilClient);
         txtUltimaComanda = (TextView) findViewById(R.id.txtUltimaComandaClient);
         txtEdat = (TextView) findViewById(R.id.txtEdatClient);
+        txtDNI = (TextView) findViewById(R.id.txtDNIClient);
+
         Bundle bundle = getIntent().getExtras();
         //***//
         client = (Client) bundle.get("Client");
+        List<Localitzacio> loc = lpm.getAllEntities(Localitzacio.class);
+        Iterator<Localitzacio> i = loc.iterator();
+        while (i.hasNext()){
+            Localitzacio l1 = i.next();
+            if (l1.getClientId().equals(client)){
+                localitzacio = l1;
+            }
+
+        }
         txtNom.setText(client.getNom());
         txtCognom.setText(client.getCognom());
+        txtEdat.setText(Integer.toString(client.getEdat()));
+        txtDNI.setText(client.getDni());
         txtTel.setText("");
-        txtCarrer.setText("");
 
+        txtCarrer.setText(localitzacio.getDireccio()+ ", " + localitzacio.getMunicipi() + ", " + localitzacio.getCodiPostal());
+
+        txtTel.setText("");
+        txtMobil.setText("");
+        //client.getLlistaDeComandes().
+        txtUltimaComanda.setText("");
 
 
     }
@@ -89,6 +110,7 @@ public class View_Clients extends Activity implements View.OnClickListener {
                 break;
             case R.id.imgbtnUltimaCompra:
                 a = new Intent(this, View_Comanda.class);
+
                 break;
         }
         if (a != null){
