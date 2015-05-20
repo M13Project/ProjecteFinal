@@ -44,8 +44,8 @@ public class ClientAdapter extends BaseAdapter {
             c.setEdat(dades.get(position).getEdat());
             c.setImageClient(dades.get(position).getImageClient());
             c.setDataProperaVisita(dades.get(position).getDataProperaVisita());
-            c.setComercialId(dades.get(position).getComercialId());
-            c.setLlistaDeComandes(dades.get(position).getLlistaDeComandes());
+            //c.setComercialId(dades.get(position).getComercialId());
+            //c.setLlistaDeComandes(dades.get(position).getLlistaDeComandes());
 
 
         }/*if(dades.moveToPosition(position)) {

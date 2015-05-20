@@ -5,11 +5,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Created by Aleix on 18/05/2015. ProjecteFinal
+ * Created by Michal.hostienda on 14/05/2015.
  */
-public class LogAndToastMaker {public static void makeErrorLog(String errorMessage) {
-    Log.e("ERROR!", errorMessage);
-}
+public class LogAndToastMaker {
+
+    public static void makeErrorLog(String errorMessage) {
+        Log.e("ERROR!", errorMessage);
+    }
 
     public static void makeInfoLog(String infoMessage) {
         Log.i("INFO!", infoMessage);

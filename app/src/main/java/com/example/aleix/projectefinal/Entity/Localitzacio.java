@@ -12,10 +12,8 @@ public class Localitzacio {
     @DatabaseField(generatedId = true)
     private int _id;
     @DatabaseField(columnName = "CodiPostal")
-    private String CodiPostal;
+    private int CodiPostal;
     @DatabaseField(columnName = "Direccio")
-    private String Municipi;
-    @DatabaseField(columnName = "Municipi")
     private String Direccio;
     @DatabaseField(columnName = "Latitud")
     private double Latitud;
@@ -27,19 +25,12 @@ public class Localitzacio {
     public Localitzacio() {
     }
 
-    public Localitzacio(String codiPostal, String direccio, double latitud, double longitud, Client client) {
+    public Localitzacio(int codiPostal, String direccio, double latitud, double longitud, Client client) {
         CodiPostal = codiPostal;
         Direccio = direccio;
         Latitud = latitud;
         Longitud = longitud;
         ClientId = client;
-    }
-
-    public Localitzacio(Client clientId, String direccio, String codiPostal, String municipi) {
-        ClientId = clientId;
-        Direccio = direccio;
-        CodiPostal = codiPostal;
-        Municipi = municipi;
     }
 
     public int getId() {
@@ -50,11 +41,11 @@ public class Localitzacio {
         _id = id;
     }
 
-    public String getCodiPostal() {
+    public int getCodiPostal() {
         return CodiPostal;
     }
 
-    public void setCodiPostal(String codiPostal) {
+    public void setCodiPostal(int codiPostal) {
         CodiPostal = codiPostal;
     }
 
@@ -82,19 +73,11 @@ public class Localitzacio {
         Longitud = longitud;
     }
 
-    public String getMunicipi() {
-        return Municipi;
-    }
-
-    public void setMunicipi(String municipi) {
-        Municipi = municipi;
-    }
-
-    public com.example.aleix.projectefinal.Entity.Client getClientId() {
+    public Client getClientId() {
         return ClientId;
     }
 
-    public void setClientId(com.example.aleix.projectefinal.Entity.Client client) {
+    public void setClientId(Client client) {
         ClientId = client;
     }
 

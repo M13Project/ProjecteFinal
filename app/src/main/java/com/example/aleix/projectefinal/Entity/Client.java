@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by Aleix on 05/05/2015.
  */
 @DatabaseTable(tableName = "Client")
-public class Client implements Serializable {
+public class Client implements Serializable{
 
     @DatabaseField(generatedId = true)
     private int _id;
@@ -27,8 +27,6 @@ public class Client implements Serializable {
     private String ImageClient;
     @DatabaseField(columnName = "DataProperaVisita")
     private String DataProperaVisita;
-    @DatabaseField(columnName = "ComercialId")
-    private int ComercialId;
     @ForeignCollectionField(eager = false)
     private ForeignCollection<Comanda> llistaDeComandes;
 
@@ -45,37 +43,6 @@ public class Client implements Serializable {
         Edat = edat;
         ImageClient = imageClient;
         DataProperaVisita = dataProperaVisita;
-        ComercialId = comercialId;
-    }
-
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId, ForeignCollection<Comanda> llistaDeComandes) {
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Edat = edat;
-        ImageClient = imageClient;
-        DataProperaVisita = dataProperaVisita;
-        ComercialId = comercialId;
-        this.llistaDeComandes = llistaDeComandes;
-    }
-
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId) {
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Edat = edat;
-        ImageClient = imageClient;
-        DataProperaVisita = dataProperaVisita;
-        ComercialId = comercialId;
-    }
-
-    public Client(String dni, String nom, String cognom, int edat, String imageClient, int comercialId) {
-        Dni = dni;
-        Nom = nom;
-        Cognom = cognom;
-        Edat = edat;
-        ImageClient = imageClient;
-        ComercialId = comercialId;
     }
 
     public void addComanda(Comanda comanda) {
@@ -138,24 +105,16 @@ public class Client implements Serializable {
         DataProperaVisita = dataProperaVisita;
     }
 
-    public int getComercialId() {
-        return ComercialId;
-    }
-
-    public void setComercialId(int comercialId) {
-        ComercialId = comercialId;
-    }
-
-    public ForeignCollection<Comanda> getLlistaDeComandes() {
+    public ForeignCollection<Comanda> getLlistaDeComandesx() {
         return llistaDeComandes;
     }
 
-    public void setLlistaDeComandes(ForeignCollection<Comanda> llistaDeComandes) {
+    public void setLlistaDeComandesx(ForeignCollection<Comanda> llistaDeComandes) {
         this.llistaDeComandes = llistaDeComandes;
     }
 
     @Override
     public String toString() {
-        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita + ", ComercialId: " + this.ComercialId;
+        return "Id: " + this._id + ", Dni: " + this.Dni + ", Nom: " + this.Nom + ", Cognom: " + this.Cognom + ", Edat: " + this.Edat + ", ImageClient: " + this.ImageClient + ", DataProperaVisita: " + this.DataProperaVisita;
     }
 }

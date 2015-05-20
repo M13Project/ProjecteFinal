@@ -21,24 +21,23 @@ import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
-import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.Usuari;
+import com.example.aleix.projectefinal.proves.ProvaActivity;
 
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    Button btn;
+    Button btn, btnp;
     EditText txtuser;
     EditText txtpassword;
     String User, Password, encPass;
     Boolean samepassword = false;
     LoginController loginController;
-    List<Usuari> usuarisList = new ArrayList<Usuari>() {{ add(new Usuari("p", "p")); add(new Usuari("a", "a")); }};
+    List<Usuari> usuarisList ;//= new ArrayList<Usuari>() {{ add(new Usuari("p", "p")); add(new Usuari("a", "a")); }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +47,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtuser = (EditText) findViewById(R.id.txtUser);
         txtpassword = (EditText) findViewById(R.id.txtPassword);
         btn.setOnClickListener(this);
+        btnp = (Button) findViewById(R.id.button);
+        btnp.setOnClickListener(this);
         /**/
         /*Base de dades*/
         LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 2);
         Categoria categoria = new Categoria(1, "categoriaExemple", 10);
         Client client = new Client(40, "X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00", 1);
         Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
-        Localitzacio localitzacio = new Localitzacio("45657", "exempleDireccio", 423.23, 2343.23, client);
+        //Localitzacio localitzacio = new Localitzacio("45657", "exempleDireccio", 423.23, 2343.23, client);
         Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);
-        Usuari u = new Usuari("41626113-T", "Aleix", "Ventura", "AVentura", "E0-35-35-D4-E5-A7-1B-CE-82-48-12-3D-3B-74-53-5A-6D-14-48-28-8D-30-ED-BD-43-1B-43-EC-DF-AD-8D-3B");
+       // Usuari u = new Usuari("41626113-T", "Aleix", "Ventura", "AVentura", "E0-35-35-D4-E5-A7-1B-CE-82-48-12-3D-3B-74-53-5A-6D-14-48-28-8D-30-ED-BD-43-1B-43-EC-DF-AD-8D-3B");
       //  lpm.insert(Usuari.class, u);
         // client.addComanda(comanda);
         //categoria.addProducte(producte);
@@ -151,6 +152,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
 
+        }
+        if (v.getId() == R.id.button){
+            Intent i = new Intent(this, ProvaActivity.class);
+            startActivity(i);
         }
     }
     public static String passwordKeyGeneration(String text) {

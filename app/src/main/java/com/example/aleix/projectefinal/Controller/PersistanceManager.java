@@ -19,6 +19,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
@@ -107,66 +108,227 @@ public class PersistanceManager extends AsyncTask {
     }
 
     private Object doPostRequest(String stringUrl, String postMessage) {
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-        HttpResponse response;
-        String stringResponse = null;
+//        HttpClient client = new DefaultHttpClient();
+//        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+//        HttpResponse response;
+//        String stringResponse = null;
+//        try {
+//            HttpPost post = new HttpPost(new URI(stringUrl));
+//            StringEntity se = new StringEntity(postMessage);
+//            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//            post.setEntity(se);
+//            response = client.execute(post);
+//            if (response != null) {
+//                InputStream in = response.getEntity().getContent();
+//                stringResponse = getStringFromInputStream(in);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return stringResponse;
+
+
+
+
+
+
+        String responseOfServer = null;
+
+        HttpURLConnection connection = null;
+        DataOutputStream dos = null;
+
         try {
-            HttpPost post = new HttpPost(new URI(stringUrl));
-            StringEntity se = new StringEntity(postMessage);
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            post.setEntity(se);
-            response = client.execute(post);
-            if (response != null) {
-                InputStream in = response.getEntity().getContent();
-                stringResponse = getStringFromInputStream(in);
+            byte[] postMessageBytes = postMessage.getBytes("UTF-8");
+            int postMessageBytesLength = postMessageBytes.length;
+            URL url = new URL(stringUrl);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("charset", "utf-8");
+            connection.setRequestProperty("Content-Length", Integer.toString(postMessageBytesLength));
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setUseCaches(false);
+
+            dos = new DataOutputStream(connection.getOutputStream());
+            dos.write(postMessageBytes);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            responseOfServer = sb.toString();
+
+        } catch (Exception ex) {
+            LogAndToastMaker.makeErrorLog(ex.getMessage());
+        } finally {
+            try {
+                dos.close();
+                connection.disconnect();
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
         }
-        return stringResponse;
+
+
+        LogAndToastMaker.makeToast(this.activity, responseOfServer);
+        return responseOfServer;
+
     }
 
     private Object doPutRequest(String stringUrl, String postMessage) {
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-        HttpResponse response;
-        String stringResponse = null;
+//        HttpClient client = new DefaultHttpClient();
+//        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+//        HttpResponse response;
+//        String stringResponse = null;
+//        try {
+//            HttpPut put = new HttpPut(new URI(stringUrl));
+//            StringEntity se = new StringEntity(postMessage);
+//            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//            put.setEntity(se);
+//            response = client.execute(put);
+//            if (response != null) {
+//                InputStream in = response.getEntity().getContent();
+//                stringResponse = getStringFromInputStream(in);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return stringResponse;
+
+
+
+
+
+
+
+
+
+
+        String responseOfServer = null;
+
+        HttpURLConnection connection = null;
+        DataOutputStream dos = null;
+
         try {
-            HttpPut put = new HttpPut(new URI(stringUrl));
-            StringEntity se = new StringEntity(postMessage);
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            put.setEntity(se);
-            response = client.execute(put);
-            if (response != null) {
-                InputStream in = response.getEntity().getContent();
-                stringResponse = getStringFromInputStream(in);
+            byte[] postMessageBytes = postMessage.getBytes("UTF-8");
+            int postMessageBytesLength = postMessageBytes.length;
+            URL url = new URL(stringUrl);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("charset", "utf-8");
+            connection.setRequestProperty("Content-Length", Integer.toString(postMessageBytesLength));
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setUseCaches(false);
+
+            dos = new DataOutputStream(connection.getOutputStream());
+            dos.write(postMessageBytes);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            responseOfServer = sb.toString();
+
+        } catch (Exception ex) {
+            LogAndToastMaker.makeErrorLog(ex.getMessage());
+        } finally {
+            try {
+                dos.close();
+                connection.disconnect();
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
         }
-        return stringResponse;
+
+
+        return responseOfServer;
+
+
+
+
+
+
+
+
     }
 
     private Object doDeleteRequest(String stringUrl) {
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-        HttpResponse response;
-        String stringResponse = null;
+//        HttpClient client = new DefaultHttpClient();
+//        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+//        HttpResponse response;
+//        String stringResponse = null;
+//        try {
+//            HttpDelete delete = new HttpDelete(new URI(stringUrl));
+//            response = client.execute(delete);
+//            if (response != null) {
+//                InputStream in = response.getEntity().getContent();
+//                stringResponse = getStringFromInputStream(in);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return stringResponse;
+
+
+
+
+
+
+
+
+        String responseOfServer = null;
+
+        HttpURLConnection connection = null;
+        DataOutputStream dos = null;
+
         try {
-            HttpDelete delete = new HttpDelete(new URI(stringUrl));
-            //StringEntity se = new StringEntity(postMessage);
-            //se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            //put.setEntity(se);
-            response = client.execute(delete);
-            if (response != null) {
-                InputStream in = response.getEntity().getContent();
-                stringResponse = getStringFromInputStream(in);
+            URL url = new URL(stringUrl);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setUseCaches(false);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            responseOfServer = sb.toString();
+
+        } catch (Exception ex) {
+            LogAndToastMaker.makeErrorLog(ex.getMessage());
+        } finally {
+            try {
+                dos.close();
+                connection.disconnect();
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
         }
-        return stringResponse;
+
+
+
+
+    return responseOfServer;
+
+
+
+
+
     }
 
     private String getStringFromInputStream(InputStream is) {
@@ -186,7 +348,7 @@ public class PersistanceManager extends AsyncTask {
     }
 
     public String getServerResponse(String resourceUrl, String requestMethod, String postMessage) {
-        String fullResourceURL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/" + resourceUrl;
+        String fullResourceURL = GlobalParameterController.SERVER_URL + resourceUrl;
         AsyncTask at = this.execute(fullResourceURL, requestMethod, postMessage);
         String serverResponse = null;
         try {
@@ -214,18 +376,18 @@ public class PersistanceManager extends AsyncTask {
 
     public <T> void updateAnObjectFromServer(Class<T> objectClass, T objectToTransform) {
         String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
-        String resourceToUpdate = objectClass.getSimpleName() + "(" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ")";
+        String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
         getServerResponse(resourceToUpdate, "PUT", transformedObject);
         LogAndToastMaker.makeToast(this.activity, "The entry updated correctly!");
     }
 
     public <T> void deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
-        String resourceToUpdate = objectClass.getSimpleName() + "(" + idOfObjectToDelete + ")";
+        String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + idOfObjectToDelete + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
         getServerResponse(resourceToUpdate, "DELETE", null);
         LogAndToastMaker.makeToast(this.activity, "The entry deleted correctly!");
     }
 
-    private  <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {
+    private <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {
         int objectId = 0;
         try {
             Method method = objectClass.getMethod("getId");
