@@ -115,7 +115,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                     !mobil.getText().toString().equalsIgnoreCase("") && !email.getText().toString().equalsIgnoreCase("") &&
                     !carrer.getText().toString().equalsIgnoreCase("") && !Poblacio.getText().toString().equalsIgnoreCase("") &&
                     !cp.getText().toString().equalsIgnoreCase("") && !altres.getText().toString().equalsIgnoreCase("")){
-                //client = new Client( DNI.getText().toString(), nom.getText().toString(), cognom.getText().toString() , Integer.parseInt(edat.getText().toString()), "/image.png");
+                client = new Client( DNI.getText().toString(), nom.getText().toString(), cognom.getText().toString() , Integer.parseInt(edat.getText().toString()), "/image.png", Integer.parseInt(tel.getText().toString()), Integer.parseInt(mobil.getText().toString()));
                 Geocoder geo = new Geocoder(this, Locale.getDefault());
                 List<Address> adreça = null;
                 try {

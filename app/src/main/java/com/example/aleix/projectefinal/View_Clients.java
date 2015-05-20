@@ -59,7 +59,8 @@ public class View_Clients extends Activity implements View.OnClickListener {
         txtCognom.setText(client.getCognom());
         txtEdat.setText(Integer.toString(client.getEdat()));
         txtDNI.setText(client.getDni());
-        txtTel.setText("");
+        txtTel.setText(Integer.toString(client.getTelefon()));
+        txtMobil.setText(Integer.toString(client.getMobil()));
 
         txtCarrer.setText(localitzacio.getDireccio()+ ", " + localitzacio.getPoblacio() + ", " + localitzacio.getCodiPostal());
 
