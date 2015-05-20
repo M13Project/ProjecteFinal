@@ -56,6 +56,10 @@
             android:name=".View_AddProducte"
             android:label="@string/title_activity_view__add_producte" >
         </activity>
+        <activity
+            android:name=".proves.ProvaActivity"
+            android:label="Prova" >
+        </activity>
     </application>
 
 </manifest>

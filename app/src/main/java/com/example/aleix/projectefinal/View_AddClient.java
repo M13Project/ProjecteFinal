@@ -115,7 +115,7 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                     !mobil.getText().toString().equalsIgnoreCase("") && !email.getText().toString().equalsIgnoreCase("") &&
                     !carrer.getText().toString().equalsIgnoreCase("") && !Poblacio.getText().toString().equalsIgnoreCase("") &&
                     !cp.getText().toString().equalsIgnoreCase("") && !altres.getText().toString().equalsIgnoreCase("")){
-                client = new Client( DNI.getText().toString(), nom.getText().toString(), cognom.getText().toString() , Integer.parseInt(edat.getText().toString()), "/image.png",  usuari.getId());
+                //client = new Client( DNI.getText().toString(), nom.getText().toString(), cognom.getText().toString() , Integer.parseInt(edat.getText().toString()), "/image.png");
                 Geocoder geo = new Geocoder(this, Locale.getDefault());
                 List<Address> adreça = null;
                 try {
@@ -124,10 +124,10 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 if(adreça.size()>1) {
-                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
+                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), "POBLACIO POSADA A MA", adreça.get(0).getLatitude(), adreça.get(0).getLongitude(), client);
                 }
                 else{
-                    localitzacio = new Localitzacio( client, cp.getText().toString(), carrer.getText().toString(), Poblacio.getText().toString());
+                    localitzacio = new Localitzacio(cp.getText().toString(), carrer.getText().toString(), Poblacio.getText().toString(), client);
                 }
                 if (add.getText().toString().equalsIgnoreCase("ADD")){
                 lpm.insert(Client.class, client);

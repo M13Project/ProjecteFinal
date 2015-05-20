@@ -35,7 +35,16 @@ public class Client implements Serializable{
 
     }
 
-    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita, int comercialId) {
+    public Client(String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita) {
+        Dni = dni;
+        Nom = nom;
+        Cognom = cognom;
+        Edat = edat;
+        ImageClient = imageClient;
+        DataProperaVisita = dataProperaVisita;
+    }
+
+    public Client(int id, String dni, String nom, String cognom, int edat, String imageClient, String dataProperaVisita) {
         _id = id;
         Dni = dni;
         Nom = nom;

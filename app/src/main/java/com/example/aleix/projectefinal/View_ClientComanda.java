@@ -10,10 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.aleix.projectefinal.Adapter.CustomComandaAdapter;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
-import com.example.aleix.projectefinal.Proves.CustomComandaAdapter;
 
 import java.util.List;
 

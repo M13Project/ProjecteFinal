@@ -12,9 +12,11 @@ public class Localitzacio {
     @DatabaseField(generatedId = true)
     private int _id;
     @DatabaseField(columnName = "CodiPostal")
-    private int CodiPostal;
+    private String CodiPostal;
     @DatabaseField(columnName = "Direccio")
     private String Direccio;
+    @DatabaseField(columnName = "Poblacio")
+    private String Poblacio;
     @DatabaseField(columnName = "Latitud")
     private double Latitud;
     @DatabaseField(columnName = "Longitud")
@@ -25,9 +27,17 @@ public class Localitzacio {
     public Localitzacio() {
     }
 
-    public Localitzacio(int codiPostal, String direccio, double latitud, double longitud, Client client) {
+    public Localitzacio(String codiPostal, String direccio, String poblacio, Client client) {
         CodiPostal = codiPostal;
         Direccio = direccio;
+        Poblacio = poblacio;
+        ClientId = client;
+    }
+
+    public Localitzacio(String codiPostal, String direccio, String poblacio, double latitud, double longitud, Client client) {
+        CodiPostal = codiPostal;
+        Direccio = direccio;
+        Poblacio = poblacio;
         Latitud = latitud;
         Longitud = longitud;
         ClientId = client;
@@ -41,11 +51,11 @@ public class Localitzacio {
         _id = id;
     }
 
-    public int getCodiPostal() {
+    public String getCodiPostal() {
         return CodiPostal;
     }
 
-    public void setCodiPostal(int codiPostal) {
+    public void setCodiPostal(String codiPostal) {
         CodiPostal = codiPostal;
     }
 
@@ -55,6 +65,14 @@ public class Localitzacio {
 
     public void setDireccio(String direccio) {
         Direccio = direccio;
+    }
+
+    public String getPoblacio() {
+        return Poblacio;
+    }
+
+    public void setPoblacio(String poblacio) {
+        Poblacio = poblacio;
     }
 
     public double getLatitud() {

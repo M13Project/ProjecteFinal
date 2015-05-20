@@ -67,7 +67,8 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        producte.setCategoriaId(categoria);
 //        String response = async.sendAnObjectToServer(Producte.class, producte);
 //        LogAndToastMaker.makeInfoLog(response);
-        Client client = new Client(3, "1sdds2", "David", "Asdas", 34, "sdfddfs", "2015-05-13T00:00:00", 1);
+        Client client = new Client("1sdds2", "David", "Asdas", 34, "sdfddfs", "2015-05-13T00:00:00");
+        client.setId(2);
         async.sendAnObjectToServer(Client.class, client);
 
         /**/

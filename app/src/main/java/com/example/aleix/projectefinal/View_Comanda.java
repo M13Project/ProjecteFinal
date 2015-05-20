@@ -7,20 +7,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Adapter.CustomListViewAdapter;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
-import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
 import com.example.aleix.projectefinal.Entity.Producte;
-import com.example.aleix.projectefinal.Proves.CustomListViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

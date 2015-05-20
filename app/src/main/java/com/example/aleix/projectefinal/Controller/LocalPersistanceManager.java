@@ -220,7 +220,7 @@ public class LocalPersistanceManager {
     public void closeConnection() {
         try {
             this.connectionSource.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
