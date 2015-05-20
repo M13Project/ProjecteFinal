@@ -10,8 +10,6 @@ import android.widget.ImageButton;
 
 import com.example.aleix.projectefinal.Entity.Usuari;
 
-import java.io.Serializable;
-
 
 public class Main_View extends Activity implements View.OnClickListener{
 
@@ -72,7 +70,7 @@ public class Main_View extends Activity implements View.OnClickListener{
                 opcio = new Intent(this, View_ClientGeoloc.class);
                 break;
         }
-        opcio.putExtra("Usuari", (Serializable) usuari);
+        opcio.putExtra("Usuari",  usuari);
         if (opcio!= null){
             startActivity(opcio);
         }
