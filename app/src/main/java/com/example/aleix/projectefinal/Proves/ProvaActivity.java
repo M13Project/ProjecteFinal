@@ -98,10 +98,10 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-//        SynchronizeController sc = new SynchronizeController(this);
-//        sc.uploadEntities();
+        SynchronizeController sc = new SynchronizeController(this);
+        sc.uploadEntities();
 
-        async.deleteAnObjectFromServer(Localitzacio.class, 1);
+//        async.deleteAnObjectFromServer(Localitzacio.class, 1);
 
     }
 }
