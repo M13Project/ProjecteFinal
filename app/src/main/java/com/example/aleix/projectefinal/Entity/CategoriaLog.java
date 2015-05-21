@@ -12,6 +12,12 @@ public class CategoriaLog {
 
     }
 
+    public CategoriaLog(int id, String op, String lastUpdate) {
+        Id = id;
+        Op = op;
+        LastUpdate = lastUpdate;
+    }
+
     public int getId() {
         return Id;
     }

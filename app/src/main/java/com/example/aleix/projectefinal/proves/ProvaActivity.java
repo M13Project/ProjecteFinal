@@ -2,18 +2,22 @@ package com.example.aleix.projectefinal.proves;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Controller.LogAndToastMaker;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
 import com.example.aleix.projectefinal.Controller.SynchronizeController;
+import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
+import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.R;
 
 import java.util.List;
@@ -103,8 +107,14 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-        SynchronizeController sc = new SynchronizeController(this);
-        sc.uploadEntities();
+//        SynchronizeController sc = new SynchronizeController(this);
+//        sc.downloadEntities();
+//        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
+//        LogAndToastMaker.makeInfoLog(lpm.getEntity(Producte.class, 2).getNom());
+
+
+        LogAndToastMaker.makeInfoLog(async.getListOfObjectsFromServer(Producte.class).get(0).getNom());
+
 //        async.deleteAnObjectFromServer(Client.class, 2);
 //        List asd =async.getListOfObjectsFromServer(Comanda_Producte.class);
 //        if(asd.isEmpty()) {

@@ -58,9 +58,9 @@ public class LocalPersistanceManager {
         try {
             int resultOfInsertion = dao.create(objectToBeInserted);
             if (resultOfInsertion == 1) {
-                resultString = "Resource inserted correctly!";
+                resultString = GlobalParameterController.OPERATION_OK;
             } else {
-                resultString = "Failed to insert the resource!";
+                resultString = GlobalParameterController.OPERATION_FAIL;
             }
         } catch (SQLException e) {
             e.printStackTrace();

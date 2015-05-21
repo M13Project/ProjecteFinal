@@ -6,6 +6,10 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.aleix.projectefinal.Entity.CategoriaLog;
+import com.example.aleix.projectefinal.Entity.Producte;
+import com.example.aleix.projectefinal.Entity.ProducteLog;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -27,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -262,6 +267,18 @@ public class PersistanceManager extends AsyncTask {
         return listOfObjects;
     }
 
+    public <T> T getObjectFromServer(Class<T> objectClass, int idOfObjectToRetrieve) {
+        T objectRetrieved = null;
+        String resourceUrl = objectClass.getSimpleName() + "(" + idOfObjectToRetrieve + ")";
+        String serverResponse = getServerResponse(resourceUrl, "GET", null);
+        List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
+        List<T> listOfOneObject = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, foreignObjectInMapFormat, activity);
+        if (!listOfOneObject.isEmpty()) {
+            objectRetrieved = listOfOneObject.get(0);
+        }
+        return objectRetrieved;
+    }
+
     public <T> String sendAnObjectToServer(Class<T> objectClass, T objectToTransform) {
         String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
         String serverResponse = getServerResponse(objectClass.getSimpleName(), "POST", transformedObject);
@@ -276,8 +293,14 @@ public class PersistanceManager extends AsyncTask {
     }
 
     public <T> String deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
-        String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + idOfObjectToDelete + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
-        String serverResponse = getServerResponse(resourceToUpdate, "DELETE", null);
+        String resourceToDelete = objectClass.getSimpleName() + "(Id=" + idOfObjectToDelete + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
+        String serverResponse = getServerResponse(resourceToDelete, "DELETE", null);
+        return serverResponse;
+    }
+
+    public <T> String deleteLogFromServer(Class<T> objectClass, int idOfLogToDelete, String operationType) {
+        String resourceToDelete = objectClass.getSimpleName() + "(Id=" + idOfLogToDelete + ",Op=" + operationType + ")";
+        String serverResponse = getServerResponse(resourceToDelete, "DELETE", null);
         return serverResponse;
     }
 

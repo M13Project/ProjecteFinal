@@ -3,6 +3,7 @@ package com.example.aleix.projectefinal.Entity;
 /**
  * Created by Michal on 21/05/2015.
  */
+
 public class ProducteLog {
     private int Id;
     private String Op;
@@ -10,6 +11,12 @@ public class ProducteLog {
 
     public ProducteLog () {
 
+    }
+
+    public ProducteLog(int id, String op, String lastUpdate) {
+        Id = id;
+        Op = op;
+        LastUpdate = lastUpdate;
     }
 
     public int getId() {
