@@ -32,7 +32,6 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         etQuery = (EditText) findViewById(R.id.editTextQuery);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -105,13 +104,12 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
         SynchronizeController sc = new SynchronizeController(this);
-        sc.execute();
+        sc.uploadEntities();
 //        async.deleteAnObjectFromServer(Client.class, 2);
 //        List asd =async.getListOfObjectsFromServer(Comanda_Producte.class);
 //        if(asd.isEmpty()) {
 //            LogAndToastMaker.makeErrorLog("EMPTY!!!!");
 //        }
-
 
 //        async.deleteAnObjectFromServer(Localitzacio.class, 1);
 
