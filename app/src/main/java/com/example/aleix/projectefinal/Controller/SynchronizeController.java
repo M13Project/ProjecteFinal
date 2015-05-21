@@ -1,12 +1,15 @@
 package com.example.aleix.projectefinal.Controller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.ClientLog;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
+import com.example.aleix.projectefinal.R;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -14,17 +17,19 @@ import java.util.List;
 /**
  * Created by Michal on 18/05/2015.
  */
-public class SynchronizeController {
+public class SynchronizeController extends AsyncTask {
 
     private Activity activity;
     private LocalPersistanceManager lpm;
+    //private ProgressDialog dialog;
 
     public SynchronizeController(Activity activity) {
         this.activity = activity;
         lpm = new LocalPersistanceManager(activity, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
+        //this.dialog = new ProgressDialog(activity);
     }
 
-    public void uploadEntities() {
+    private void uploadEntities() {
         insertEntity(Client.class);
         insertEntity(Comanda.class);
         insertEntity(Comanda_Producte.class);
@@ -67,8 +72,10 @@ public class SynchronizeController {
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("I")) {
                 auxiliarObject = lpm.getEntity(classToInsert, objectId);
-                pm.sendAnObjectToServer(classToInsert, auxiliarObject);
-                lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                String operationResponse = pm.sendAnObjectToServer(classToInsert, auxiliarObject);
+                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
@@ -99,8 +106,10 @@ public class SynchronizeController {
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("U")) {
                 auxiliarObject = lpm.getEntity(classToUpdate, objectId);
-                pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
-                lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                String operationResponse = pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
+                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
@@ -130,13 +139,33 @@ public class SynchronizeController {
             }
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("D")) {
-                    pm.deleteAnObjectFromServer(classToDelete, objectId);
+                    String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
+                if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
                     lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
 
-//    private <T> void uploadEntity(Class<T> classToUpload) {
+    @Override
+    protected Object doInBackground(Object[] objects) {
+        uploadEntities();
+        return null;
+    }
+
+    @Override
+    protected void onPreExecute() {
+//        this.dialog.setMessage("Please wait...");
+//        this.dialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(Object o) {
+        //this.dialog.dismiss();
+        LogAndToastMaker.makeToast(this.activity, this.activity.getResources().getString(R.string.upload_completed));
+    }
+
+    //    private <T> void uploadEntity(Class<T> classToUpload) {
 //        PersistanceManager pm = null;
 //        Class logTableClass = null;
 //        String operationType = null;

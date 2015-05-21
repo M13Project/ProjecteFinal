@@ -15,12 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.aleix.projectefinal.Controller.GlobalParameterController;
 import com.example.aleix.projectefinal.Controller.LocalPersistanceManager;
 import com.example.aleix.projectefinal.Controller.LoginController;
 import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
+import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.Usuari;
 import com.example.aleix.projectefinal.proves.ProvaActivity;
@@ -51,26 +53,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnp.setOnClickListener(this);
         /**/
         /*Base de dades*/
-        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 2);
+        LocalPersistanceManager lpm = new LocalPersistanceManager(this, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
         Categoria categoria = new Categoria(1, "categoriaExemple", 10);
         Client client = new Client("X435345", "Michal", "Krysiak", 26, "/image.png", "2015-05-13T00:00:00");
         Comanda comanda = new Comanda(true, "2015-05-13T00:00:00", client);
-        //Localitzacio localitzacio = new Localitzacio("45657", "exempleDireccio", 423.23, 2343.23, client);
+        Localitzacio localitzacio = new Localitzacio("45657", "exempleDireccio", "Montmelo", 423.23, 2343.23, client);
         Producte producte = new Producte(23, "exempleProducte", 50, 10, "image.png", true, categoria);
        // Usuari u = new Usuari("41626113-T", "Aleix", "Ventura", "AVentura", "E0-35-35-D4-E5-A7-1B-CE-82-48-12-3D-3B-74-53-5A-6D-14-48-28-8D-30-ED-BD-43-1B-43-EC-DF-AD-8D-3B");
       //  lpm.insert(Usuari.class, u);
         // client.addComanda(comanda);
         //categoria.addProducte(producte);
         Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
-        //lpm.insert(Client.class, client);
-       // lpm.insert(Comanda.class, comanda);
-       // lpm.insert(Localitzacio.class, localitzacio);
-//        lpm.insert(Categoria.class, categoria);
-//        lpm.insert(Producte.class, producte);
-      //  lpm.insert(Comanda_Producte.class, cp);
-        Client cl = lpm.getEntity(Client.class, 1);
+        lpm.insert(Client.class, client);
+        lpm.insert(Comanda.class, comanda);
+        lpm.insert(Localitzacio.class, localitzacio);
+        lpm.insert(Categoria.class, categoria);
+        lpm.insert(Producte.class, producte);
+        lpm.insert(Comanda_Producte.class, cp);
+//        Client cl = lpm.getEntity(Client.class, 1);
 //        LogAndToastMaker.makeInfoLog(cl.toString());
-        usuarisList = lpm.getAllEntities(Usuari.class);
+//        usuarisList = lpm.getAllEntities(Usuari.class);
         /**/
 
     }

@@ -8,9 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.aleix.projectefinal.Controller.LogAndToastMaker;
 import com.example.aleix.projectefinal.Controller.PersistanceManager;
+import com.example.aleix.projectefinal.Controller.SynchronizeController;
 import com.example.aleix.projectefinal.Entity.Client;
+import com.example.aleix.projectefinal.Entity.Comanda;
+import com.example.aleix.projectefinal.Entity.Comanda_Producte;
 import com.example.aleix.projectefinal.R;
+
+import java.util.List;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -67,9 +73,10 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 //        producte.setCategoriaId(categoria);
 //        String response = async.sendAnObjectToServer(Producte.class, producte);
 //        LogAndToastMaker.makeInfoLog(response);
-        Client client = new Client("1sdds2", "David", "Asdas", 34, "sdfddfs", "2015-05-13T00:00:00");
-        client.setId(2);
-        async.sendAnObjectToServer(Client.class, client);
+//        Client client = new Client("1sdds2", "ddd", "ddd", 26, "sdfddfs", "2015-05-13T00:00:00");
+//        client.setId(1);
+//        async.sendAnObjectToServer(Client.class, client);
+//        async.updateAnObjectFromServer(Client.class, client);
 
         /**/
 
@@ -97,8 +104,13 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-//        SynchronizeController sc = new SynchronizeController(this);
-//        sc.uploadEntities();
+        SynchronizeController sc = new SynchronizeController(this);
+        sc.execute();
+//        async.deleteAnObjectFromServer(Client.class, 2);
+//        List asd =async.getListOfObjectsFromServer(Comanda_Producte.class);
+//        if(asd.isEmpty()) {
+//            LogAndToastMaker.makeErrorLog("EMPTY!!!!");
+//        }
 
 
 //        async.deleteAnObjectFromServer(Localitzacio.class, 1);

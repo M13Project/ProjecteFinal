@@ -84,6 +84,7 @@ public class PersistanceManager extends AsyncTask {
         try {
             url = new URL(stringUrl);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
             conn.setRequestProperty("Accept", "application/json");
 
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -108,7 +109,7 @@ public class PersistanceManager extends AsyncTask {
     }
 
     private Object doPostRequest(String stringUrl, String postMessage) {
-        String responseOfServer = null;
+        String responseOfServer = "FAIL";
         HttpURLConnection connection = null;
         DataOutputStream dos = null;
         try {
@@ -116,6 +117,7 @@ public class PersistanceManager extends AsyncTask {
             int postMessageBytesLength = postMessageBytes.length;
             URL url = new URL(stringUrl);
             connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
             connection.setDoOutput(true);
             connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("POST");
@@ -132,8 +134,9 @@ public class PersistanceManager extends AsyncTask {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "");
             }
-            responseOfServer = sb.toString();
-
+            if (sb.toString() != null) {
+                responseOfServer = "OK";
+            }
         } catch (Exception ex) {
             LogAndToastMaker.makeErrorLog(ex.getMessage());
         } finally {
@@ -141,21 +144,22 @@ public class PersistanceManager extends AsyncTask {
                 dos.close();
                 connection.disconnect();
             } catch (Exception ex) {
-                System.out.println("Error: " + ex.getMessage());
+                LogAndToastMaker.makeErrorLog(ex.getMessage());
             }
         }
         return responseOfServer;
     }
 
-    private Object doPutRequest(String stringUrl, String postMessage) {
-        String responseOfServer = null;
+    private Object doPutRequest(String stringUrl, String putMessage) {
+        String responseOfServer = "FAIL";
         HttpURLConnection connection = null;
         DataOutputStream dos = null;
         try {
-            byte[] postMessageBytes = postMessage.getBytes("UTF-8");
-            int postMessageBytesLength = postMessageBytes.length;
+            byte[] putMessageBytes = putMessage.getBytes("UTF-8");
+            int postMessageBytesLength = putMessageBytes.length;
             URL url = new URL(stringUrl);
             connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
             connection.setDoOutput(true);
             connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("PUT");
@@ -165,15 +169,16 @@ public class PersistanceManager extends AsyncTask {
             connection.setRequestProperty("Accept", "application/json");
             connection.setUseCaches(false);
             dos = new DataOutputStream(connection.getOutputStream());
-            dos.write(postMessageBytes);
+            dos.write(putMessageBytes);
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "");
             }
-            responseOfServer = sb.toString();
-
+            if (sb.toString().equalsIgnoreCase("")) {
+                responseOfServer = "OK";
+            }
         } catch (Exception ex) {
             LogAndToastMaker.makeErrorLog(ex.getMessage());
         } finally {
@@ -188,12 +193,13 @@ public class PersistanceManager extends AsyncTask {
     }
 
     private Object doDeleteRequest(String stringUrl) {
-        String responseOfServer = null;
+        String responseOfServer = "FAIL";
         HttpURLConnection connection = null;
         DataOutputStream dos = null;
         try {
             URL url = new URL(stringUrl);
             connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
             connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("DELETE");
             connection.setRequestProperty("Accept", "application/json");
@@ -204,8 +210,9 @@ public class PersistanceManager extends AsyncTask {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "");
             }
-            responseOfServer = sb.toString();
-
+            if (sb.toString().equalsIgnoreCase("")) {
+                responseOfServer = "OK";
+            }
         } catch (Exception ex) {
             LogAndToastMaker.makeErrorLog(ex.getMessage());
         } finally {
@@ -258,21 +265,20 @@ public class PersistanceManager extends AsyncTask {
     public <T> String sendAnObjectToServer(Class<T> objectClass, T objectToTransform) {
         String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
         String serverResponse = getServerResponse(objectClass.getSimpleName(), "POST", transformedObject);
-        LogAndToastMaker.makeToast(this.activity, "The entry added correctly!");
         return serverResponse;
     }
 
-    public <T> void updateAnObjectFromServer(Class<T> objectClass, T objectToTransform) {
+    public <T> String updateAnObjectFromServer(Class<T> objectClass, T objectToTransform) {
         String transformedObject = MyJasonEntityConverter.getJsonObjectFromEntity(objectClass, objectToTransform);
         String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + getIdOfAnObjectRetrievedFromServer(objectClass, objectToTransform) + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
-        getServerResponse(resourceToUpdate, "PUT", transformedObject);
-        LogAndToastMaker.makeToast(this.activity, "The entry updated correctly!");
+        String serverResponse = getServerResponse(resourceToUpdate, "PUT", transformedObject);
+        return serverResponse;
     }
 
-    public <T> void deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
+    public <T> String deleteAnObjectFromServer(Class<T> objectClass, int idOfObjectToDelete) {
         String resourceToUpdate = objectClass.getSimpleName() + "(Id=" + idOfObjectToDelete + ",ComercialId=" + GlobalParameterController.COMERCIAL_AGENT_ID + ")";
-        getServerResponse(resourceToUpdate, "DELETE", null);
-        LogAndToastMaker.makeToast(this.activity, "The entry deleted correctly!");
+        String serverResponse = getServerResponse(resourceToUpdate, "DELETE", null);
+        return serverResponse;
     }
 
     private <T> int getIdOfAnObjectRetrievedFromServer(Class<T> objectClass, T objectToTransform) {

@@ -25,10 +25,6 @@ public class Client implements Serializable{
     private int Edat;
     @DatabaseField(columnName = "ImageClient")
     private String ImageClient;
-    /*@DatabaseField(columnName = "Telefon")
-    private int Telefon;
-    @DatabaseField(columnName = "Mobil")
-    private int Mobil;*/
     @DatabaseField(columnName = "DataProperaVisita")
     private String DataProperaVisita;
     @ForeignCollectionField(eager = false)
@@ -66,8 +62,6 @@ public class Client implements Serializable{
         Cognom = cognom;
         Edat = edat;
         ImageClient = imageClient;
-        //Telefon = telefon;
-        //Mobil = mobil;
     }
 
     public void addComanda(Comanda comanda) {
@@ -125,22 +119,6 @@ public class Client implements Serializable{
     public String getDataProperaVisita() {
         return DataProperaVisita;
     }
-
-    /*public int getTelefon() {
-        return Telefon;
-    }
-
-    public void setTelefon(int telefon) {
-        Telefon = telefon;
-    }
-
-    public int getMobil() {
-        return Mobil;
-    }
-
-    public void setMobil(int mobil) {
-        Mobil = mobil;
-    }*/
 
     public void setDataProperaVisita(String dataProperaVisita) {
         DataProperaVisita = dataProperaVisita;

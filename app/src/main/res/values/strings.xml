@@ -10,4 +10,6 @@
     <string name="title_activity_view__comanda">View_Comanda</string>
     <string name="title_activity_view__add_client">View_AddClient</string>
     <string name="title_activity_view__add_producte">View_AddProducte</string>
+
+    <string name="upload_completed">Update completed successfully</string>
 </resources>
