@@ -18,6 +18,6 @@ public class LogAndToastMaker {
     }
 
     public static void makeToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

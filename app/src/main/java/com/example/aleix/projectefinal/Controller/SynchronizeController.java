@@ -1,12 +1,15 @@
 package com.example.aleix.projectefinal.Controller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 
 import com.example.aleix.projectefinal.Entity.Client;
 import com.example.aleix.projectefinal.Entity.ClientLog;
 import com.example.aleix.projectefinal.Entity.Comanda;
 import com.example.aleix.projectefinal.Entity.Comanda_Producte;
 import com.example.aleix.projectefinal.Entity.Localitzacio;
+import com.example.aleix.projectefinal.R;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -67,8 +70,10 @@ public class SynchronizeController {
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("I")) {
                 auxiliarObject = lpm.getEntity(classToInsert, objectId);
-                pm.sendAnObjectToServer(classToInsert, auxiliarObject);
-                lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                String operationResponse = pm.sendAnObjectToServer(classToInsert, auxiliarObject);
+                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
@@ -99,8 +104,10 @@ public class SynchronizeController {
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("U")) {
                 auxiliarObject = lpm.getEntity(classToUpdate, objectId);
-                pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
-                lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                String operationResponse = pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
+                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
@@ -130,52 +137,15 @@ public class SynchronizeController {
             }
             T auxiliarObject = null;
             if(operationType.equalsIgnoreCase("D")) {
-                    pm.deleteAnObjectFromServer(classToDelete, objectId);
+                    String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
+                if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
                     lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                }
             }
         }
     }
 
-//    private <T> void uploadEntity(Class<T> classToUpload) {
-//        PersistanceManager pm = null;
-//        Class logTableClass = null;
-//        String operationType = null;
-//        int objectId = 0;
-//        Method method = null;
-//        Method method2 = null;
-//        try {
-//            logTableClass = Class.forName(classToUpload.getName() + "Log");
-//            method = logTableClass.getMethod("getOp");
-//            method2 = logTableClass.getMethod("getId");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        List logEntries = lpm.getAllEntities(logTableClass);
-//        for (Object oneLogEntry : logEntries) {
-//            pm = new PersistanceManager(activity);
-//            try {
-//                operationType = (String) method.invoke(oneLogEntry);
-//                objectId = (int) method2.invoke(oneLogEntry);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            T auxiliarObject = null;
-//            switch (operationType) {
-//                case "I":
-//                    auxiliarObject = lpm.getEntity(classToUpload, objectId);
-//                    pm.sendAnObjectToServer(classToUpload, auxiliarObject);
-//                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
-//                    break;
-//                case "U":
-//                    auxiliarObject = lpm.getEntity(classToUpload, objectId);
-//                    pm.updateAnObjectFromServer(classToUpload, auxiliarObject);
-//                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
-//                    break;
-//                case "D":
-//                    pm.deleteAnObjectFromServer(classToUpload, objectId);
-//                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
-//                    break;
-//            }
-//        }
-//    }
+    public void downloadEntities() {
+
+    }
 }
