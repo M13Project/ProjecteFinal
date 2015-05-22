@@ -10,4 +10,5 @@ public class GlobalParameterController {
     public static final String SERVER_URL = "http://10.0.3.2:52220/M13ProjectWcfDataService.svc/";
     public static final String OPERATION_OK = "OK";
     public static final String OPERATION_FAIL = "FAIL";
+    public static final String SHARED_PREFERENCES_NAME = "connection_data";
 }

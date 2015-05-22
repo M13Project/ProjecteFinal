@@ -2,6 +2,8 @@ package com.example.aleix.projectefinal.Controller;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.example.aleix.projectefinal.Entity.Categoria;
@@ -150,13 +152,17 @@ public class SynchronizeController {
         }
     }
 
-    public void downloadEntities(String dateLastDownload) {
+    public void downloadEntities() {
+        String dateLastDownload = retrieveLastDownloadDate();
+        if(dateLastDownload.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            dateLastDownload = "2015-05-22T13:33:43.250Z";
+        }
         DateTime dateLastDownloadInDateTimeFormat = new DateTime(dateLastDownload);
         insertEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
     }
 
-    private <T> void insertEntityFromServer(Class<T> classToInsert, DateTime dateLastDownloadInDateTimeFormat) {
-//TRACTAMENT NULLLS!!!!!!
+    private <T> String insertEntityFromServer(Class<T> classToInsert, DateTime dateLastDownloadInDateTimeFormat) {
+        String resultOfInsertOperation = GlobalParameterController.OPERATION_OK;
         PersistanceManager pm = new PersistanceManager(this.activity);
         List listOfLogEntries = null;
         DateTime dateOfLogEntry = null;
@@ -183,10 +189,9 @@ public class SynchronizeController {
                         auxiliarObject = pm.getObjectFromServer(classToInsert, objectId);
                         if (auxiliarObject != null) {
                             String operationResult = lpm.insert(classToInsert, auxiliarObject);
-//                            if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
-//                                pm = new PersistanceManager(this.activity);
-//                                pm.deleteLogFromServer(classToInsertLog, objectId, operationType);
-//                            }
+                            if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+                                resultOfInsertOperation = GlobalParameterController.OPERATION_FAIL;
+                            }
                         }
                     }
                 }
@@ -194,8 +199,23 @@ public class SynchronizeController {
         } catch (Exception e) {
             LogAndToastMaker.makeErrorLog(e.getMessage());
         }
-        LogAndToastMaker.makeInfoLog("Data local: " + dateLastDownloadInDateTimeFormat.toString());
-        LogAndToastMaker.makeInfoLog("Data log: " + dateOfLogEntry.toString());
-        LogAndToastMaker.makeToast(this.activity, "Download completed!");
+        return resultOfInsertOperation;
+    }
+
+    private void saveLastDownloadDate() {
+        PersistanceManager pm = new PersistanceManager(this.activity);
+        String dataServiceDate = pm.getServerDateTime();
+        if(!dataServiceDate.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            SharedPreferences sharedPreferences = this.activity.getSharedPreferences(GlobalParameterController.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("lastDownloadDate", dataServiceDate);
+            editor.commit();
+        }
+    }
+
+    private String retrieveLastDownloadDate() {
+        SharedPreferences sharedPreferences = this.activity.getSharedPreferences(GlobalParameterController.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String retrievedDate = sharedPreferences.getString("lastDownloadDate", GlobalParameterController.OPERATION_FAIL);
+        return retrievedDate;
     }
 }

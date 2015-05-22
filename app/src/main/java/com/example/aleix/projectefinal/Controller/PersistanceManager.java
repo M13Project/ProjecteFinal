@@ -319,7 +319,15 @@ public class PersistanceManager extends AsyncTask {
     public String getServerDateTime() {
         String serverResponse = getServerResponse("ara", "GET", null);
         String dateTimeInStringFormat = (String) MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse).get(0).get("value");
-        DateTime dateTimeInDateTimeFormat = new DateTime(dateTimeInStringFormat);
-        return dateTimeInDateTimeFormat.toString();
+        DateTime dateTimeInDateTimeFormat = null;
+        String dateTimeResult = null;
+        try{
+            dateTimeInDateTimeFormat = new DateTime(dateTimeInStringFormat);
+            dateTimeResult = dateTimeInDateTimeFormat.toString();
+        } catch(Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+            dateTimeResult = GlobalParameterController.OPERATION_FAIL;
+        }
+        return dateTimeResult;
     }
 }
