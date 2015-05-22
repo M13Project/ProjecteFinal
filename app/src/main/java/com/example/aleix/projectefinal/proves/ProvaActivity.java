@@ -107,8 +107,8 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-        SynchronizeController sc = new SynchronizeController(this);
-        sc.downloadEntities();
+//        SynchronizeController sc = new SynchronizeController(this);
+//        sc.downloadEntities();
         LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
         LogAndToastMaker.makeInfoLog(lpm.getEntity(Categoria.class, 1).getNom());
         LogAndToastMaker.makeInfoLog(lpm.getEntity(Categoria.class, 2).getNom());
