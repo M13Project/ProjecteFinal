@@ -90,19 +90,13 @@ public class MyJasonEntityConverter {
                         Method method = methodsOfEntity[j];
                         if (method.getName().contains("set") && method.getName().substring(3).toLowerCase().equals(key.toLowerCase())) {
                             if (method.getName().contains("Id") && method.getName().substring(3).replace("Id", "").length() > 0 && !method.getName().equalsIgnoreCase("setComercialId")) {
-//                                PersistanceManager requestToTheServer = new PersistanceManager(activity);
-//                                String resourceURL = key.substring(0, key.length() - 2) + "(" + value + ")";
-//                                String requestMethod = "GET";
-//                                String serverResponse = requestToTheServer.getServerResponse(resourceURL, requestMethod, null);
-//                                Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
-//                                List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
-//                                List foreignObjectInListFormat = MyJasonEntityConverter.getObjectsFromFormattedJson(classOfForeignObject, foreignObjectInMapFormat, activity);
-//                                value = foreignObjectInListFormat.get(0);
                                 PersistanceManager requestToTheServer = new PersistanceManager(activity);
                                 Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
                                 value = requestToTheServer.getObjectFromServer(classOfForeignObject, (Integer) value);
                             }
-                            method.invoke(entity, value);
+                            if(!value.equals(null)) {
+                                method.invoke(entity, value);
+                            }
                         }
                     }
                 }
