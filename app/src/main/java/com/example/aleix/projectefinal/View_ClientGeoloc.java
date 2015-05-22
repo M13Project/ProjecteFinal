@@ -41,6 +41,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
     LocationManager handle;
     private String provider;
     Client[] cli = new Client[5];
+    Localitzacio[] lo = new Localitzacio[5];
     double latitude;
     double longitude;
     private GoogleMap clientMap = null;
@@ -52,7 +53,19 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         setContentView(R.layout.activity_view__client_geoloc);
         listView = (ListView) findViewById(R.id.listViewResultLocClients);
         listView.setOnItemClickListener( this);
+        //Mapa...
 //        clientMap = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.fgmClientMap)).getMap();
+//        clientMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            public boolean onMarkerClick(Marker marker) {
+//                /*Toast.makeText(
+//                        View_ClientGeoloc.this,
+//                        "Marcador pulsado:\n" +
+//                                marker.getTitle(),
+//                        Toast.LENGTH_SHORT).show();*/
+//
+//                return false;
+//            }
+//        });
         Bundle bundle = getIntent().getExtras();
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
@@ -101,6 +114,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
 
                     if (dis[o] < getDistance(latitude, longitude, localitzacio.getLatitud(), localitzacio.getLongitud())){
                         dis[o] = getDistance(latitude, longitude, localitzacio.getLatitud(), localitzacio.getLongitud());
+                        lo[o] = localitzacio;
                         cli[o] = (Client) clients.get(localitzacio.getClientId().getId());
                     }
                 }
@@ -111,6 +125,10 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         clients.clear();
         for (int o=0; o<dis.length ;o++ ){
             clients.add(cli[o]);
+            //Punts Mapa
+//            clientMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(lo[o].getLatitud(), lo[o].getLongitud()))
+//                    .title(cli[o].getNom() + " " + cli[o].getCognom()));
         }
 //            }
 //        }
@@ -137,6 +155,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
             listView.setVisibility(listView.VISIBLE);
         }
     }
+
     public static int getDistance(double lat_a,double lng_a, double lat_b, double lon_b){
         int Radius = 6371000; //Radio de la tierra
         double lat1 = lat_a / 1E6;
