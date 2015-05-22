@@ -4,4 +4,10 @@
     tools:context="com.example.aleix.projectefinal.Main_View">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/backmain_view" android:title="Back"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/downloadmain_view" android:title="Download"
+        android:orderInCategory="100" app:showAsAction="always" android:icon="@android:drawable/stat_sys_download"/>
+    <item android:id="@+id/uploadmain_view" android:title="Upload"
+        android:orderInCategory="100" app:showAsAction="always" android:icon="@android:drawable/stat_sys_upload"/>
 </menu>

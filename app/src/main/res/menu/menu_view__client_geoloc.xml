@@ -2,6 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.aleix.projectefinal.View_ClientGeoloc">
+    <item android:id="@+id/backclient_geoloc" android:title="Back"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/order_client_geoloc_asc" android:title="Asc"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/order_client_geoloc_des" android:title="Desc"
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+
+
 </menu>
