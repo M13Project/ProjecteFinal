@@ -107,13 +107,16 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
 //        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
 //        lpm.delete(Localitzacio.class, 1);
-//        SynchronizeController sc = new SynchronizeController(this);
-//        sc.downloadEntities();
-//        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
-//        LogAndToastMaker.makeInfoLog(lpm.getEntity(Producte.class, 2).getNom());
+        SynchronizeController sc = new SynchronizeController(this);
+        sc.downloadEntities();
+        LocalPersistanceManager lpm = new LocalPersistanceManager(this, "m13_project", 1);
+        LogAndToastMaker.makeInfoLog(lpm.getEntity(Categoria.class, 1).getNom());
+        LogAndToastMaker.makeInfoLog(lpm.getEntity(Categoria.class, 2).getNom());
 
 
-        LogAndToastMaker.makeInfoLog(async.getListOfObjectsFromServer(Producte.class).get(0).getNom());
+//        LogAndToastMaker.makeInfoLog(async.getListOfObjectsFromServer(Producte.class).get(0).getCategoriaId().getNom());
+//        async = new PersistanceManager(this);
+//        LogAndToastMaker.makeInfoLog(async.getObjectFromServer(Producte.class, 2).getCategoriaId().getNom());
 
 //        async.deleteAnObjectFromServer(Client.class, 2);
 //        List asd =async.getListOfObjectsFromServer(Comanda_Producte.class);

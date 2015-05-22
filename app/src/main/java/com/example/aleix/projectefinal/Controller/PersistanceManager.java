@@ -299,7 +299,7 @@ public class PersistanceManager extends AsyncTask {
     }
 
     public <T> String deleteLogFromServer(Class<T> objectClass, int idOfLogToDelete, String operationType) {
-        String resourceToDelete = objectClass.getSimpleName() + "(Id=" + idOfLogToDelete + ",Op=" + operationType + ")";
+        String resourceToDelete = objectClass.getSimpleName() + "(Id=" + idOfLogToDelete + ",Op='" + operationType + "')";
         String serverResponse = getServerResponse(resourceToDelete, "DELETE", null);
         return serverResponse;
     }

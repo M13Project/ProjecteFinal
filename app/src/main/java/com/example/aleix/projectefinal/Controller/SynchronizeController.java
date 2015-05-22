@@ -152,7 +152,7 @@ public class SynchronizeController {
 //        PersistanceManager pm = new PersistanceManager(this.activity);
 //        List asd = pm.getListOfObjectsFromServer(ProducteLog.class);
 //        LogAndToastMaker.makeInfoLog(((ProducteLog) asd.get(0)).getLastUpdate());
-        insertEntityFromServer(Producte.class);
+        insertEntityFromServer(Categoria.class);
     }
 
     private <T> void insertEntityFromServer(Class<T> classToInsert) {
