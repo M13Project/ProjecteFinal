@@ -134,7 +134,8 @@ public class View_AddClient extends Activity implements View.OnClickListener {
                 lpm.insert(Localitzacio.class, localitzacio);
                 Toast.makeText(this, "Client afegit", Toast.LENGTH_SHORT).show();}
                 if (add.getText().toString().equalsIgnoreCase("Guardar Canvis")){
-                    
+                    lpm.update(Client.class, client);
+                    lpm.update(Localitzacio.class, localitzacio);
                     Toast.makeText(this, "Client Actualitzat", Toast.LENGTH_SHORT).show();
 
                 }
