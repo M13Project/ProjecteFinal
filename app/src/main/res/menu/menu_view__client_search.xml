@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.aleix.projectefinal.View_ClientSearch">
+    <item android:id="@+id/backclient_search" android:title="Back"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/order_client_search_name" android:title="Order Name"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/order_client_search_surname" android:title="Order Suername"
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

@@ -72,7 +72,8 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         //Obtenemos la última posición conocida dada por el proveedor
         Location loc = handle.getLastKnownLocation(provider);
         latitude = loc.getLatitude();
-         longitude = loc.getLongitude();
+        longitude = loc.getLongitude();
+//        getDistance(latitude, longitude, );
 
 
     }
@@ -119,6 +120,19 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         else {
             listView.setVisibility(listView.VISIBLE);
         }
+    }
+    public static int getDistance(int lat_a,int lng_a, int lat_b, int lon_b){
+        int Radius = 6371000; //Radio de la tierra
+        double lat1 = lat_a / 1E6;
+        double lat2 = lat_b / 1E6;
+        double lon1 = lng_a / 1E6;
+        double lon2 = lon_b / 1E6;
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLon = Math.toRadians(lon2-lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon /2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return (int) (Radius * c);
+
     }
 
     @Override

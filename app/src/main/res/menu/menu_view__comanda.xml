@@ -4,4 +4,6 @@
     tools:context="com.example.aleix.projectefinal.View_Comanda">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/backcomanda" android:title="Back"
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>
