@@ -63,7 +63,7 @@ public class LocalPersistanceManager {
                 resultString = GlobalParameterController.OPERATION_FAIL;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogAndToastMaker.makeErrorLog(e.getMessage());
         }
         LogAndToastMaker.makeInfoLog(resultString);
         LogAndToastMaker.makeToast(this.activity, resultString);
@@ -85,7 +85,7 @@ public class LocalPersistanceManager {
                 resultString = GlobalParameterController.OPERATION_FAIL;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogAndToastMaker.makeErrorLog(e.getMessage());
         }
         LogAndToastMaker.makeInfoLog(resultString);
         LogAndToastMaker.makeToast(this.activity, resultString);
@@ -100,7 +100,7 @@ public class LocalPersistanceManager {
             try {
                 objectRetrieved = dao.queryForId(idOfObjectToRetrieve);
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogAndToastMaker.makeErrorLog(e.getMessage());
             }
         } else {
             LogAndToastMaker.makeInfoLog("No entries in the table!");
@@ -117,7 +117,7 @@ public class LocalPersistanceManager {
             try {
                 objectsRetrieved = dao.queryForAll();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogAndToastMaker.makeErrorLog(e.getMessage());
             }
         } else {
             LogAndToastMaker.makeInfoLog("No entries in the table!");
@@ -134,12 +134,12 @@ public class LocalPersistanceManager {
             try {
                 int resultOfDelete = dao.deleteById(idOfObjectToDelete);
                 if (resultOfDelete == 1) {
-                    resultString = "Resource deleted correctly!";
+                    resultString = GlobalParameterController.OPERATION_OK;
                 } else {
-                    resultString = "Failed to delete the resource!";
+                    resultString = GlobalParameterController.OPERATION_FAIL;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LogAndToastMaker.makeErrorLog(e.getMessage());
             }
         } else {
             LogAndToastMaker.makeInfoLog("No such entry in the table!");

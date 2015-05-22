@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.aleix.projectefinal.Entity.Categoria;
 import com.example.aleix.projectefinal.Entity.Client;
@@ -34,7 +35,12 @@ public class SynchronizeController {
         lpm = new LocalPersistanceManager(activity, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
     }
 
-    public void uploadEntities() {
+    public void synchronizeData() {
+        downloadEntities();
+        uploadEntities();
+    }
+
+    private void uploadEntities() {
         insertEntity(Client.class);
         insertEntity(Comanda.class);
         insertEntity(Comanda_Producte.class);
@@ -152,13 +158,31 @@ public class SynchronizeController {
         }
     }
 
-    public void downloadEntities() {
+    private void downloadEntities() {
         String dateLastDownload = retrieveLastDownloadDate();
-        if(dateLastDownload.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+
+        if (dateLastDownload.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
             dateLastDownload = "2015-05-22T13:33:43.250Z";
         }
-        DateTime dateLastDownloadInDateTimeFormat = new DateTime(dateLastDownload);
-        insertEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
+
+        try {
+            DateTime dateLastDownloadInDateTimeFormat = new DateTime(dateLastDownload);
+
+            String resultOfInsertCategoria = insertEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
+            String resultOfInsertProducte = insertEntityFromServer(Producte.class, dateLastDownloadInDateTimeFormat);
+
+            String resultOfUpdateCategoria = updateEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
+            String resultOfUpdateProducte = updateEntityFromServer(Producte.class, dateLastDownloadInDateTimeFormat);
+
+            String resultOfDeleteProducte = deleteEntityFromServer(Producte.class, dateLastDownloadInDateTimeFormat);
+            String resultOfDeleteCategoria = deleteEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
+
+            LogAndToastMaker.makeToast(this.activity, resultOfInsertCategoria);
+            LogAndToastMaker.makeToast(this.activity, resultOfUpdateCategoria);
+            saveLastDownloadDate();
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+        }
     }
 
     private <T> String insertEntityFromServer(Class<T> classToInsert, DateTime dateLastDownloadInDateTimeFormat) {
@@ -189,7 +213,7 @@ public class SynchronizeController {
                         auxiliarObject = pm.getObjectFromServer(classToInsert, objectId);
                         if (auxiliarObject != null) {
                             String operationResult = lpm.insert(classToInsert, auxiliarObject);
-                            if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+                            if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
                                 resultOfInsertOperation = GlobalParameterController.OPERATION_FAIL;
                             }
                         }
@@ -202,10 +226,91 @@ public class SynchronizeController {
         return resultOfInsertOperation;
     }
 
+    private <T> String updateEntityFromServer(Class<T> classToUpdate, DateTime dateLastDownloadInDateTimeFormat) {
+        String resultOfUpdateOperation = GlobalParameterController.OPERATION_OK;
+        PersistanceManager pm = new PersistanceManager(this.activity);
+        List listOfLogEntries = null;
+        DateTime dateOfLogEntry = null;
+        String operationType = null;
+        int objectId = 0;
+        Method method = null;
+        Method method2 = null;
+        Method method3 = null;
+        T auxiliarObject = null;
+
+        try {
+            Class classToUpdateLog = Class.forName(classToUpdate.getName() + "Log");
+            listOfLogEntries = pm.getListOfObjectsFromServer(classToUpdateLog);
+            if (!listOfLogEntries.isEmpty()) {
+                method = classToUpdateLog.getMethod("getOp");
+                method2 = classToUpdateLog.getMethod("getId");
+                method3 = classToUpdateLog.getMethod("getLastUpdate");
+                for (Object logEntry : listOfLogEntries) {
+                    pm = new PersistanceManager(this.activity);
+                    operationType = (String) method.invoke(logEntry);
+                    objectId = (int) method2.invoke(logEntry);
+                    dateOfLogEntry = new DateTime((String) method3.invoke(logEntry));
+                    if (operationType.equalsIgnoreCase("U") && dateOfLogEntry.isAfter(dateLastDownloadInDateTimeFormat)) {
+                        auxiliarObject = pm.getObjectFromServer(classToUpdate, objectId);
+                        if (auxiliarObject != null) {
+                            String operationResult = lpm.update(classToUpdate, auxiliarObject);
+                            if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+                                resultOfUpdateOperation = GlobalParameterController.OPERATION_FAIL;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+        }
+        return resultOfUpdateOperation;
+    }
+
+
+    private <T> String deleteEntityFromServer(Class<T> classToDelete, DateTime dateLastDownloadInDateTimeFormat) {
+        String resultOfUpdateOperation = GlobalParameterController.OPERATION_OK;
+        PersistanceManager pm = new PersistanceManager(this.activity);
+        List listOfLogEntries = null;
+        DateTime dateOfLogEntry = null;
+        String operationType = null;
+        int objectId = 0;
+        Method method = null;
+        Method method2 = null;
+        Method method3 = null;
+        T auxiliarObject = null;
+
+        try {
+            Class classToDeleteLog = Class.forName(classToDelete.getName() + "Log");
+            listOfLogEntries = pm.getListOfObjectsFromServer(classToDeleteLog);
+            if (!listOfLogEntries.isEmpty()) {
+                method = classToDeleteLog.getMethod("getOp");
+                method2 = classToDeleteLog.getMethod("getId");
+                method3 = classToDeleteLog.getMethod("getLastUpdate");
+                for (Object logEntry : listOfLogEntries) {
+                    pm = new PersistanceManager(this.activity);
+                    operationType = (String) method.invoke(logEntry);
+                    objectId = (int) method2.invoke(logEntry);
+                    dateOfLogEntry = new DateTime((String) method3.invoke(logEntry));
+                    if (operationType.equalsIgnoreCase("D") && dateOfLogEntry.isAfter(dateLastDownloadInDateTimeFormat)) {
+                            String operationResult = lpm.delete(classToDelete, objectId);
+                            if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+                                resultOfUpdateOperation = GlobalParameterController.OPERATION_FAIL;
+                            }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+        }
+        return resultOfUpdateOperation;
+    }
+
+
     private void saveLastDownloadDate() {
         PersistanceManager pm = new PersistanceManager(this.activity);
         String dataServiceDate = pm.getServerDateTime();
-        if(!dataServiceDate.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+        if (!dataServiceDate.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
             SharedPreferences sharedPreferences = this.activity.getSharedPreferences(GlobalParameterController.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("lastDownloadDate", dataServiceDate);

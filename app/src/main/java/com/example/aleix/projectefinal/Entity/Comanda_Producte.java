@@ -9,10 +9,6 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "Comanda_Producte")
 public class Comanda_Producte {
 
-//    public static final String COMANDAID = "ComandaId";
-//    public static final String PRODUCTEID = "ProducteId";
-//    public static final String QUANTITAT = "Quantitat";
-
     @DatabaseField(generatedId = true)
     private int _id;
 
@@ -29,8 +25,8 @@ public class Comanda_Producte {
 
     }
 
-    public Comanda_Producte(int _id, Comanda comanda, Producte producte, int quantitat) {
-        this._id = _id;
+    public Comanda_Producte(Comanda comanda, Producte producte, int quantitat) {
+        //this._id = _id;
         ComandaId = comanda;
         this.ProducteId = producte;
         Quantitat = quantitat;
