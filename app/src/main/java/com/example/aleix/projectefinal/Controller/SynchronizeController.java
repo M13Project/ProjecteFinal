@@ -14,6 +14,8 @@ import com.example.aleix.projectefinal.Entity.Producte;
 import com.example.aleix.projectefinal.Entity.ProducteLog;
 import com.example.aleix.projectefinal.R;
 
+import org.joda.time.DateTime;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -71,10 +73,10 @@ public class SynchronizeController {
                 e.printStackTrace();
             }
             T auxiliarObject = null;
-            if(operationType.equalsIgnoreCase("I")) {
+            if (operationType.equalsIgnoreCase("I")) {
                 auxiliarObject = lpm.getEntity(classToInsert, objectId);
                 String operationResponse = pm.sendAnObjectToServer(classToInsert, auxiliarObject);
-                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
                     lpm.deleteLogEntry(logTableClass, oneLogEntry);
                 }
             }
@@ -105,10 +107,10 @@ public class SynchronizeController {
                 e.printStackTrace();
             }
             T auxiliarObject = null;
-            if(operationType.equalsIgnoreCase("U")) {
+            if (operationType.equalsIgnoreCase("U")) {
                 auxiliarObject = lpm.getEntity(classToUpdate, objectId);
                 String operationResponse = pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
-                if(operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
                     lpm.deleteLogEntry(logTableClass, oneLogEntry);
                 }
             }
@@ -139,59 +141,61 @@ public class SynchronizeController {
                 e.printStackTrace();
             }
             T auxiliarObject = null;
-            if(operationType.equalsIgnoreCase("D")) {
-                    String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
-                if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+            if (operationType.equalsIgnoreCase("D")) {
+                String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
+                if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
                     lpm.deleteLogEntry(logTableClass, oneLogEntry);
                 }
             }
         }
     }
 
-    public void downloadEntities() {
-//        PersistanceManager pm = new PersistanceManager(this.activity);
-//        List asd = pm.getListOfObjectsFromServer(ProducteLog.class);
-//        LogAndToastMaker.makeInfoLog(((ProducteLog) asd.get(0)).getLastUpdate());
-        insertEntityFromServer(Categoria.class);
+    public void downloadEntities(String dateLastDownload) {
+        DateTime dateLastDownloadInDateTimeFormat = new DateTime(dateLastDownload);
+        insertEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
     }
 
-    private <T> void insertEntityFromServer(Class<T> classToInsert) {
-        //incorporar la data de l'ultima connexio
-
+    private <T> void insertEntityFromServer(Class<T> classToInsert, DateTime dateLastDownloadInDateTimeFormat) {
+//TRACTAMENT NULLLS!!!!!!
         PersistanceManager pm = new PersistanceManager(this.activity);
         List listOfLogEntries = null;
-
+        DateTime dateOfLogEntry = null;
         String operationType = null;
         int objectId = 0;
         Method method = null;
         Method method2 = null;
+        Method method3 = null;
         T auxiliarObject = null;
 
-        try{
+        try {
             Class classToInsertLog = Class.forName(classToInsert.getName() + "Log");
             listOfLogEntries = pm.getListOfObjectsFromServer(classToInsertLog);
-            method = classToInsertLog.getMethod("getOp");
-            method2 = classToInsertLog.getMethod("getId");
-            if(!listOfLogEntries.isEmpty()) {
-                for(Object logEntry : listOfLogEntries) {
+            if (!listOfLogEntries.isEmpty()) {
+                method = classToInsertLog.getMethod("getOp");
+                method2 = classToInsertLog.getMethod("getId");
+                method3 = classToInsertLog.getMethod("getLastUpdate");
+                for (Object logEntry : listOfLogEntries) {
                     pm = new PersistanceManager(this.activity);
                     operationType = (String) method.invoke(logEntry);
                     objectId = (int) method2.invoke(logEntry);
-                    if(operationType.equalsIgnoreCase("I")) {
+                    dateOfLogEntry = new DateTime((String) method3.invoke(logEntry));
+                    if (operationType.equalsIgnoreCase("I") && dateOfLogEntry.isAfter(dateLastDownloadInDateTimeFormat)) {
                         auxiliarObject = pm.getObjectFromServer(classToInsert, objectId);
-                        if(auxiliarObject != null) {
+                        if (auxiliarObject != null) {
                             String operationResult = lpm.insert(classToInsert, auxiliarObject);
-                            if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
-                                pm = new PersistanceManager(this.activity);
-                                pm.deleteLogFromServer(classToInsertLog, objectId, operationType);
-                            }
+//                            if(operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+//                                pm = new PersistanceManager(this.activity);
+//                                pm.deleteLogFromServer(classToInsertLog, objectId, operationType);
+//                            }
                         }
                     }
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             LogAndToastMaker.makeErrorLog(e.getMessage());
         }
+        LogAndToastMaker.makeInfoLog("Data local: " + dateLastDownloadInDateTimeFormat.toString());
+        LogAndToastMaker.makeInfoLog("Data log: " + dateOfLogEntry.toString());
         LogAndToastMaker.makeToast(this.activity, "Download completed!");
     }
 }

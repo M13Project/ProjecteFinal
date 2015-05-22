@@ -70,6 +70,28 @@ public class LocalPersistanceManager {
         return resultString;
     }
 
+    public <T> String update(Class<T> classRepresentingObjectToUpdate, T objectToBeUpdated) {
+        String resultString = null;
+        if (!checkIfTableExists(classRepresentingObjectToUpdate)) {
+            createTable(classRepresentingObjectToUpdate);
+            addLogTable(classRepresentingObjectToUpdate);
+        }
+        Dao<T, Integer> dao = tableManager(classRepresentingObjectToUpdate);
+        try {
+            int resultOfInsertion = dao.update(objectToBeUpdated);
+            if (resultOfInsertion == 1) {
+                resultString = GlobalParameterController.OPERATION_OK;
+            } else {
+                resultString = GlobalParameterController.OPERATION_FAIL;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        LogAndToastMaker.makeInfoLog(resultString);
+        LogAndToastMaker.makeToast(this.activity, resultString);
+        return resultString;
+    }
+
     public <T> T getEntity(Class<T> classRepresentingObjectTORetrieve, int idOfObjectToRetrieve) {
         Dao<T, Integer> dao = null;
         T objectRetrieved = null;

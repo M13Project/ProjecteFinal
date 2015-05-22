@@ -20,6 +20,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+import org.joda.time.DateTime;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -313,5 +314,12 @@ public class PersistanceManager extends AsyncTask {
             e.printStackTrace();
         }
         return objectId;
+    }
+
+    public String getServerDateTime() {
+        String serverResponse = getServerResponse("ara", "GET", null);
+        String dateTimeInStringFormat = (String) MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse).get(0).get("value");
+        DateTime dateTimeInDateTimeFormat = new DateTime(dateTimeInStringFormat);
+        return dateTimeInDateTimeFormat.toString();
     }
 }
