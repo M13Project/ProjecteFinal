@@ -26,6 +26,8 @@ import com.example.aleix.projectefinal.Entity.Localitzacio;
 import com.example.aleix.projectefinal.Entity.Usuari;
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -38,6 +40,8 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
     LocalPersistanceManager lpm ;
     LocationManager handle;
     private String provider;
+    Client[] cli = new Client[5];
+    Localitzacio[] lo = new Localitzacio[5];
     double latitude;
     double longitude;
     private GoogleMap clientMap = null;
@@ -49,7 +53,19 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         setContentView(R.layout.activity_view__client_geoloc);
         listView = (ListView) findViewById(R.id.listViewResultLocClients);
         listView.setOnItemClickListener( this);
+        //Mapa...
 //        clientMap = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.fgmClientMap)).getMap();
+//        clientMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            public boolean onMarkerClick(Marker marker) {
+//                /*Toast.makeText(
+//                        View_ClientGeoloc.this,
+//                        "Marcador pulsado:\n" +
+//                                marker.getTitle(),
+//                        Toast.LENGTH_SHORT).show();*/
+//
+//                return false;
+//            }
+//        });
         Bundle bundle = getIntent().getExtras();
         u = (Usuari) bundle.get("User");
         registerForContextMenu(listView);
@@ -73,31 +89,49 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         Location loc = handle.getLastKnownLocation(provider);
         latitude = loc.getLatitude();
         longitude = loc.getLongitude();
-//        getDistance(latitude, longitude, );
+
 
 
     }
     void refreshData() {
         loc = lpm.getAllEntities(Localitzacio.class);
 
-
         clients =  lpm.getAllEntities(Client.class);
 
-        /*if (busqueda){
-            List<Client> c =new ArrayList<Client>();
-            c.addAll(clients);
+//        getDistance(latitude, longitude, );
+//        if (busqueda){
+            List<Localitzacio> l =new ArrayList<Localitzacio>();
+            l.addAll(loc);
 
 
-            Iterator<Client> i = c.iterator();
-            clients.clear();
+            Iterator<Localitzacio> i = l.iterator();
+            int[] dis = new int[5];
+//            clients.clear();
             while (i.hasNext()){
 
-                Client client = i.next();
+                Localitzacio localitzacio = i.next();
+                for (int o=0; o<dis.length ;o++ ){
+
+                    if (dis[o] < getDistance(latitude, longitude, localitzacio.getLatitud(), localitzacio.getLongitud())){
+                        dis[o] = getDistance(latitude, longitude, localitzacio.getLatitud(), localitzacio.getLongitud());
+                        lo[o] = localitzacio;
+                        cli[o] = (Client) clients.get(localitzacio.getClientId().getId());
+                    }
+                }
+
                // if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
               //      clients.add(client);
                 }
-            }
-        }*/
+        clients.clear();
+        for (int o=0; o<dis.length ;o++ ){
+            clients.add(cli[o]);
+            //Punts Mapa
+//            clientMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(lo[o].getLatitud(), lo[o].getLongitud()))
+//                    .title(cli[o].getNom() + " " + cli[o].getCognom()));
+        }
+//            }
+//        }
         adapter = new ClientAdapter(this, clients);
         listView.setAdapter(adapter);
 
@@ -121,7 +155,8 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
             listView.setVisibility(listView.VISIBLE);
         }
     }
-    public static int getDistance(int lat_a,int lng_a, int lat_b, int lon_b){
+
+    public static int getDistance(double lat_a,double lng_a, double lat_b, double lon_b){
         int Radius = 6371000; //Radio de la tierra
         double lat1 = lat_a / 1E6;
         double lat2 = lat_b / 1E6;
