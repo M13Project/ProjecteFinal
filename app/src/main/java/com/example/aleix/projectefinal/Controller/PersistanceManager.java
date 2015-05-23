@@ -21,6 +21,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,6 +32,7 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -72,6 +74,7 @@ public class PersistanceManager extends AsyncTask {
                 break;
             default:
                 Log.e("ERROR in doInBackground", "ERROR!");
+                objectToReturn = GlobalParameterController.OPERATION_FAIL;
         }
         return objectToReturn;
     }
@@ -145,6 +148,7 @@ public class PersistanceManager extends AsyncTask {
             }
         } catch (Exception ex) {
             LogAndToastMaker.makeErrorLog(ex.getMessage());
+            LogAndToastMaker.makeErrorLog(getStringFromInputStream(connection.getErrorStream()));
         } finally {
             try {
                 dos.close();
@@ -187,6 +191,7 @@ public class PersistanceManager extends AsyncTask {
             }
         } catch (Exception ex) {
             LogAndToastMaker.makeErrorLog(ex.getMessage());
+            LogAndToastMaker.makeErrorLog(getStringFromInputStream(connection.getErrorStream()));
         } finally {
             try {
                 dos.close();
@@ -254,17 +259,22 @@ public class PersistanceManager extends AsyncTask {
         String serverResponse = null;
         try {
             serverResponse = (String) at.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+            serverResponse = GlobalParameterController.OPERATION_FAIL;
         }
         return serverResponse;
     }
 
     public <T> List<T> getListOfObjectsFromServer(Class<T> objectClass) {
         String serverResponse = getServerResponse(objectClass.getSimpleName(), "GET", null);
-        List<T> listOfObjects = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, MyJasonEntityConverter.formatJsonInput(serverResponse), this.activity);
+        List<T> listOfObjects = new ArrayList();
+        if (!serverResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            List<Map<String, Object>> listOfMapsWithObjects = MyJasonEntityConverter.formatJsonInput(serverResponse);
+            if (!listOfMapsWithObjects.isEmpty()) {
+                listOfObjects = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, listOfMapsWithObjects, this.activity);
+            }
+        }
         return listOfObjects;
     }
 
@@ -272,10 +282,12 @@ public class PersistanceManager extends AsyncTask {
         T objectRetrieved = null;
         String resourceUrl = objectClass.getSimpleName() + "(" + idOfObjectToRetrieve + ")";
         String serverResponse = getServerResponse(resourceUrl, "GET", null);
-        List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
-        List<T> listOfOneObject = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, foreignObjectInMapFormat, activity);
-        if (!listOfOneObject.isEmpty()) {
-            objectRetrieved = listOfOneObject.get(0);
+        if (!serverResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            List<Map<String, Object>> foreignObjectInMapFormat = MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse);
+            List<T> listOfOneObject = MyJasonEntityConverter.getObjectsFromFormattedJson(objectClass, foreignObjectInMapFormat, activity);
+            if (!listOfOneObject.isEmpty()) {
+                objectRetrieved = listOfOneObject.get(0);
+            }
         }
         return objectRetrieved;
     }
@@ -318,14 +330,18 @@ public class PersistanceManager extends AsyncTask {
 
     public String getServerDateTime() {
         String serverResponse = getServerResponse("ara", "GET", null);
-        String dateTimeInStringFormat = (String) MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse).get(0).get("value");
-        DateTime dateTimeInDateTimeFormat = null;
         String dateTimeResult = null;
-        try{
-            dateTimeInDateTimeFormat = new DateTime(dateTimeInStringFormat);
-            dateTimeResult = dateTimeInDateTimeFormat.toString();
-        } catch(Exception e) {
-            LogAndToastMaker.makeErrorLog(e.getMessage());
+        if (!serverResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            String dateTimeInStringFormat = (String) MyJasonEntityConverter.formatJsonInputWithOneEntry(serverResponse).get(0).get("value");
+            DateTime dateTimeInDateTimeFormat = null;
+            try {
+                dateTimeInDateTimeFormat = new DateTime(dateTimeInStringFormat.substring(0, dateTimeInStringFormat.length() - 6));
+                dateTimeResult = dateTimeInDateTimeFormat.toString();
+            } catch (Exception e) {
+                LogAndToastMaker.makeErrorLog(e.getMessage());
+                dateTimeResult = GlobalParameterController.OPERATION_FAIL;
+            }
+        } else {
             dateTimeResult = GlobalParameterController.OPERATION_FAIL;
         }
         return dateTimeResult;

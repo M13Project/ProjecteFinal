@@ -28,7 +28,7 @@ import java.util.List;
 
 public class ProvaActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private Button button;
+    private Button button, button2;
     private EditText etQuery;
 
     @Override
@@ -37,6 +37,10 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_prova);
         button = (Button) findViewById(R.id.buttonJson);
         button.setOnClickListener(this);
+
+        button2 = (Button) findViewById(R.id.button2_prova);
+        button2.setOnClickListener(this);
+
         etQuery = (EditText) findViewById(R.id.editTextQuery);
     }
 
@@ -64,14 +68,56 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        PersistanceManager async = new PersistanceManager(this);
-
         SynchronizeController sc = new SynchronizeController(this);
-        sc.synchronizeData();
+        LocalPersistanceManager lpm = new LocalPersistanceManager(this, GlobalParameterController.DATABASE_NAME, GlobalParameterController.DATABASE_VERSION);
+        if(v.getId() == R.id.button2_prova) {
 
-        addDataToTheLocalDatabase();
+            Client client1 = lpm.getEntity(Client.class, 1);
+            client1.setNom("provaUpdate");
+            client1.setCognom("provaCognomUpdate");
+            lpm.update(Client.class, client1);
 
-        sc.synchronizeData();
+            Client client2 = lpm.getEntity(Client.class, 2);
+            client2.setNom("provaUpdate");
+            client2.setCognom("provaCognomUpdate");
+            client2.setDni("prova");
+            lpm.update(Client.class, client2);
+
+            Comanda comanda = lpm.getEntity(Comanda.class, 1);
+            comanda.setLliurada(true);
+            lpm.update(Comanda.class, comanda);
+
+            Localitzacio loca = lpm.getEntity(Localitzacio.class, 1);
+            loca.setPoblacio("PobleProva");
+            lpm.update(Localitzacio.class, loca);
+
+            Comanda_Producte cp = lpm.getEntity(Comanda_Producte.class, 1);
+            cp.setQuantitat(100000);
+            lpm.update(Comanda_Producte.class, cp);
+
+            lpm.delete(Localitzacio.class, 10);
+            lpm.delete(Localitzacio.class, 9);
+            lpm.delete(Localitzacio.class, 7);
+            lpm.delete(Comanda_Producte.class, 16);
+
+            sc.synchronizeData();
+        } else {
+
+            sc.synchronizeData();
+
+            addDataToTheLocalDatabase();
+
+            sc.synchronizeData();
+        }
+
+//        PersistanceManager async = new PersistanceManager(this);
+//        Client client11 = new Client();
+//        client11.setNom("ExempleNulls");
+//        client11.setCognom("ExempleNulls");
+//        client11.setDni("ExempleNulls");
+//        client11.setId(52);
+//        async.sendAnObjectToServer(Client.class, client11);
+
     }
 
     public void addDataToTheLocalDatabase() {
@@ -88,6 +134,10 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         Client client8 = new Client("43798516O", "Mónica", "Hernández", 27, "/image.png", "2015-05-13T00:00:00");
         Client client9 = new Client("37694123P", "Elena", "Martins", 33, "/image.png", "2015-05-13T00:00:00");
         Client client10 = new Client("84369878R", "Cristina", "Cavaller", 25, "/image.png", "2015-05-13T00:00:00");
+        Client client11 = new Client();
+        client11.setNom("ExempleNulls");
+        client11.setCognom("ExempleNulls");
+        client11.setDni("qwerew");
 
         Localitzacio localitzacio1 = new Localitzacio("08160", "Carrer de la diputació 5", "Montmelo", 423.23, 243.23, client1);
         Localitzacio localitzacio2 = new Localitzacio("85425", "Plaça de Catalunya 78", "Barcelona", 856.265, 494.23, client2);
@@ -136,9 +186,55 @@ public class ProvaActivity extends ActionBarActivity implements View.OnClickList
         Comanda_Producte cp15 = new Comanda_Producte(comanda9, producte6, 86);
         Comanda_Producte cp16 = new Comanda_Producte(comanda10, producte6, 32);
 
+        lpm.insert(Client.class, client1);
+        lpm.insert(Client.class, client2);
+        lpm.insert(Client.class, client3);
+        lpm.insert(Client.class, client4);
+        lpm.insert(Client.class, client5);
+        lpm.insert(Client.class, client6);
+        lpm.insert(Client.class, client7);
+        lpm.insert(Client.class, client8);
+        lpm.insert(Client.class, client9);
+        lpm.insert(Client.class, client10);
+        lpm.insert(Client.class, client11);
 
-        
+        lpm.insert(Localitzacio.class, localitzacio1);
+        lpm.insert(Localitzacio.class, localitzacio2);
+        lpm.insert(Localitzacio.class, localitzacio3);
+        lpm.insert(Localitzacio.class, localitzacio4);
+        lpm.insert(Localitzacio.class, localitzacio5);
+        lpm.insert(Localitzacio.class, localitzacio6);
+        lpm.insert(Localitzacio.class, localitzacio7);
+        lpm.insert(Localitzacio.class, localitzacio8);
+        lpm.insert(Localitzacio.class, localitzacio9);
+        lpm.insert(Localitzacio.class, localitzacio10);
 
+        lpm.insert(Comanda.class, comanda1);
+        lpm.insert(Comanda.class, comanda2);
+        lpm.insert(Comanda.class, comanda3);
+        lpm.insert(Comanda.class, comanda4);
+        lpm.insert(Comanda.class, comanda5);
+        lpm.insert(Comanda.class, comanda6);
+        lpm.insert(Comanda.class, comanda7);
+        lpm.insert(Comanda.class, comanda8);
+        lpm.insert(Comanda.class, comanda9);
+        lpm.insert(Comanda.class, comanda10);
 
+        lpm.insert(Comanda_Producte.class, cp1);
+        lpm.insert(Comanda_Producte.class, cp2);
+        lpm.insert(Comanda_Producte.class, cp3);
+        lpm.insert(Comanda_Producte.class, cp4);
+        lpm.insert(Comanda_Producte.class, cp5);
+        lpm.insert(Comanda_Producte.class, cp6);
+        lpm.insert(Comanda_Producte.class, cp7);
+        lpm.insert(Comanda_Producte.class, cp8);
+        lpm.insert(Comanda_Producte.class, cp9);
+        lpm.insert(Comanda_Producte.class, cp10);
+        lpm.insert(Comanda_Producte.class, cp11);
+        lpm.insert(Comanda_Producte.class, cp12);
+        lpm.insert(Comanda_Producte.class, cp13);
+        lpm.insert(Comanda_Producte.class, cp14);
+        lpm.insert(Comanda_Producte.class, cp15);
+        lpm.insert(Comanda_Producte.class, cp16);
     }
 }

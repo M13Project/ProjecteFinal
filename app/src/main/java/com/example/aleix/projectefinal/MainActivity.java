@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
       //  lpm.insert(Usuari.class, u);
         // client.addComanda(comanda);
         //categoria.addProducte(producte);
-        Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
+        //Comanda_Producte cp = new Comanda_Producte(45, comanda, producte, 10);
 //        lpm.insert(Client.class, client);
 //        lpm.insert(Comanda.class, comanda);
 //        lpm.insert(Localitzacio.class, localitzacio);

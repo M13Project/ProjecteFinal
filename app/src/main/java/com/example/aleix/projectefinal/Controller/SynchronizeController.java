@@ -38,6 +38,7 @@ public class SynchronizeController {
     public void synchronizeData() {
         downloadEntities();
         uploadEntities();
+        LogAndToastMaker.makeToast(this.activity, "Synchronizing completed successfully!");
     }
 
     private void uploadEntities() {
@@ -68,26 +69,29 @@ public class SynchronizeController {
             logTableClass = Class.forName(classToInsert.getName() + "Log");
             method = logTableClass.getMethod("getOp");
             method2 = logTableClass.getMethod("getId");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        List logEntries = lpm.getAllEntities(logTableClass);
-        for (Object oneLogEntry : logEntries) {
-            pm = new PersistanceManager(this.activity);
-            try {
-                operationType = (String) method.invoke(oneLogEntry);
-                objectId = (int) method2.invoke(oneLogEntry);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            T auxiliarObject = null;
-            if (operationType.equalsIgnoreCase("I")) {
-                auxiliarObject = lpm.getEntity(classToInsert, objectId);
-                String operationResponse = pm.sendAnObjectToServer(classToInsert, auxiliarObject);
-                if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
-                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+            List logEntries = lpm.getAllEntities(logTableClass);
+
+            if (logEntries != null && !logEntries.isEmpty()) {
+                for (Object oneLogEntry : logEntries) {
+                    pm = new PersistanceManager(this.activity);
+                    try {
+                        operationType = (String) method.invoke(oneLogEntry);
+                        objectId = (int) method2.invoke(oneLogEntry);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    T auxiliarObject = null;
+                    if (operationType.equalsIgnoreCase("I")) {
+                        auxiliarObject = lpm.getEntity(classToInsert, objectId);
+                        String operationResponse = pm.sendAnObjectToServer(classToInsert, auxiliarObject);
+                        if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                            lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                        }
+                    }
                 }
             }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
         }
     }
 
@@ -102,26 +106,28 @@ public class SynchronizeController {
             logTableClass = Class.forName(classToUpdate.getName() + "Log");
             method = logTableClass.getMethod("getOp");
             method2 = logTableClass.getMethod("getId");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        List logEntries = lpm.getAllEntities(logTableClass);
-        for (Object oneLogEntry : logEntries) {
-            pm = new PersistanceManager(this.activity);
-            try {
-                operationType = (String) method.invoke(oneLogEntry);
-                objectId = (int) method2.invoke(oneLogEntry);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            T auxiliarObject = null;
-            if (operationType.equalsIgnoreCase("U")) {
-                auxiliarObject = lpm.getEntity(classToUpdate, objectId);
-                String operationResponse = pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
-                if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
-                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+            List logEntries = lpm.getAllEntities(logTableClass);
+            if (logEntries != null && !logEntries.isEmpty()) {
+                for (Object oneLogEntry : logEntries) {
+                    pm = new PersistanceManager(this.activity);
+                    try {
+                        operationType = (String) method.invoke(oneLogEntry);
+                        objectId = (int) method2.invoke(oneLogEntry);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    T auxiliarObject = null;
+                    if (operationType.equalsIgnoreCase("U")) {
+                        auxiliarObject = lpm.getEntity(classToUpdate, objectId);
+                        String operationResponse = pm.updateAnObjectFromServer(classToUpdate, auxiliarObject);
+                        if (operationResponse.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                            lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                        }
+                    }
                 }
             }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
         }
     }
 
@@ -136,25 +142,27 @@ public class SynchronizeController {
             logTableClass = Class.forName(classToDelete.getName() + "Log");
             method = logTableClass.getMethod("getOp");
             method2 = logTableClass.getMethod("getId");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        List logEntries = lpm.getAllEntities(logTableClass);
-        for (Object oneLogEntry : logEntries) {
-            pm = new PersistanceManager(this.activity);
-            try {
-                operationType = (String) method.invoke(oneLogEntry);
-                objectId = (int) method2.invoke(oneLogEntry);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            T auxiliarObject = null;
-            if (operationType.equalsIgnoreCase("D")) {
-                String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
-                if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
-                    lpm.deleteLogEntry(logTableClass, oneLogEntry);
+            List logEntries = lpm.getAllEntities(logTableClass);
+            if (logEntries != null && !logEntries.isEmpty()) {
+                for (Object oneLogEntry : logEntries) {
+                    pm = new PersistanceManager(this.activity);
+                    try {
+                        operationType = (String) method.invoke(oneLogEntry);
+                        objectId = (int) method2.invoke(oneLogEntry);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    T auxiliarObject = null;
+                    if (operationType.equalsIgnoreCase("D")) {
+                        String operationResult = pm.deleteAnObjectFromServer(classToDelete, objectId);
+                        if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_OK)) {
+                            lpm.deleteLogEntry(logTableClass, oneLogEntry);
+                        }
+                    }
                 }
             }
+        } catch (Exception e) {
+            LogAndToastMaker.makeErrorLog(e.getMessage());
         }
     }
 
@@ -177,8 +185,6 @@ public class SynchronizeController {
             String resultOfDeleteProducte = deleteEntityFromServer(Producte.class, dateLastDownloadInDateTimeFormat);
             String resultOfDeleteCategoria = deleteEntityFromServer(Categoria.class, dateLastDownloadInDateTimeFormat);
 
-            LogAndToastMaker.makeToast(this.activity, resultOfInsertCategoria);
-            LogAndToastMaker.makeToast(this.activity, resultOfUpdateCategoria);
             saveLastDownloadDate();
         } catch (Exception e) {
             LogAndToastMaker.makeErrorLog(e.getMessage());
@@ -293,10 +299,10 @@ public class SynchronizeController {
                     objectId = (int) method2.invoke(logEntry);
                     dateOfLogEntry = new DateTime((String) method3.invoke(logEntry));
                     if (operationType.equalsIgnoreCase("D") && dateOfLogEntry.isAfter(dateLastDownloadInDateTimeFormat)) {
-                            String operationResult = lpm.delete(classToDelete, objectId);
-                            if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
-                                resultOfUpdateOperation = GlobalParameterController.OPERATION_FAIL;
-                            }
+                        String operationResult = lpm.delete(classToDelete, objectId);
+                        if (operationResult.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+                            resultOfUpdateOperation = GlobalParameterController.OPERATION_FAIL;
+                        }
                     }
                 }
             }

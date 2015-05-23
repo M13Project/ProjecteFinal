@@ -24,26 +24,26 @@ public class MyJasonEntityConverter {
 
     public static List<Map<String, Object>> formatJsonInput(String rawJsonInput) {
         List<Map<String, Object>> listOfEntities = new ArrayList();
-        Map<String, Object> mappedAttributes = null;
-        try {
-            JSONObject jsonResponse = new JSONObject(rawJsonInput);
-            JSONArray array = jsonResponse.getJSONArray("value");
-            for (int j = 0; j < array.length(); j++) {
-                JSONObject jsonChildNode = array.getJSONObject(j);
-                mappedAttributes = new TreeMap<>();
-                for (int k = 0; k < jsonChildNode.names().length(); k++) {
-                    String key = jsonChildNode.names().getString(k);
-                    Object value = jsonChildNode.get(key);
-                    /*Aquest if no se si fara falta. El contingut del if, sí*/
-                    if (!key.contains("odata")) {
-                        mappedAttributes.put(key, value);
+        if (!rawJsonInput.equalsIgnoreCase(GlobalParameterController.OPERATION_FAIL)) {
+            Map<String, Object> mappedAttributes = null;
+            try {
+                JSONObject jsonResponse = new JSONObject(rawJsonInput);
+                JSONArray array = jsonResponse.getJSONArray("value");
+                for (int j = 0; j < array.length(); j++) {
+                    JSONObject jsonChildNode = array.getJSONObject(j);
+                    mappedAttributes = new TreeMap<>();
+                    for (int k = 0; k < jsonChildNode.names().length(); k++) {
+                        String key = jsonChildNode.names().getString(k);
+                        Object value = jsonChildNode.get(key);
+                        if (!key.contains("odata")) {
+                            mappedAttributes.put(key, value);
+                        }
                     }
-                    /**/
+                    listOfEntities.add(mappedAttributes);
                 }
-                listOfEntities.add(mappedAttributes);
+            } catch (Exception e) {
+                System.out.println("ERROR IN formatJson... " + e.getMessage());
             }
-        } catch (Exception e) {
-            System.out.println("ERROR IN formatJson... " + e.getMessage());
         }
         return listOfEntities;
     }
@@ -56,11 +56,9 @@ public class MyJasonEntityConverter {
             for (int k = 0; k < jsonResponse.names().length(); k++) {
                 String key = jsonResponse.names().getString(k);
                 Object value = jsonResponse.get(key);
-                    /*Aquest if no se si fara falta. El contingut del if, sí*/
                 if (!key.contains("odata")) {
                     mappedAttributes.put(key, value);
                 }
-                    /**/
             }
             listOfEntities.add(mappedAttributes);
         } catch (Exception e) {
@@ -94,7 +92,7 @@ public class MyJasonEntityConverter {
                                 Class classOfForeignObject = Class.forName("com.example.aleix.projectefinal.Entity." + key.substring(0, key.length() - 2));
                                 value = requestToTheServer.getObjectFromServer(classOfForeignObject, (Integer) value);
                             }
-                            if(!value.equals(null)) {
+                            if (!value.equals(null)) {
                                 method.invoke(entity, value);
                             }
                         }
@@ -110,6 +108,7 @@ public class MyJasonEntityConverter {
 
     //Converteix un objecte d'una classe coneguda en un string en format que pot ser enviat al servidor
     public static <T> String getJsonObjectFromEntity(Class<T> objectClass, T objectToTransform) {
+        String jsonRepresentationOfTheObject = null;
         Field[] fieldsOfEntity = objectClass.getDeclaredFields();
         Method[] methodsOfEntity = objectClass.getDeclaredMethods();
         JSONObject stringJson = new JSONObject();
@@ -125,15 +124,19 @@ public class MyJasonEntityConverter {
                             Method m = valueObtainedFromMethod.getClass().getDeclaredMethod("getId");
                             valueObtainedFromMethod = m.invoke(valueObtainedFromMethod, null);
                         }
-                        stringJson.put(fieldName, valueObtainedFromMethod);
+                        if(valueObtainedFromMethod != null) {
+                            stringJson.put(fieldName, valueObtainedFromMethod);
+                        }
                     }
                 }
             }
             stringJson.put("ComercialId", GlobalParameterController.COMERCIAL_AGENT_ID);
+            jsonRepresentationOfTheObject = stringJson.toString();
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            LogAndToastMaker.makeErrorLog(e.getMessage());
+            jsonRepresentationOfTheObject = GlobalParameterController.OPERATION_FAIL;
         }
-        return stringJson.toString();
+        return jsonRepresentationOfTheObject;
     }
 
     public static <T> String getJsonObjectsFromEntitiesWithKnowsClass(Class<T> objectClass, List<T> objectsToTransform) {

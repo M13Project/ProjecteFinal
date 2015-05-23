@@ -66,7 +66,6 @@ public class LocalPersistanceManager {
             LogAndToastMaker.makeErrorLog(e.getMessage());
         }
         LogAndToastMaker.makeInfoLog(resultString);
-        LogAndToastMaker.makeToast(this.activity, resultString);
         return resultString;
     }
 
@@ -88,7 +87,6 @@ public class LocalPersistanceManager {
             LogAndToastMaker.makeErrorLog(e.getMessage());
         }
         LogAndToastMaker.makeInfoLog(resultString);
-        LogAndToastMaker.makeToast(this.activity, resultString);
         return resultString;
     }
 
@@ -104,7 +102,6 @@ public class LocalPersistanceManager {
             }
         } else {
             LogAndToastMaker.makeInfoLog("No entries in the table!");
-            LogAndToastMaker.makeToast(this.activity, "No entries in the table!");
         }
         return objectRetrieved;
     }
@@ -121,7 +118,6 @@ public class LocalPersistanceManager {
             }
         } else {
             LogAndToastMaker.makeInfoLog("No entries in the table!");
-            LogAndToastMaker.makeToast(this.activity, "No entries in the table!");
         }
         return objectsRetrieved;
     }
@@ -143,7 +139,6 @@ public class LocalPersistanceManager {
             }
         } else {
             LogAndToastMaker.makeInfoLog("No such entry in the table!");
-            LogAndToastMaker.makeToast(this.activity, "No such entry in the table!");
         }
         return resultString;
     }
@@ -176,7 +171,6 @@ public class LocalPersistanceManager {
             }
         } else {
             LogAndToastMaker.makeInfoLog("No such entry in the table!");
-            LogAndToastMaker.makeToast(this.activity, "No such entry in the table!");
         }
         return resultString;
     }
