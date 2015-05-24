@@ -98,8 +98,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
 
         clients =  lpm.getAllEntities(Client.class);
 
-//        getDistance(latitude, longitude, );
-//        if (busqueda){
+
             List<Localitzacio> l =new ArrayList<Localitzacio>();
             l.addAll(loc);
 
@@ -119,8 +118,7 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
                     }
                 }
 
-               // if (client.getNom().equalsIgnoreCase(txtSearchClient.getText().toString()) || client.getCognom().equalsIgnoreCase(txtSearchClient.getText().toString())){
-              //      clients.add(client);
+
                 }
         clients.clear();
         for (int o=0; o<dis.length ;o++ ){
@@ -237,12 +235,10 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
                 in.putExtra("Client", (Client) adapter.getItem(info.position));
                 in.putExtra("User", u);
                 startActivity(in);
-                // mostrar les dades de l'element escollit
-                //Toast.makeText(this, adapter.getItem(info.position).getNom(), Toast.LENGTH_LONG).show();
+
                 return true;
             case R.id.mnuEsborrarGeoLoc:
                 // esborrar l'element escollit
-                //titularsConv.remove(adapter.getItem(info.position));
                 lpm.delete(Client.class, adapter.getItem(info.position).getId());
 
                 // actualitzar la llista
