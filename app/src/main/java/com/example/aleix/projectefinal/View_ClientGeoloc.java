@@ -56,8 +56,16 @@ public class View_ClientGeoloc extends Activity implements View.OnClickListener,
         //Mapa...
 //        clientMap = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.fgmClientMap)).getMap();
 //        clientMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            public boolean onMarkerClick(Marker marker) {
+//          public boolean onMarkerClick(Marker marker) {
+//        for(int o = 0; o<cli.length; o++) {
+//            if (cli[o].getNom().equalsIgnoreCase(marker.getTitle().split(" ")[0]) && cli[o].getCognom().equalsIgnoreCase(marker.getTitle().split(" ")[1])) {
+//                Intent i = new Intent();
+//                i.putExtra("Cliennt", cli[o]);
+//            }
+//        }
+
 //                /*Toast.makeText(
+
 //                        View_ClientGeoloc.this,
 //                        "Marcador pulsado:\n" +
 //                                marker.getTitle(),
